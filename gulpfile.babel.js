@@ -21,7 +21,7 @@ const autoprefixerOptions = {
 
 // By default assume that the environment is production
 const ENVIRONMENT = process.env.NODE_ENV || 'production';
-const projectURL = 'http://future-proof-film:4200';
+const projectURL = '';
 const themeURL = 'web/app/themes/frogspark/';
 
 
