@@ -1,0 +1,79 @@
+{
+  "name": "Frogspark_Boilerplate",
+  "version": "1.0.0",
+  "description": "Frogspark Wordpress Boilerplate.",
+  "author": "James Shand james@frogspark.co.uk",
+  "main": "index.php",
+  "license": "GPL-3.0",
+  "homepage": "https://github.com/frogspark/boilerplate#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/frogspark/boilerplate.git"
+  },
+  "bugs": {
+    "url": "https://github.com/anttiviljami/frogspark/boilerplate/issues"
+  },
+  "keywords": [
+    "wordpress",
+    "bedrock"
+  ],
+  "engines": {
+    "node": "^8.8.1",
+    "npm": "^5.4.2"
+  },
+  "scripts": {
+    "start": "gulp development",
+    "sassLint": "sass-lint -c .scss-lint.yml './web/wp/app/themes/frogspark/scss/src/*.scss' -v -q",
+    "eslint": "eslint -c .eslintrc.js './web/wp/app/themes/frogspark/js/src/*.js'"
+  },
+  "dependencies": {
+    "bootstrap": "^4.0.0-alpha.6",
+    "font-awesome": "^4.7.0",
+    "hamburgers": "^0.9.1",
+    "jquery": "^3.2.1",
+    "magnific-popup": "^1.1.0",
+    "select2": "^4.0.6-rc.1",
+    "slick-carousel": "^1.8.1"
+  },
+  "devDependencies": {
+    "babel": "^6.23.0",
+    "babel-core": "^6.26.0",
+    "babel-polyfill": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
+    "babel-register": "^6.26.0",
+    "babelify": "^8.0.0",
+    "browser-sync": "^2.18.13",
+    "browserify": "^14.5.0",
+    "eslint": "^4.12.1",
+    "eslint-config-airbnb-base": "^12.1.0",
+    "eslint-plugin-import": "^2.8.0",
+    "gulp": "^3.9.1",
+    "gulp-autoprefixer": "^4.0.0",
+    "gulp-babel": "^7.0.0",
+    "gulp-browserify": "^0.5.1",
+    "gulp-clean-css": "^3.9.0",
+    "gulp-concat": "^2.6.1",
+    "gulp-environments": "^0.1.2",
+    "gulp-if": "^2.0.2",
+    "gulp-imagemin": "^4.1.0",
+    "gulp-notify": "^3.0.0",
+    "gulp-plumber": "^1.1.0",
+    "gulp-rename": "^1.2.2",
+    "gulp-sass": "^3.1.0",
+    "gulp-sourcemaps": "^2.6.1",
+    "gulp-uglify": "^3.0.0",
+    "sass-lint": "^1.12.1"
+  },
+  "browserify": {
+    "transform": [
+      [
+        "babelify",
+        {
+          "presets": [
+            "env"
+          ]
+        }
+      ]
+    ]
+  }
+}

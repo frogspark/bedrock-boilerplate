@@ -1,0 +1,27 @@
+@import 'node_modules/bootstrap/scss/bootstrap.scss';
+@import 'node_modules/font-awesome/scss/font-awesome.scss';
+@import 'node_modules/hamburgers/_sass/hamburgers/hamburgers.scss';
+@import 'node_modules/slick-carousel/slick/slick.scss';
+@import 'variables';
+@import 'mixins';
+
+*:focus {
+  border: none;
+  outline: none;
+}
+
+a {
+  color: initial;
+}
+
+a:hover {
+  color: initial;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+body {
+  margin: 0px;
+}
