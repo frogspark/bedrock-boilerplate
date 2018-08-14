@@ -75,6 +75,7 @@ gulp.task('browserSync', () => {
 gulp.task('sass:watch', () => {
   gulp.watch(`${themeURL}scss/src/**/*.scss`, ['sass']);
   gulp.watch(`${themeURL}**/*.php`).on('change', browserSync.reload);
+  gulp.watch(`${themeURL}scss/src/**/*.scss`).on('change', browserSync.reload);
 });
 
 gulp.task('js:watch', () => {

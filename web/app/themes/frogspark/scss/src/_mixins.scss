@@ -1,41 +1,56 @@
+/* Media Queries */
+@mixin sm {
+  @media only screen and (min-width: 576px) {
+    @content;
+  }
+}
+@mixin md {
+  @media only screen and (min-width: 768px) {
+    @content;
+  }
+}
+@mixin lg {
+  @media only screen and (min-width: 992px) {
+    @content;
+  }
+}
+@mixin xl {
+  @media only screen and (min-width: 1200px) {
+    @content;
+  }
+}
 @mixin centerer {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
 }
-
 @mixin vertCenter {
   top: 50%;
   transform: translateY(-50%);
-  position:relative;
+  position: relative;
 }
-
 @mixin pseudoAbsolute {
-    content:'';
-    position:absolute;
-    top:0;
-    left:0;
-    height:100%;
-    width:100%;
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
 }
-
 @mixin pseudoBlank {
-  content:'';
-  position:absolute;
+  content: '';
+  position: absolute;
 }
-
 @mixin plainList {
-  list-style-type:none;
-  padding-left:0px;
+  list-style-type: none;
+  padding-left: 0;
 }
-
 @mixin bgCenter {
-  background-size:cover!important;
-  background-repeat:no-repeat!important;
-  background-position:center center!important;
+  background-size: cover!important;
+  background-repeat: no-repeat!important;
+  background-position: center center!important;
 }
-
 @mixin transition($args...) {
   -webkit-transition: $args;
   -moz-transition: $args;

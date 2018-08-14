@@ -1,6 +1,6 @@
 <?php
 /**
- * Template Name: Home Page
+ * Template Name: Home
  *
  * @package WordPress
  * @subpackage Twenty_Fourteen
@@ -10,9 +10,9 @@
 
 <?php get_header(); ?>
 
-  <?php get_template_part( 'navigation-default' ); ?>
+  <?php get_template_part('navigation-default'); ?>
 
-  <div class="hero" style="background: linear-gradient(to bottom, rgba(0,0,0,0.74), rgba(0,0,0,0.2)), url('./app/themes/frogspark/img/hero.jpg');">
+  <div class="hero" style="background: linear-gradient(to bottom, rgba(0,0,0,0.74), rgba(0,0,0,0.2)), url('/app/themes/frogspark/img/hero.jpg');">
     <div class="container hero-content">
       <div class="row">
         <div class="col-md-12 text-center">

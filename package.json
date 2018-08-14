@@ -27,11 +27,14 @@
     "eslint": "eslint -c .eslintrc.js './web/wp/app/themes/frogspark/js/src/*.js'"
   },
   "dependencies": {
-    "bootstrap": "^4.0.0-alpha.6",
+    "@fortawesome/fontawesome-free": "^5.2.0",
+    "aos": "^2.3.3",
+    "bootstrap": "^4.1.3",
     "font-awesome": "^4.7.0",
     "hamburgers": "^0.9.1",
     "jquery": "^3.2.1",
     "magnific-popup": "^1.1.0",
+    "popper.js": "^1.14.4",
     "select2": "^4.0.6-rc.1",
     "slick-carousel": "^1.8.1"
   },

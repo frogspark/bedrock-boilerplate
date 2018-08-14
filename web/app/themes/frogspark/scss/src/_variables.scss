@@ -1,13 +1,92 @@
-$error: #bbb;
-$primary: #000;
-$secondary: #fff;
-$accent: #8EC358;
-$accentDark: #63992C;
-$footer: #F4F4F4;
-$footerText: #6B6B6B;
-
-$inputBorder: #979797;
-
-//fonts
-$headerFont: 'Karla', sans-serif;
-$bodyFont: 'Crimson Text', serif;
+/*
+* Variables
+*/
+$custom: (
+  white: #ffffff,
+  red: #A82125,
+  orange: #FF5A5F,
+  turquoise: #288F93,
+  yellow: #F9BC14,
+  green: #69D89F,
+  black: #2B2B2B,
+  dark: #565656,
+  darkgrey: #3F3F3F,
+  numberplate: #FFC72C
+);
+/*
+* Colours
+*/
+$primary: map-get($custom, orange);
+$secondary: map-get($custom, turquoise);
+$success: map-get($custom, green);
+$info: map-get($custom, numberplate);
+$warning: map-get($custom, yellow);
+$danger: map-get($custom, red);
+$black: map-get($custom, black);
+$white: map-get($custom, white);
+$darkgrey: map-get($custom, darkgrey);
+/*
+* Spacing
+*/
+$spacer: 1rem;
+$spacers: ();
+$spacers: map-merge((0: 0, 1: ($spacer * .25), 2: ($spacer * .5), 3: $spacer, 4: ($spacer * 1.5), 5: ($spacer * 2), 6: ($spacer * 3), 7: ($spacer * 4)), $spacers);
+/*
+* Sizes
+*/
+$sizes: ();
+$sizes: map-merge((0: 0%, 20: 20%, 25: 25%, 40: 40%, 50: 50%, 60: 60%, 75: 75%, 80: 80%, 100: 100%, auto: auto), $sizes);
+/*
+* Body
+*/
+$body-bg: $white;
+$body-color: $black;
+/*
+* Links
+*/
+$link-color: $primary;
+$link-decoration: none;
+$link-hover-color: darken($link-color, 15%);
+$link-hover-decoration: underline;
+/*
+* Paragraphs
+*/
+$paragraph-margin-bottom: 1rem;
+/*
+* Breakpoints
+*/
+$grid-breakpoints: (
+  xs: 0,
+  sm: 576px,
+  md: 768px,
+  lg: 992px,
+  xl: 1200px,
+  xxl: 1440px
+);
+/*
+* Containers
+*/
+$container-max-widths: (
+  sm: 540px,
+  md: 720px,
+  lg: 960px,
+  xl: 1140px,
+  xxl: 1380px
+);
+/*
+* Typography
+*/
+$font-family-sans-serif: sans-serif;
+$font-size-base: 1rem;
+$line-height-base: 1.5;
+$h1-font-size: $font-size-base * 2.25;
+$h2-font-size: $font-size-base * 2;
+$h3-font-size: $font-size-base * 1.75;
+$h4-font-size: $font-size-base * 1.5;
+$h5-font-size: $font-size-base * 1.25;
+$h6-font-size: $font-size-base;
+$headings-margin-bottom: ($spacer / 2);
+$headings-font-family: inherit;
+$headings-font-weight: 500;
+$headings-line-height: 1.2;
+$headings-color: inherit;
