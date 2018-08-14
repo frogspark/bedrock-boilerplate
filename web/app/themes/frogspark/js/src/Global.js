@@ -1,6 +1,6 @@
 import $ from 'jquery';
 window.jQuery = $;
-window.Tether = require('tether');
+// window.Tether = require('tether'); 
 require('bootstrap');
 
 import slick from 'slick-carousel';
@@ -19,16 +19,16 @@ $(document).ready(function(){
     $(this).toggleClass('open');
     $("#mobile-menu").toggleClass('open');
   });
-  window.onscroll = function() {myFunction()};
-  var navbar = document.getElementById('nav-wrapper');
-  var sticky = navbar.offsetTop;
-  function myFunction() {
-    if (window.pageYOffset > sticky) {
-      // navbar.classList.add('shadow__item');
-    } else {
-      // navbar.classList.remove('shadow__item');
-    }
-  }
+  // window.onscroll = function() {myFunction()};
+  // var navbar = document.getElementById('nav-wrapper');
+  // var sticky = navbar.offsetTop;
+  // function myFunction() {
+  //   if (window.pageYOffset > sticky) {
+  //     // navbar.classList.add('shadow__item');
+  //   } else {
+  //     // navbar.classList.remove('shadow__item');
+  //   }
+  // }
   $('a[href*="#"]')
     .not('[href="#"]')
     .not('[href="#0"]')
