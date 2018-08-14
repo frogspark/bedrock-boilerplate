@@ -62,8 +62,8 @@ gulp.task('sass', () => {
 });
 
 gulp.task('font', () => {
-  return gulp.src('node_modules/font-awesome/fonts/*')
-    .pipe(gulp.dest('htdocs/wp-content/themes/frogspark/scss/fonts'));
+  return gulp.src('node_modules/@fortawesome/fontawesome-free/webfonts/*')
+    .pipe(gulp.dest(`${themeURL}scss/webfonts`));
 });
 
 gulp.task('browserSync', () => {

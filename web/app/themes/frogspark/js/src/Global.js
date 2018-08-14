@@ -1,6 +1,5 @@
 import $ from 'jquery';
 window.jQuery = $;
-// window.Tether = require('tether'); 
 require('bootstrap');
 
 import slick from 'slick-carousel';
@@ -8,6 +7,9 @@ import 'magnific-popup';
 import AOS from 'aos';
 
 $(document).ready(function(){
+
+  AOS.init();
+
   $.fn.isInViewport = function() {
     var elementTop = $(this).offset().top;
     var elementBottom = elementTop + $(this).outerHeight();
@@ -15,20 +17,25 @@ $(document).ready(function(){
     var viewportBottom = viewportTop + $(window).height();
     return elementBottom > viewportTop && elementTop < viewportBottom;
   };
+
   $("#menu-button").click(function() {
     $(this).toggleClass('open');
     $("#mobile-menu").toggleClass('open');
   });
-  // window.onscroll = function() {myFunction()};
-  // var navbar = document.getElementById('nav-wrapper');
-  // var sticky = navbar.offsetTop;
-  // function myFunction() {
-  //   if (window.pageYOffset > sticky) {
-  //     // navbar.classList.add('shadow__item');
-  //   } else {
-  //     // navbar.classList.remove('shadow__item');
-  //   }
-  // }
+
+  /*
+  window.onscroll = function() {myFunction()};
+  var navbar = document.getElementById('nav-wrapper');
+  var sticky = navbar.offsetTop;
+  function myFunction() {
+    if (window.pageYOffset > sticky) {
+      // navbar.classList.add('shadow__item');
+    } else {
+      // navbar.classList.remove('shadow__item');
+    }
+  }
+  */
+
   $('a[href*="#"]')
     .not('[href="#"]')
     .not('[href="#0"]')
