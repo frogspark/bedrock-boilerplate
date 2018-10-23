@@ -7,15 +7,16 @@ global $bootstrap_four_version;
 $bootstrap_four_version = '4.0.0';
 
 if (! isset($content_width)) {
-  $content_width = 837;
+    $content_width = 837;
 }
 
 
 if (! function_exists('bootstrap_four_widgets_init')) :
   function bootstrap_four_widgets_init()
   {
-    register_sidebar( array(
-    'name' => __( 'Footer Column One', 'bootstrap-four'  ),
+      register_sidebar(
+        array(
+    'name' => __('Footer Column One', 'bootstrap-four'),
     'id' => 'footer_column_one',
     'before_widget' => '<aside id="%1$s" class="widget %2$s">',
     'after_widget' => '</aside>',
@@ -23,8 +24,9 @@ if (! function_exists('bootstrap_four_widgets_init')) :
     'after_title' => '</h5>',
     )
   );
-  register_sidebar( array(
-    'name' => __( 'Footer Column Two', 'bootstrap-four' ),
+      register_sidebar(
+      array(
+    'name' => __('Footer Column Two', 'bootstrap-four'),
     'id' => 'footer_column_two',
     'before_widget' => '<aside id="%1$s" class="widget %2$s">',
     'after_widget' => '</aside>',
@@ -32,8 +34,9 @@ if (! function_exists('bootstrap_four_widgets_init')) :
     'after_title' => '</h5>',
     )
   );
-  register_sidebar( array(
-    'name' => __( 'Footer Column Three', 'bootstrap-four' ),
+      register_sidebar(
+      array(
+    'name' => __('Footer Column Three', 'bootstrap-four'),
     'id' => 'footer_column_three',
     'before_widget' => '<aside id="%1$s" class="widget %2$s">',
     'after_widget' => '</aside>',
@@ -41,8 +44,9 @@ if (! function_exists('bootstrap_four_widgets_init')) :
     'after_title' => '</h5>',
     )
   );
-  register_sidebar( array(
-    'name' => __( 'Footer Column Four', 'bootstrap-four' ),
+      register_sidebar(
+      array(
+    'name' => __('Footer Column Four', 'bootstrap-four'),
     'id' => 'footer_column_four',
     'before_widget' => '<aside id="%1$s" class="widget %2$s">',
     'after_widget' => '</aside>',
@@ -66,15 +70,15 @@ add_action('widgets_init', 'bootstrap_four_widgets_init');
 if (! function_exists('bootstrap_four_setup')) :
   function bootstrap_four_setup()
   {
-    add_theme_support('custom-background', array(
+      add_theme_support('custom-background', array(
       'default-color' => 'ffffff',
     ));
 
-    add_theme_support('automatic-feed-links');
+      add_theme_support('automatic-feed-links');
 
-    add_theme_support('title-tag');
+      add_theme_support('title-tag');
 
-    add_theme_support('html5', array(
+      add_theme_support('html5', array(
     'search-form',
     'comment-form',
     'comment-list',
@@ -82,12 +86,12 @@ if (! function_exists('bootstrap_four_setup')) :
     'caption',
   ));
 
-  register_nav_menus(array(
+      register_nav_menus(array(
     'main_menu' => __('Main Menu', 'bootstrap-four'),
     // 'footer_menu' => 'Footer Menu'
   ));
 
-    add_editor_style('css/bootstrap-new.css');
+      add_editor_style('css/bootstrap-new.css');
   }
 endif; // bootstrap_four_setup
 add_action('after_setup_theme', 'bootstrap_four_setup');
@@ -105,7 +109,7 @@ add_action('wp_enqueue_scripts', 'bootstrap_four_theme_styles');
 if (! function_exists('bootstrap_four_theme_scripts')) :
   function bootstrap_four_theme_scripts()
   {
-    global $bootstrap_four_version;
+      global $bootstrap_four_version;
   }
 endif;
 add_action('wp_enqueue_scripts', 'bootstrap_four_theme_scripts');
@@ -113,23 +117,23 @@ add_action('wp_enqueue_scripts', 'bootstrap_four_theme_scripts');
 
 function bootstrap_four_nav_li_class($classes, $item)
 {
-  $classes[] .= ' nav-item';
-  return $classes;
+    $classes[] .= ' nav-item';
+    return $classes;
 }
 add_filter('nav_menu_css_class', 'bootstrap_four_nav_li_class', 10, 2);
 
 
 function bootstrap_four_nav_anchor_class($atts, $item, $args)
 {
-  $atts['class'] .= ' nav-link';
-  return $atts;
+    $atts['class'] .= ' nav-link';
+    return $atts;
 }
 add_filter('nav_menu_link_attributes', 'bootstrap_four_nav_anchor_class', 10, 3);
 
 
 function bootstrap_four_comment_form_before()
 {
-  echo '<div class="card"><div class="card-block">';
+    echo '<div class="card"><div class="card-block">';
 }
 add_action('comment_form_before', 'bootstrap_four_comment_form_before', 10, 5);
 
@@ -177,10 +181,10 @@ add_action('comment_form_after', 'bootstrap_four_comment_form_after', 10, 5);
 
 function bootstrap_four_get_posts_pagination($args = '')
 {
-  global $wp_query;
-  $pagination = '';
+    global $wp_query;
+    $pagination = '';
 
-  if ($GLOBALS['wp_query']->max_num_pages > 1) :
+    if ($GLOBALS['wp_query']->max_num_pages > 1) :
 
   $defaults = array(
     'total'     => isset($wp_query->max_num_pages) ? $wp_query->max_num_pages : 1,
@@ -190,30 +194,30 @@ function bootstrap_four_get_posts_pagination($args = '')
     'next_text' => '&raquo;',
   );
 
-  $params = wp_parse_args($args, $defaults);
+    $params = wp_parse_args($args, $defaults);
 
-  $paginate = paginate_links($params);
+    $paginate = paginate_links($params);
 
-  if ($paginate) :
+    if ($paginate) :
     $pagination .= "<ul class='pagination'>";
-  foreach ($paginate as $page) :
+    foreach ($paginate as $page) :
       if (strpos($page, 'current')) :
         $pagination .= "<li class='active'>$page</li>"; else :
         $pagination .= "<li>$page</li>";
-  endif;
-  endforeach;
-  $pagination .= "</ul>";
-  endif;
+    endif;
+    endforeach;
+    $pagination .= "</ul>";
+    endif;
 
-  endif;
+    endif;
 
-  return $pagination;
+    return $pagination;
 }
 
 
 function bootstrap_four_the_posts_pagination($args = '')
 {
-  echo bootstrap_four_get_posts_pagination($args);
+    echo bootstrap_four_get_posts_pagination($args);
 }
 
 define('ACF_EARLY_ACCESS', '5');
@@ -226,7 +230,7 @@ require get_template_directory() . '/inc/customizer.php';
 
 function google_API_key()
 {
-  acf_update_setting('google_api_key', 'AIzaSyA9rktByHWRIYbrgSY2TeR8QJwCaoe55ME');
+    acf_update_setting('google_api_key', 'AIzaSyA9rktByHWRIYbrgSY2TeR8QJwCaoe55ME');
 }
 
 add_action('acf/init', 'google_API_key');
@@ -235,25 +239,26 @@ add_action('acf/init', 'google_API_key');
 * Help
 */
 
-function help($value) {
-  try {
-    echo '<pre>';
-    print_r($value);
-    echo '</pre>';
-  }
-  catch (Exception $e) {
-    echo 'Caught exception: ', $e->getMessage();
-  }
-  return;
+function help($value)
+{
+    try {
+        echo '<pre>';
+        print_r($value);
+        echo '</pre>';
+    } catch (Exception $e) {
+        echo 'Caught exception: ', $e->getMessage();
+    }
+    return;
 }
 
 /*
 * Allow SVG Upload
 */
 
-function cc_mime_types($mimes) {
-  $mimes['svg'] = 'image/svg+xml';
-  return $mimes;
+function cc_mime_types($mimes)
+{
+    $mimes['svg'] = 'image/svg+xml';
+    return $mimes;
 }
 add_filter('upload_mimes', 'cc_mime_types');
 
@@ -263,53 +268,53 @@ add_filter('upload_mimes', 'cc_mime_types');
 
 function print_multi_level_menu($menu, $parent_item_class = 'parent-item')
 {
-  reset($menu);
-  $submenu = false;
-  $parent = null;
-  echo '<ul class="nav">';
-  foreach ($menu as $current) {
-    $anchor_class = 'nav-link';
-    if ($current->menu_item_parent == 0) {
-      if ($parent != null) {
-        echo '</li>';
-      }
-      $parent = $current;
-      if ($submenu == true) {
-        $submenu = false;
-        echo '</ul></div>';
-      }
-    }
-    $next = next($menu);
-    if ($current->menu_item_parent == $parent->ID) {
-      if (!$submenu) {
-        $submenu = true;
-        // echo '<span class="parent">+</span>';
-        echo '<div class="submenu">';
-        echo '<ul class="nav flex-column">';
-      }
-    } else {
-      if ($next && $next->menu_item_parent != 0) {
-        $anchor_class = 'nav-link ';
-        $anchor_class .= $parent_item_class;
-      }
-    }
+    reset($menu);
+    $submenu = false;
+    $parent = null;
+    echo '<ul class="nav">';
+    foreach ($menu as $current) {
+        $anchor_class = 'nav-link';
+        if ($current->menu_item_parent == 0) {
+            if ($parent != null) {
+                echo '</li>';
+            }
+            $parent = $current;
+            if ($submenu == true) {
+                $submenu = false;
+                echo '</ul></div>';
+            }
+        }
+        $next = next($menu);
+        if ($current->menu_item_parent == $parent->ID) {
+            if (!$submenu) {
+                $submenu = true;
+                // echo '<span class="parent">+</span>';
+                echo '<div class="submenu">';
+                echo '<ul class="nav flex-column">';
+            }
+        } else {
+            if ($next && $next->menu_item_parent != 0) {
+                $anchor_class = 'nav-link ';
+                $anchor_class .= $parent_item_class;
+            }
+        }
 
-    echo '<li class="nav-item">';
-    echo '<a href="' . $current->url . '" class="' . $anchor_class . '">';
-    echo $current->title;
-    echo '</a>';
-    if ($current->menu_item_parent == $parent->ID) {
-      echo '</li>';
+        echo '<li class="nav-item">';
+        echo '<a href="' . $current->url . '" class="' . $anchor_class . '">';
+        echo $current->title;
+        echo '</a>';
+        if ($current->menu_item_parent == $parent->ID) {
+            echo '</li>';
+        }
+        if (!$next) {
+            if ($current->menu_item_parent != 0) {
+                echo '</ul></div>';
+            } else {
+                echo '</li>';
+            }
+        }
     }
-    if (!$next) {
-      if ($current->menu_item_parent != 0) {
-        echo '</ul></div>';
-      } else {
-        echo '</li>';
-      }
-    }
-  }
-  echo '</ul>';
+    echo '</ul>';
 }
 
 /*
@@ -318,8 +323,80 @@ function print_multi_level_menu($menu, $parent_item_class = 'parent-item')
 
 function get_page_fields($id = null)
 {
-  if ($id == null) {
-    return get_fields(get_option('page_on_front'));
-  }
-  return get_fields($id);
+    if ($id == null) {
+        return get_fields(get_option('page_on_front'));
+    }
+    return get_fields($id);
+}
+
+
+/**
+* Wordpress Menu
+*/
+
+function add_admin_menu_separator($position)
+{
+    global $menu;
+    $menu[$position] = array(
+        0	=>	'',
+        1	=>	'read',
+        2	=>	'separator' . $position,
+        3	=>	'',
+        4	=>	'wp-menu-separator'
+    );
+}
+add_action('admin_init', 'add_admin_menu_separator');
+
+function set_admin_menu_separator()
+{
+    do_action('admin_init', 26);
+}
+add_action('admin_menu', 'set_admin_menu_separator');
+
+if (function_exists('acf_add_options_page')) {
+    $frogspark = array(
+      'icon_url' => '/app/themes/frogspark/img/dashicon-frogspark.svg',
+      'menu_slug' => 'frogspark',
+      'page_title' => 'Frogspark',
+      'position' => 27,
+      'post_id' => 'frogspark',
+      'redirect' => true
+    );
+    acf_add_options_page($frogspark);
+
+    $options = array(
+      'icon_url' => 'dashicons-admin-site',
+      'menu_slug' => 'options',
+      'page_title' => 'Options',
+      'parent_slug' => 'frogspark',
+      'post_id' => 'options'
+    );
+    acf_add_options_page($options);
+
+    $social_media = array(
+      'icon_url' => 'dashicons-share',
+      'menu_slug' => 'social_media',
+      'page_title' => 'Social Media',
+      'parent_slug' => 'frogspark',
+      'post_id' => 'social_media'
+    );
+    acf_add_options_page($social_media);
+
+    $error_page = array(
+      'icon_url' => 'dashicons-warning',
+      'menu_slug' => '404_page',
+      'page_title' => '404 Page',
+      'parent_slug' => 'frogspark',
+      'post_id' => '404_page'
+    );
+    acf_add_options_page($error_page);
+
+    $search_page = array(
+      'icon_url' => 'dashicons-search',
+      'menu_slug' => 'search_page',
+      'page_title' => 'Search Page',
+      'parent_slug' => 'frogspark',
+      'post_id' => 'search_page'
+    );
+    acf_add_options_page($search_page);
 }
