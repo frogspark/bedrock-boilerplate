@@ -7,3 +7,10 @@
 @import 'node_modules/@fortawesome/fontawesome-free/scss/solid.scss';
 @import 'node_modules/@fortawesome/fontawesome-free/scss/brands.scss';
 @import 'mixins';
+
+.slick-list,
+.slick-slide,
+.slick-track {
+  backface-visibility: hidden;
+  perspective: 2000px;
+}
