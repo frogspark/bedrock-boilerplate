@@ -19,12 +19,5 @@
   </div>
 </footer>
 
-<script>
-  AOS.init({
-    duration: 600,
-    once: true,
-  });
-</script>
-
 </body>
 </html>
