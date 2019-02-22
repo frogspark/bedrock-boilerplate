@@ -230,7 +230,7 @@ require get_template_directory() . '/inc/customizer.php';
 
 function google_API_key()
 {
-    acf_update_setting('google_api_key', 'AIzaSyA9rktByHWRIYbrgSY2TeR8QJwCaoe55ME');
+    acf_update_setting('google_api_key', 'AIzaSyBCYAhBrCAzjCaD20jz2WacR9T-7Dw2HO0');
 }
 
 add_action('acf/init', 'google_API_key');
@@ -399,4 +399,137 @@ if (function_exists('acf_add_options_page')) {
       'post_id' => 'search_page'
     );
     acf_add_options_page($search_page);
+}
+
+add_action('add_meta_boxes', function () {
+  remove_meta_box('nf_admin_metaboxes_appendaform', ['page', 'post'], 'side');
+}, 99);
+
+function remove_all()
+{
+   remove_menu_page('edit-comments.php');
+}
+
+add_action('admin_menu', 'remove_all');
+
+function remove_admin_only()
+{
+   remove_menu_page('tools.php');
+   remove_submenu_page('edit.php', 'edit-tags.php?taxonomy=post_tag');
+}
+
+if (!current_user_can('administrator')) {
+   add_action('admin_menu', 'remove_admin_only');
+}
+
+function get_email_address()
+{
+   $email_address = get_field('email_address', 'options');
+   return "<a href=\"mailto:{$email_address}\">{$email_address}</a>";
+}
+
+function get_phone_number()
+{
+   $phone_number = get_field('phone_number', 'options');
+   $number = ltrim($phone_number, '0');
+   $tel = str_replace(' ', '', $number);
+   return "<a href=\"tel:+44{$tel}\">+44 (0) {$number}</a>";
+}
+
+function get_post_modified()
+{
+   return get_the_modified_date('F Y');
+}
+
+function get_company_name()
+{
+   return get_field('company_name', 'options');
+}
+
+function get_vat_number()
+{
+   return get_field('vat_number', 'options');
+}
+
+function get_company_number()
+{
+   return get_field('company_number', 'options');
+}
+
+function get_address()
+{
+   $location = get_field('location', 'options');
+   return $location['address'];
+}
+
+function register_shortcodes()
+{
+   add_shortcode('email', 'get_email_address');
+   add_shortcode('phone', 'get_phone_number');
+   add_shortcode('last_modified', 'get_post_modified');
+   add_shortcode('company_name', 'get_company_name');
+   add_shortcode('vat_number', 'get_vat_number');
+   add_shortcode('company_number', 'get_company_number');
+   add_shortcode('address', 'get_address');
+}
+
+add_action('init', 'register_shortcodes');
+
+add_filter('wpseo_metabox_prio', function () {
+  return 'low';
+});
+
+function add_image_class($class)
+{
+   $class .= ' img-fluid mb-4';
+   return $class;
+}
+add_filter('get_image_tag_class', 'add_image_class');
+
+
+
+
+
+
+function add_admin_menu_separator($position)
+{
+   global $menu;
+   $menu[$position] = array(
+       0    =>    '',
+       1    =>    'read',
+       2    =>    'separator' . $position,
+       3    =>    '',
+       4    =>    'wp-menu-separator'
+   );
+}
+add_action('admin_init', 'add_admin_menu_separator');
+
+function set_admin_menu_separator()
+{
+   do_action('admin_init', 26);
+   do_action('admin_init', 30);
+}
+add_action('admin_menu', 'set_admin_menu_separator');
+
+if (function_exists('acf_add_options_page')) {
+   $options = array(
+     'icon_url' => 'dashicons-admin-site',
+     'menu_slug' => 'options',
+     'page_title' => 'Options',
+     'position' => 31,
+     // 'parent_slug' => 'frogspark',
+     'post_id' => 'options'
+   );
+   acf_add_options_page($options);
+
+
+   $error_page = array(
+     'icon_url' => 'dashicons-warning',
+     'menu_slug' => '404_page',
+     'page_title' => '404 Page',
+     'position' => 29,
+     // 'parent_slug' => 'frogspark',
+     'post_id' => '404_page'
+   );
+   acf_add_options_page($error_page);
 }

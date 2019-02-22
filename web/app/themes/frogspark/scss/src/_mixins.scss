@@ -1,60 +1,29 @@
-/* Media Queries */
 @mixin sm {
-  @media only screen and (min-width: 576px) {
+  @media only screen and (min-width: map-get($grid-breakpoints, "sm")) {
     @content;
   }
 }
+
 @mixin md {
-  @media only screen and (min-width: 768px) {
+  @media only screen and (min-width: map-get($grid-breakpoints, "md")) {
     @content;
   }
 }
+
 @mixin lg {
-  @media only screen and (min-width: 992px) {
+  @media only screen and (min-width: map-get($grid-breakpoints, "lg")) {
     @content;
   }
 }
+
 @mixin xl {
-  @media only screen and (min-width: 1200px) {
+  @media only screen and (min-width: map-get($grid-breakpoints, "xl")) {
     @content;
   }
 }
-@mixin centerer {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
-@mixin vertCenter {
-  top: 50%;
-  transform: translateY(-50%);
-  position: relative;
-}
-@mixin pseudoAbsolute {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 100%;
-}
-@mixin pseudoBlank {
-  content: '';
-  position: absolute;
-}
-@mixin plainList {
-  list-style-type: none;
-  padding-left: 0;
-}
-@mixin bgCenter {
-  background-size: cover!important;
-  background-repeat: no-repeat!important;
-  background-position: center center!important;
-}
-@mixin transition($args...) {
-  -webkit-transition: $args;
-  -moz-transition: $args;
-  -ms-transition: $args;
-  -o-transition: $args;
-  transition: $args;
+
+@mixin xxl {
+  @media only screen and (min-width: map-get($grid-breakpoints, "xxl")) {
+    @content;
+  }
 }

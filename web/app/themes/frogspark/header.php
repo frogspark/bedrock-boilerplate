@@ -2,7 +2,6 @@
 <html <?php language_attributes(); ?>>
 <head>
   <meta http-equiv="content-type" content="<?php bloginfo('html_type'); ?>; charset=<?php bloginfo('charset'); ?>" />
-  <!-- <meta name="description" content="<?php echo esc_attr(get_bloginfo('description')); ?>" /> -->
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <meta name="HandheldFriendly" content="true" />
@@ -30,5 +29,16 @@
   <!-- <meta name="msapplication-TileColor" content="#ffffff"> -->
   <meta name="msapplication-TileImage" content="/app/themes/frogspark/fav.ico/ms-icon-144x144.png">
   <!-- <meta name="theme-color" content="#ffffff"> -->
+
+  <!-- Google Analytics -->
+  <!-- Global Site Tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=<?php echo get_field('google_analytics_code', 'options'); ?>"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', '<?php echo get_field('google_analytics_code', 'options'); ?>');
+  </script>
 </head>
 <body <?php body_class(); ?>>
