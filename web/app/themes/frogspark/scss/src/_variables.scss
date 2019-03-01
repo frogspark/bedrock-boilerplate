@@ -1,3 +1,65 @@
+/* Backgrounds */
+$bg-r: (
+  "cinematic": 42.8571%,
+  "landscape": 56.25%,
+  "portrait": 66.66%,
+  "square": 100%,
+  "thin": 25%,
+);
+@each $key, $value in $backgrounds {
+  .bg-r-#{$key} {
+    height: 0;
+    padding-bottom: $value;
+    width: 100%;
+  }
+}
+$bg-p: ( 
+  "bottom": bottom,
+  "center": center,
+  "left": left,
+  "left-bottom": left bottom,
+  "left-center": left center,
+  "left-top": left top,
+  "right": right,
+  "right-bottom": right bottom,
+  "right-center": right center, 
+  "right-top": right top,
+  "top": top
+);
+@each $key, $value in $background-positions {
+  .bg-p-#{$key} {
+    background-position: $value;
+  }
+}
+$bg-s: (
+  "contain": contain,
+  "cover": cover,
+);
+@each $key, $value in $background-sizes {
+  .bg-s-#{$key} {
+    background-repeat: no-repeat;
+    background-size: $value;
+  }
+}
+
+/* Breakpoints. */
+$grid-breakpoints: (
+  xs: 0,
+  sm: 576px,
+  md: 768px,
+  lg: 992px,
+  xl: 1200px,
+  xxl: 1440px
+);
+$container-max-widths: (
+  sm: 540px,
+  md: 720px,
+  lg: 960px,
+  xl: 1140px,
+  xxl: 1380px
+);
+
+/* Colours. */
 $primary: $red;
 $secondary: $gray-700;
 $tertiary: $blue;
@@ -9,6 +71,15 @@ $theme-colors: (
   "quaternary": $quaternary
 );
 
+/* Gutters. */
+$grid-gutter-width: 32px;
+
+/* Misc */
+$transition-base: all .5s ease;
+$transition-fast: all .25s ease;
+$transition-slow: all .75s ease;
+
+/* Spacing. */
 $spacer: 4px;
 $spacers: (
   0: 0,
@@ -30,8 +101,7 @@ $spacers: (
   16: $spacer * 16
 );
 
-$grid-gutter-width: 32px;
-
+/* Typography. */
 $font-family-sans-serif: '';
 $font-size-base: .9rem;
 $line-height-base: 1.5;
@@ -51,19 +121,3 @@ $link-color: $secondary;
 $link-decoration: none;
 $link-hover-color: darken($link-color, 15%);
 $link-hover-decoration: none;
-
-$grid-breakpoints: (
-  xs: 0,
-  sm: 576px,
-  md: 768px,
-  lg: 992px,
-  xl: 1200px,
-  xxl: 1440px
-);
-$container-max-widths: (
-  sm: 540px,
-  md: 720px,
-  lg: 960px,
-  xl: 1140px,
-  xxl: 1380px
-);
