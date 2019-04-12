@@ -33,7 +33,7 @@
     "jquery": "^3.2.1",
     "magnific-popup": "^1.1.0",
     "popper.js": "^1.14.6",
-    "slick-carousel": "^1.9.0"
+    "slick-carousel": "^1.8.1"
   },
   "devDependencies": {
     "babel": "^6.23.0",
