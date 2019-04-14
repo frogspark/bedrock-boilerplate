@@ -1,13 +1,123 @@
-$error: #bbb;
-$primary: #000;
-$secondary: #fff;
-$accent: #8EC358;
-$accentDark: #63992C;
-$footer: #F4F4F4;
-$footerText: #6B6B6B;
+/* Backgrounds */
+$bg-r: (
+  "cinematic": 42.8571%,
+  "landscape": 56.25%,
+  "portrait": 66.66%,
+  "square": 100%,
+  "thin": 25%,
+);
+@each $key, $value in $backgrounds {
+  .bg-r-#{$key} {
+    height: 0;
+    padding-bottom: $value;
+    width: 100%;
+  }
+}
+$bg-p: ( 
+  "bottom": bottom,
+  "center": center,
+  "left": left,
+  "left-bottom": left bottom,
+  "left-center": left center,
+  "left-top": left top,
+  "right": right,
+  "right-bottom": right bottom,
+  "right-center": right center, 
+  "right-top": right top,
+  "top": top
+);
+@each $key, $value in $background-positions {
+  .bg-p-#{$key} {
+    background-position: $value;
+  }
+}
+$bg-s: (
+  "contain": contain,
+  "cover": cover,
+);
+@each $key, $value in $background-sizes {
+  .bg-s-#{$key} {
+    background-repeat: no-repeat;
+    background-size: $value;
+  }
+}
 
-$inputBorder: #979797;
+/* Breakpoints. */
+$grid-breakpoints: (
+  xs: 0,
+  sm: 576px,
+  md: 768px,
+  lg: 992px,
+  xl: 1200px,
+  xxl: 1440px
+);
+$container-max-widths: (
+  sm: 540px,
+  md: 720px,
+  lg: 960px,
+  xl: 1140px,
+  xxl: 1380px
+);
 
-//fonts
-$headerFont: 'Karla', sans-serif;
-$bodyFont: 'Crimson Text', serif;
+/* Colours. */
+$primary: $red;
+$secondary: $gray-700;
+$tertiary: $blue;
+$quaternary: $green;
+$theme-colors: (
+  "primary": $primary,
+  "secondary": $secondary,
+  "tertiary": $tertiary,
+  "quaternary": $quaternary
+);
+
+/* Gutters. */
+$grid-gutter-width: 32px;
+
+/* Misc */
+$transition-base: all .5s ease;
+$transition-fast: all .25s ease;
+$transition-slow: all .75s ease;
+
+/* Spacing. */
+$spacer: 4px;
+$spacers: (
+  0: 0,
+  1: $spacer,
+  2: $spacer * 2,
+  3: $spacer * 3,
+  4: $spacer * 4,
+  5: $spacer * 5,
+  6: $spacer * 6,
+  7: $spacer * 7,
+  8: $spacer * 8,
+  9: $spacer * 9,
+  10: $spacer * 10,
+  11: $spacer * 11,
+  12: $spacer * 12,
+  13: $spacer * 13,
+  14: $spacer * 14,
+  15: $spacer * 15,
+  16: $spacer * 16
+);
+
+/* Typography. */
+$font-family-sans-serif: '';
+$font-size-base: .9rem;
+$line-height-base: 1.5;
+$h1-font-size: 3.75rem;
+$h2-font-size: 2.75rem;
+$h3-font-size: 1.75rem;
+$h4-font-size: 1.3rem;
+$h5-font-size: 1.1rem;
+$h6-font-size: 1rem;
+$headings-margin-bottom: 1.5rem;
+$headings-font-family: '';
+$headings-font-weight: 800;
+$headings-line-height: 1.3;
+$headings-color: inherit;
+$body-color: $primary;
+$link-color: $secondary;
+$link-decoration: none;
+$link-hover-color: darken($link-color, 15%);
+$link-hover-decoration: none;

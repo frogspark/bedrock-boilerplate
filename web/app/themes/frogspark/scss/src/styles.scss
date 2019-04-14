@@ -1,27 +1,55 @@
-@import 'node_modules/bootstrap/scss/bootstrap.scss';
-@import 'node_modules/font-awesome/scss/font-awesome.scss';
-@import 'node_modules/hamburgers/_sass/hamburgers/hamburgers.scss';
-@import 'node_modules/slick-carousel/slick/slick.scss';
 @import 'variables';
+@import 'fonts';
+@import 'node_modules/bootstrap/scss/bootstrap.scss';
+@import 'node_modules/aos/src/sass/aos.scss';
+@import 'node_modules/slick-carousel/slick/slick.scss';
+@import 'node_modules/@fortawesome/fontawesome-pro/scss/fontawesome.scss';
+@import 'node_modules/@fortawesome/fontawesome-pro/scss/light.scss';
+@import 'node_modules/@fortawesome/fontawesome-pro/scss/regular.scss';
+@import 'node_modules/@fortawesome/fontawesome-pro/scss/solid.scss';
+@import 'node_modules/@fortawesome/fontawesome-pro/scss/brands.scss';
 @import 'mixins';
 
-*:focus {
-  border: none;
-  outline: none;
-}
-
-a {
-  color: initial;
-}
-
-a:hover {
-  color: initial;
-}
-
-a:hover {
-  text-decoration: none;
+html {
+  height: 100%;
+  overflow-x: hidden;
 }
 
 body {
-  margin: 0px;
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+  position: absolute;
+  transition: transform 1000ms ease-in-out;
+  width: 100%;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  &.no-scroll {
+    overflow: hidden;
+  }
+
+  > main {
+    flex: 1 1 auto;
+  }
+}
+
+::selection {
+  background-color: rgba(lighten($primary, 20%), 0.75);
+  color: $white;
+}
+
+.fixed {
+  position: fixed;
+}
+
+p:empty {
+  display: none;
+}
+
+.slick-list,
+.slick-slide,
+.slick-track {
+  backface-visibility: hidden;
+  perspective: 2000px;
 }

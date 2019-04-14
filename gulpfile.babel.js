@@ -48,13 +48,13 @@ gulp.task('sass', () => {
     console.log(err.toString());
   };
 
-  return gulp.src(`${themeURL}scss/src/*.scss`)
+  return gulp.src(`${themeURL}scss/src/styles.scss`)
     .pipe(concat('bundle.min.scss'))
     .pipe(gulpif(ENVIRONMENT, sourcemaps.init()))
-    .pipe(autoprefix(autoprefixerOptions))
     .pipe(plumber({ errorHandler: onError }))
     .pipe(sass())
     .pipe(gulpif(ENVIRONMENT, sourcemaps.write()))
+    .pipe(autoprefix(autoprefixerOptions))
     .pipe(gulpif(!ENVIRONMENT, cleanCSS()))
     .pipe(rename('bundle.min.css'))
     .pipe(gulp.dest(`${themeURL}scss/dist`))
@@ -62,8 +62,8 @@ gulp.task('sass', () => {
 });
 
 gulp.task('font', () => {
-  return gulp.src('node_modules/font-awesome/fonts/*')
-    .pipe(gulp.dest('htdocs/wp-content/themes/frogspark/scss/fonts'));
+  return gulp.src('node_modules/@fortawesome/fontawesome-pro/webfonts/*')
+    .pipe(gulp.dest(`${themeURL}scss/webfonts`));
 });
 
 gulp.task('browserSync', () => {
