@@ -1,9 +1,9 @@
 === Ninja Forms - The Easy and Powerful Forms Builder ===
 Contributors: wpninjasllc, kstover, jameslaws, kbjohnson90, klhall1987, krmoorhouse, jmcelhaney, wpnzach
 Tags: form, forms, contact form, custom form, form builder, form creator, form manager, form creation, contact forms, custom forms, forms builder, forms creator, forms manager, forms creation, form administration,
-Requires at least: 4.7
-Tested up to: 4.9
-Stable tag: 3.3.10
+Requires at least: 4.9
+Tested up to: 5.1
+Stable tag: 3.4.9
 License: GPLv2 or later
 
 Drag and drop fields in an intuitive UI to create contact forms, email subscription forms, order forms, payment forms, send emails and more!
@@ -111,16 +111,233 @@ For help and video tutorials, please visit our website: [Ninja Forms Documentati
 
 == Upgrade Notice ==
 
-= 3.3.10 (16 July 2018) =
+= 3.4.9 (10 April 2019) =
 
 *Bugs:*
 
-* (Beta) The Ninja Forms Gutenberg block should now work properly on the newest version of Gutenberg.
-* Min and max values for number fields should once more accept decimal values.
-* Resolved an issue that was sometimes causing a description text block to be output, even if it contained no text.
-* Radio lists should now properly display the default value when using our opinionated styles.
+* Resolved an issue that sometimes caused submission dates to show inaccurately in the submissions table.
+
+*Changes:*
+
+* We've upgraded our form building experience with realistic field representations!
 
 == Changelog ==
+
+= 3.4.9 (10 April 2019) =
+
+*Bugs:*
+
+* Resolved an issue that sometimes caused submission dates to show inaccurately in the submissions table.
+
+*Changes:*
+
+* We've upgraded our form building experience with realistic field representations!
+
+= 3.4.8 (4 April 2019) =
+
+*Bugs:*
+
+* Corrected an issue that sometimes caused forms with large calculations to not display properly.
+
+= 3.4.7 (3 April 2019) =
+
+*Bugs:*
+
+* Resolved an error that was causing form submission to fail on some php versions.
+
+= 3.4.6 (2 April 2019) =
+
+*Bugs:*
+
+* Resolved several issues that sometimes caused notices to be logged on newer versions of php.
+* Changed the priority of the redirect action so that it should always fire last.
+* Calculations should now have more consistent results when numbers are input in international formats.
+
+*Changes:*
+
+* The following field types have been deprecated: Product, Quantity, Shipping, Total.
+
+= 3.4.5 (19 March 2019) =
+
+*Changes:*
+
+* Upgrade to THREE for legacy users will no longer immediately trigger additional required updates.
+* Introducing SendWP - A dedicated WordPress email solution!
+
+= 3.4.4 (13 February 2019) =
+
+*Bugs:*
+
+* Resolved an issue that was sometimes causing the submission sequence to reset.
+
+= 3.4.3 (5 February 2019) =
+
+*Bugs:*
+
+* Resolved an issue that was causing some form imports to fail.
+* Submission exports of checkbox fields that have been modified by an admin should now display their proper value in the csv.
+* Resolved an issue that was rarely causing actions to fire twice.
+
+= 3.4.2 (17 January 2019) =
+
+*Bugs:*
+
+* Resolved an issue that sometimes caused fields to not appear on the form after publish. (Special thanks to Tim de Hoog and Sidekick-IT).
+
+= 3.4.1 (15 January 2019) =
+
+*Bugs:*
+
+* Corrected an error that was causing form duplication to fail.
+* Sites with WP_DEBUG enabled should no longer display an undefined 'maintenance' column error on form load.
+
+= 3.4.0 (14 January 2019) =
+
+*Changes:*
+
+* Implemented a new import process, which should be more reliable with large form imports.
+* Upgraded our data structure to reduce loading times for forms and the form builder.
+
+= 3.3.21.3 (10 January 2019) =
+
+*Security:*
+
+* (2.9x) Duplicated previous blind SQL injection patch for our deprecated 2.9x codebase. Many thanks to Plugin Vulnerabilities for reporting that our initial pass missed this.
+
+= 3.3.21.2 (7 January 2019) =
+
+*Security:*
+
+* Patched a blind SQL injection vulnerability in the search filter on our submissions page. Thank you to Samuel Anttila at netsec.expert for practicing responsible disclosure.
+
+= 3.3.21.1 (3 January 2019) =
+
+*Security:*
+
+* Patched a reflected XSS vulnerability in our administrative dashboard. Thank you to Samuel Anttila at netsec.expert for practicing responsible disclosure.
+
+= 3.3.21 (2 January 2019) =
+
+*Bugs:*
+
+* Resolved an issue that caused our Gutenberg Block to not dispaly in the post editor when the Twenty Nineteen theme is active.
+
+*Changes:*
+
+* Product and quantity field merge tags can no longer be referenced in calculations.
+
+= 3.3.20 (6 December 2018) =
+
+*Changes:*
+
+* Finalized the Gutenberg block. (No longer a Beta feature.)
+
+= 3.3.19.1 (29 November 2018) =
+
+*Security:*
+
+* Patched an open redirect vulnerability using a url parameter in our submission download page. Thank you to Muhammad Talha Khan for practicing responsible disclosure.
+
+= 3.3.19 (20 November 2018) =
+
+*Bugs:*
+
+* Placeholder text should now be visible in number fields that have a minimum value.
+* Corrected an error that was sometimes causing number fields to clear themselves when Multi-part Forms is active.
+
+*Changes:*
+
+* The rich text editor in the form builder should now wrap lines while in code view.
+
+= 3.3.18 (14 November 2018) =
+
+*Security:*
+
+* Patched a redirect XSS vulnerability using code injection on our submissions page. Thank you to Muhammad Talha Khan for practicing responsible disclosure.
+
+*Bugs:*
+
+* Resolved an issue where the WordPress is_search function was being called incorrectly in some cases.
+* Custom columns should no longer be added to non-Ninja Forms custom post types with meta values containing '_field'.
+* Resolved an issue that sometimes caused error log entries related to an invalid IP.
+* The form selector on the submissions page should now be visible on mobile devices.
+* Resolved an issue that sometimes caused CSV exports to have multiple header rows.
+
+= 3.3.17 (16 October 2018) =
+
+*Bugs:*
+
+* Pressing the tab key while in the delete a form modal should now shift focus to the delete button.
+* Resolved an issue that could have caused some display issues on the dashboard due to cached scripts.
+
+*Changes:*
+
+* Updated several of our product images on the apps & integrations tab of the dashboard.
+* Our in-app marketing feed will now fetch from a remote site for more swift product updates.
+* [Ninja Shop](https://getninjashop.com/?utm_medium=dashboard_banner&utm_source=ninja-forms&utm_campaign=Awareness) has arrived!
+
+= 3.3.16 (17 September 2018) =
+
+*Bugs:*
+
+* Resolved an issue that was sometimes causing upgrades on multi-site to delete forms from other sites on the installation.
+* Corrected a bad reference in our Create a Post template documentation.
+* List field values sent in an email via CSV should no longer display as NULL if their value was 0.
+* Resolved a couple issues that were causing server warnings.
+
+*Changes:*
+
+* Removed some outdated objects to improve speed of publish.
+* Added modal on downgrade to prevent accidental usage.
+* Password fields have been deprecated in Ninja Forms core. Some of our add-ons will still utilize them.
+
+= 3.3.15 (31 August 2018) =
+
+*Bugs:*
+
+* Fixed an issue causing errors when forms containing checkboxes had csv files attached to Email Actions
+
+= 3.3.14.1 (28 August 2018) =
+
+*Security:*
+
+* Corrected patch for CSV injection vulnerability to include a previously overlooked input.
+
+= 3.3.14 (27 August 2018) =
+
+*Security:*
+
+* Patched an XSS vulnerability that allowed javascript injection into the form import function. Many thanks to Adam Roberts for practicing responsible disclosure.
+* Patched a CSV injection vulnerability that allowed user values to run some scripts when opening exported CSV files with Excel.
+
+*Bugs:*
+
+* The selector in the add a form modal should now scroll properly instead of being cut off by the bottom of the browser when it contains a large number of forms.
+* Resolved an issue that sometimes caused the character limit option for paragraph fields to count words instead.
+
+= 3.3.13 (8 August 2018) =
+
+*Changes:*
+
+* Added the abililty to have no default value for Country and State fields. 
+* Added the Indian Rupee to the list of available currencies
+* Removed unnecessary comments from the main field template
+
+*Bugs:*
+
+* User Meta Tags will no longer print out the tag when users are not logged in
+
+= 3.3.12 (31 July 2018) =
+
+*Bugs:*
+
+* Resolved an issue that sometimes caused form titles to not display in dropdown menus.
+
+= 3.3.11 (23 July 2018) =
+
+*Changes:*
+
+* Updated save methods for form settings to reduce potential encoding errors.
 
 = 3.3.10 (16 July 2018) =
 

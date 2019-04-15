@@ -21,7 +21,7 @@ const autoprefixerOptions = {
 
 // By default assume that the environment is production
 const ENVIRONMENT = process.env.NODE_ENV || 'production';
-const projectURL = '';
+const projectURL = 'http://custodian:4231';
 const themeURL = 'web/app/themes/frogspark/';
 
 

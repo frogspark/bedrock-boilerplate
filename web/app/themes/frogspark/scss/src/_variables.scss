@@ -6,7 +6,7 @@ $bg-r: (
   "square": 100%,
   "thin": 25%,
 );
-@each $key, $value in $backgrounds {
+@each $key, $value in $bg-r {
   .bg-r-#{$key} {
     height: 0;
     padding-bottom: $value;
@@ -26,7 +26,7 @@ $bg-p: (
   "right-top": right top,
   "top": top
 );
-@each $key, $value in $background-positions {
+@each $key, $value in $bg-p {
   .bg-p-#{$key} {
     background-position: $value;
   }
@@ -35,7 +35,7 @@ $bg-s: (
   "contain": contain,
   "cover": cover,
 );
-@each $key, $value in $background-sizes {
+@each $key, $value in $bg-s {
   .bg-s-#{$key} {
     background-repeat: no-repeat;
     background-size: $value;
@@ -60,15 +60,13 @@ $container-max-widths: (
 );
 
 /* Colours. */
-$primary: $red;
-$secondary: $gray-700;
-$tertiary: $blue;
-$quaternary: $green;
+$primary: white;
+$secondary: blue;
+$tertiary: green;
 $theme-colors: (
   "primary": $primary,
   "secondary": $secondary,
-  "tertiary": $tertiary,
-  "quaternary": $quaternary
+  "tertiary": $tertiary
 );
 
 /* Gutters. */

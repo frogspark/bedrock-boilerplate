@@ -18,8 +18,8 @@ if (! function_exists('bootstrap_four_widgets_init')):
         'id' => 'footer_column_one',
         'before_widget' => '<aside id="%1$s" class="widget %2$s">',
         'after_widget' => '</aside>',
-        'before_title' => '<h5>',
-        'after_title' => '</h5>',
+        'before_title' => '<h3 class="footer-nav-title">',
+        'after_title' => '</h3>',
       )
     );
     register_sidebar(
@@ -28,8 +28,8 @@ if (! function_exists('bootstrap_four_widgets_init')):
         'id' => 'footer_column_two',
         'before_widget' => '<aside id="%1$s" class="widget %2$s">',
         'after_widget' => '</aside>',
-        'before_title' => '<h5>',
-        'after_title' => '</h5>',
+        'before_title' => '<h3 class="footer-nav-title">',
+        'after_title' => '</h3>',
       )
     );
     register_sidebar(
@@ -113,7 +113,9 @@ function bootstrap_four_nav_li_class($classes, $item){
 add_filter('nav_menu_css_class', 'bootstrap_four_nav_li_class', 10, 2);
 
 function bootstrap_four_nav_anchor_class($atts, $item, $args){
-  $atts['class'] .= ' nav-link';
+  if(isset($atts['class'])){
+    $atts['class'] .= ' nav-link';
+  }
   return $atts;
 }
 add_filter('nav_menu_link_attributes', 'bootstrap_four_nav_anchor_class', 10, 3);
