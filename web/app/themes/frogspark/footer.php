@@ -5,7 +5,7 @@
 <div class="container footer">
   <div class="row">
     <div class="col-lg-3">
-        <img src="/app/themes/frogspark/img/logo-stacked.svg" height="45" width="29">
+        <img class="footer-logo" src="/app/themes/frogspark/img/logo-stacked.svg" height="45" width="29">
     </div>
     <div class="col-lg-3">
         <?php

@@ -14,37 +14,16 @@ var AOS = require('aos');
   };
 
   $(document).ready(function() {
-    var header = $('#header');
-    var headerHeight, currentScrollPosition, mobile;
-    var open = false;
-    var maxHeight = 0;
-    var maxWidth = 0;
-    var $element;
+    var header = $('header');
+    var headerHeight;
 
     function fixHeader() {
       headerHeight = header.outerHeight();
-      header.addClass('fixed');
       $('body').css('margin-top', headerHeight + 'px');
     };
 
     function resizeEvents() {
-      mobile = $(window).width() < 992;
-      currentScrollPosition = $(window).scrollTop();
       fixHeader();
-      open = false;
-      openMenu(open);
-      hero();
-    };
-
-    function scrollEvents() {
-      var newScrollPosition = $(window).scrollTop();
-      header.toggleClass('shadow', newScrollPosition > 0);
-      var pastThePointOfNoReturn = newScrollPosition > headerHeight;
-      header.toggleClass('scrolled', pastThePointOfNoReturn && !mobile);
-      var scrolledUp = newScrollPosition <= currentScrollPosition;
-      header.toggleClass('show', scrolledUp && pastThePointOfNoReturn && !mobile);
-      currentScrollPosition = newScrollPosition;
-      hero();
     };
 
     function openMenu(open) {
@@ -54,7 +33,6 @@ var AOS = require('aos');
     }
 
     $(window).on('load resize', Throttle(resizeEvents, 100));
-    $(window).on('scroll', Throttle(scrollEvents, 100));
 
     var open = false;
 

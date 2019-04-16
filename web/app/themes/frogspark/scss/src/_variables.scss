@@ -56,13 +56,13 @@ $container-max-widths: (
   md: 720px,
   lg: 960px,
   xl: 1140px,
-  xxl: 1380px
+  xxl: 1300px
 );
 
 /* Colours. */
 $primary: white;
-$secondary: blue;
-$tertiary: green;
+$secondary: #4380A0; // Footer Color
+$tertiary: #194D67; // Footer Text
 $theme-colors: (
   "primary": $primary,
   "secondary": $secondary,
