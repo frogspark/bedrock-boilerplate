@@ -2,33 +2,14 @@
 $bg-r: (
   "cinematic": 42.8571%,
   "landscape": 56.25%,
-  "portrait": 66.66%,
+  "portrait": 125%,
   "square": 100%,
-  "thin": 25%,
 );
-@each $key, $value in $backgrounds {
-  .bg-r-#{$key} {
+@each $key, $value in $bg-r {
+  .bg-ratio-#{$key} {
     height: 0;
     padding-bottom: $value;
     width: 100%;
-  }
-}
-$bg-p: ( 
-  "bottom": bottom,
-  "center": center,
-  "left": left,
-  "left-bottom": left bottom,
-  "left-center": left center,
-  "left-top": left top,
-  "right": right,
-  "right-bottom": right bottom,
-  "right-center": right center, 
-  "right-top": right top,
-  "top": top
-);
-@each $key, $value in $background-positions {
-  .bg-p-#{$key} {
-    background-position: $value;
   }
 }
 $bg-s: (
@@ -36,7 +17,7 @@ $bg-s: (
   "cover": cover,
 );
 @each $key, $value in $background-sizes {
-  .bg-s-#{$key} {
+  .bg-size-#{$key} {
     background-repeat: no-repeat;
     background-size: $value;
   }
@@ -60,10 +41,10 @@ $container-max-widths: (
 );
 
 /* Colours. */
-$primary: $red;
-$secondary: $gray-700;
-$tertiary: $blue;
-$quaternary: $green;
+$primary: #000000;
+$secondary: #000000;
+$tertiary: #000000;
+$quaternary: #000000;
 $theme-colors: (
   "primary": $primary,
   "secondary": $secondary,
