@@ -16,7 +16,7 @@ $bg-s: (
   "contain": contain,
   "cover": cover,
 );
-@each $key, $value in $background-sizes {
+@each $key, $value in $bg-s {
   .bg-size-#{$key} {
     background-repeat: no-repeat;
     background-size: $value;

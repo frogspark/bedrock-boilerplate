@@ -113,7 +113,9 @@ function bootstrap_four_nav_li_class($classes, $item){
 add_filter('nav_menu_css_class', 'bootstrap_four_nav_li_class', 10, 2);
 
 function bootstrap_four_nav_anchor_class($atts, $item, $args){
-  $atts['class'] .= ' nav-link';
+  if(isset($atts['class'])):
+    $atts['class'] .= ' nav-link';
+  endif;
   return $atts;
 }
 add_filter('nav_menu_link_attributes', 'bootstrap_four_nav_anchor_class', 10, 3);
