@@ -12844,7 +12844,7 @@ body[data-aos-easing="ease-in-out-quart"] [data-aos], [data-aos][data-aos][data-
   display: none; }
 
 /*!
- * Font Awesome Pro 5.8.1 by @fontawesome - https://fontawesome.com
+ * Font Awesome Pro 5.8.2 by @fontawesome - https://fontawesome.com
  * License - https://fontawesome.com/license (Commercial License)
  */
 .fa,
@@ -15421,6 +15421,9 @@ readers do not read off random characters that represent icons */
 .fa-git:before {
   content: "\f1d3"; }
 
+.fa-git-alt:before {
+  content: "\f841"; }
+
 .fa-git-square:before {
   content: "\f1d2"; }
 
@@ -17842,6 +17845,9 @@ readers do not read off random characters that represent icons */
 .fa-stack-overflow:before {
   content: "\f16c"; }
 
+.fa-stackpath:before {
+  content: "\f842"; }
+
 .fa-staff:before {
   content: "\f71b"; }
 
@@ -19004,7 +19010,7 @@ readers do not read off random characters that represent icons */
   width: auto; }
 
 /*!
- * Font Awesome Pro 5.8.1 by @fontawesome - https://fontawesome.com
+ * Font Awesome Pro 5.8.2 by @fontawesome - https://fontawesome.com
  * License - https://fontawesome.com/license (Commercial License)
  */
 @font-face {
@@ -19020,7 +19026,7 @@ readers do not read off random characters that represent icons */
   font-weight: 300; }
 
 /*!
- * Font Awesome Pro 5.8.1 by @fontawesome - https://fontawesome.com
+ * Font Awesome Pro 5.8.2 by @fontawesome - https://fontawesome.com
  * License - https://fontawesome.com/license (Commercial License)
  */
 @font-face {
@@ -19036,7 +19042,7 @@ readers do not read off random characters that represent icons */
   font-weight: 400; }
 
 /*!
- * Font Awesome Pro 5.8.1 by @fontawesome - https://fontawesome.com
+ * Font Awesome Pro 5.8.2 by @fontawesome - https://fontawesome.com
  * License - https://fontawesome.com/license (Commercial License)
  */
 @font-face {
@@ -19053,7 +19059,7 @@ readers do not read off random characters that represent icons */
   font-weight: 900; }
 
 /*!
- * Font Awesome Pro 5.8.1 by @fontawesome - https://fontawesome.com
+ * Font Awesome Pro 5.8.2 by @fontawesome - https://fontawesome.com
  * License - https://fontawesome.com/license (Commercial License)
  */
 @font-face {
