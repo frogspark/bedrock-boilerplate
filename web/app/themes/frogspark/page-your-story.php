@@ -1,6 +1,6 @@
 <?php
 /**
- * Template Name: Contact
+ * Template Name: Your Story
  *
  * @package WordPress
  * @subpackage Twenty_Fourteen

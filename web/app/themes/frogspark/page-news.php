@@ -1,6 +1,6 @@
 <?php
 /**
- * Template Name: Contact
+ * Template Name: News
  *
  * @package WordPress
  * @subpackage Twenty_Fourteen

@@ -384,3 +384,6 @@ function add_image_class($class){
   return $class;
 }
 add_filter('get_image_tag_class', 'add_image_class');
+
+// Register Custom Navigation Walker
+require_once get_template_directory() . '/class-wp-bootstrap-navwalker.php';

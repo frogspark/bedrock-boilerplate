@@ -19131,3 +19131,6 @@ p {
 .footer, footer {
   background-color: #4380A0;
   padding: 15px 0; }
+
+.navbar-custom button {
+  border: 0; }

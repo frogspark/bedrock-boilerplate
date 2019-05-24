@@ -1,6 +1,6 @@
 <?php
 /**
- * Template Name: Contact
+ * Template Name: Get Involved
  *
  * @package WordPress
  * @subpackage Twenty_Fourteen
