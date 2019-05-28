@@ -66,6 +66,7 @@ p {
   border: 0;
   font-weight: bold;
   box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.5);
+  transition: all 0.4s ease-in-out;
 
   &:hover {
     box-shadow: none;
@@ -120,6 +121,16 @@ h3 {
   }
 }
 
+p {
+  font-family: 'Helvetica', sans-serif;
+  font-size: 1rem;
+  color: #4E4E4E;
+
+  @include lg {
+    font-size: 1.25rem;
+  }
+}
+
 // Footer Styling
 
 .footer,
@@ -139,7 +150,6 @@ footer {
   }
 
   section {
-    background: url('/app/themes/frogspark/img/footer-bg.jpg');
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
@@ -147,7 +157,7 @@ footer {
     .footer-box {
       background-color: white;
       border-radius: 15px 0 15px 0;
-      border: 5px solid $secondary;
+      border: 8px solid $secondary;
 
       @include lg {
         position: relative;
@@ -219,6 +229,10 @@ footer {
       font-size: 26px;
     }
 
+    a {
+      color: $secondary;
+    }
+
     i {
       padding: 15px 15px;
       border: 2px solid $secondary;
@@ -248,8 +262,13 @@ footer {
   color: $fourthary;
 
   .sticky-top {
+
     &.scroll {
       box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.5);
+    }
+
+    &.noscroll {
+      box-shadow: none;
     }
   }
 
@@ -282,6 +301,11 @@ footer {
       font-weight: bold;
       font-size: 1.5rem;
 
+      &:hover {
+        background-color: $fourthary;
+        color: white;
+      }
+
       @include md {
         background-color: $secondary;
         border-radius: 0;
@@ -300,7 +324,7 @@ footer {
     .btn-get-involved a,
     .btn-donate a {
       @include md {
-        color: white;
+        color: white !important;
       }
     }
 
@@ -316,5 +340,44 @@ footer {
       border: 0;
       outline: 0;
     }
+  }
+}
+
+// Contact Page
+
+.page-id-20 {
+
+  .navbar-custom {
+    border-bottom: 10px solid #eee;
+  }
+
+  a {
+    color: #4E4E4E;
+
+    &:hover {
+      color: $tertiary;
+    }
+  }
+}
+
+.nf-error-msg {
+  font-size: 1.3rem;
+}
+
+.form-custom {
+  font-weight: bold;
+  font-size: 25px;
+  border-radius: 0;
+  border: 0;
+  background-color: #F2F2F2;
+  padding: 15px 20px;
+
+  &:focus {
+    background-color: #F2F2F2;
+  }
+
+  &::placeholder {
+    color: #C1C1C1;
+  
   }
 }

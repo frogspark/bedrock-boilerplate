@@ -1,8 +1,8 @@
 <?php wp_footer(); ?>
 
 <footer>
-
-    <section class="py-10 pt-lg-0 pb-lg-10" style="">
+    <?php $image = get_field('background_image', 'options'); ?>
+    <section class="py-10 pt-lg-0 pb-lg-10" style="background-image: url('<?php echo $image['url']; ?>');">
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 offset-lg-2">
@@ -11,17 +11,30 @@
                             <div class="row">
                                 <div class="col-lg-6">
                                     <div class="px-lg-10">
-                                        <h3>Making a difference to people with mental health issues and <span
-                                                class="underline-this">their families</span></h3>
-                                        <button type="button" class="btn btn-lg btn-purple btn-global">Donate To
-                                            Headhigh</button></a>
+                                        <h3>
+                                            <?php the_field('description_left', 'options'); ?>
+                                            <span class="underline-this">
+                                                <?php the_field('description_left_underline', 'options'); ?>
+                                            </span>
+                                        </h3>
+                                        <?php $buttonLeft = get_field('button_left', 'options'); ?>
+                                        <a href="<?php echo $buttonLeft['url']; ?>">
+                                            <button type="button" class="btn btn-lg btn-purple btn-global">
+                                                <?php echo $buttonLeft['title']; ?></button></a>
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
                                     <div class="px-lg-10 pt-10 pt-sm-0">
-                                        <h3>Making a difference to people with mental health issues and <span
-                                                class="underline-this-green">their families</span></h3>
-                                        <button type="button" class="btn btn-lg btn-green btn-global">How to be involved</button></a>
+                                    <h3>
+                                            <?php the_field('description_right', 'options'); ?>
+                                            <span class="underline-this-green">
+                                                <?php the_field('description_right_underline', 'options'); ?>
+                                            </span>
+                                        </h3>
+                                            <?php $buttonRight = get_field('button_right', 'options'); ?>
+                                        <a href="<?php echo $buttonLeft['url']; ?>">
+                                            <button type="button" class="btn btn-lg btn-green btn-global">
+                                                <?php echo $buttonLeft['title']; ?></button></a>
                                     </div>
                                 </div>
                             </div>

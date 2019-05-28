@@ -19263,7 +19263,9 @@ p {
   border: 0;
   font-weight: bold;
   -webkit-box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.5);
-          box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.5); }
+          box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.5);
+  -webkit-transition: all 0.4s ease-in-out;
+  transition: all 0.4s ease-in-out; }
   .btn-global:hover {
     -webkit-box-shadow: none;
             box-shadow: none;
@@ -19304,6 +19306,14 @@ h3 {
       bottom: 5px;
       left: 0; }
 
+p {
+  font-family: 'Helvetica', sans-serif;
+  font-size: 1rem;
+  color: #4E4E4E; }
+  @media only screen and (min-width: 992px) {
+    p {
+      font-size: 1.25rem; } }
+
 .footer,
 footer {
   background-color: #eee;
@@ -19319,7 +19329,6 @@ footer {
         padding-bottom: 100px; } }
   .footer section,
   footer section {
-    background: url("/app/themes/frogspark/img/footer-bg.jpg");
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center; }
@@ -19327,7 +19336,7 @@ footer {
     footer section .footer-box {
       background-color: white;
       border-radius: 15px 0 15px 0;
-      border: 5px solid #9ABB54; }
+      border: 8px solid #9ABB54; }
       @media only screen and (min-width: 992px) {
         .footer section .footer-box,
         footer section .footer-box {
@@ -19385,6 +19394,9 @@ footer {
       .footer .social-media,
       footer .social-media {
         font-size: 26px; } }
+    .footer .social-media a,
+    footer .social-media a {
+      color: #9ABB54; }
     .footer .social-media i,
     footer .social-media i {
       padding: 15px 15px;
@@ -19405,6 +19417,9 @@ footer {
   .navbar-custom .sticky-top.scroll {
     -webkit-box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.5);
             box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.5); }
+  .navbar-custom .sticky-top.noscroll {
+    -webkit-box-shadow: none;
+            box-shadow: none; }
   .navbar-custom .navbar-brand img {
     max-height: 30px; }
   @media only screen and (min-width: 992px) {
@@ -19422,6 +19437,10 @@ footer {
     .navbar-custom .nav .btn-get-involved {
       font-weight: bold;
       font-size: 1.5rem; }
+      .navbar-custom .nav .btn-donate:hover,
+      .navbar-custom .nav .btn-get-involved:hover {
+        background-color: #4E4E4E;
+        color: white; }
       @media only screen and (min-width: 768px) {
         .navbar-custom .nav .btn-donate,
         .navbar-custom .nav .btn-get-involved {
@@ -19436,7 +19455,7 @@ footer {
     @media only screen and (min-width: 768px) {
       .navbar-custom .nav .btn-get-involved a,
       .navbar-custom .nav .btn-donate a {
-        color: white; } }
+        color: white !important; } }
     .navbar-custom .nav .nav-item {
       padding: 5px; }
   .navbar-custom button {
@@ -19444,3 +19463,32 @@ footer {
     .navbar-custom button:focus {
       border: 0;
       outline: 0; }
+
+.page-id-20 .navbar-custom {
+  border-bottom: 10px solid #eee; }
+
+.page-id-20 a {
+  color: #4E4E4E; }
+  .page-id-20 a:hover {
+    color: #9F477B; }
+
+.nf-error-msg {
+  font-size: 1.3rem; }
+
+.form-custom {
+  font-weight: bold;
+  font-size: 25px;
+  border-radius: 0;
+  border: 0;
+  background-color: #F2F2F2;
+  padding: 15px 20px; }
+  .form-custom:focus {
+    background-color: #F2F2F2; }
+  .form-custom::-webkit-input-placeholder {
+    color: #C1C1C1; }
+  .form-custom:-ms-input-placeholder {
+    color: #C1C1C1; }
+  .form-custom::-ms-input-placeholder {
+    color: #C1C1C1; }
+  .form-custom::placeholder {
+    color: #C1C1C1; }
