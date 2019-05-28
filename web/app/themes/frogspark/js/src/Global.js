@@ -26,6 +26,20 @@ var AOS = require('aos');
       fixHeader();
     };
 
+    $(function() {
+      //caches a jQuery object containing the header element
+      var header = $(".sticky-top");
+      $(window).scroll(function() {
+          var scroll = $(window).scrollTop();
+  
+          if (scroll >= 20) {
+              header.removeClass('noscroll').addClass("scroll");
+          } else {
+              header.removeClass("scroll").addClass('noscroll');
+          }
+      });
+    });
+
     function openMenu(open) {
       $('#navigation ul').toggleClass('open', open);
       $('#burger').toggleClass('open', open);

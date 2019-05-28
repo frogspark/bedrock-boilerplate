@@ -1,5 +1,4 @@
 @import 'variables';
-@import 'fonts';
 @import 'node_modules/bootstrap/scss/bootstrap.scss';
 @import 'node_modules/aos/src/sass/aos.scss';
 @import 'node_modules/slick-carousel/slick/slick.scss';
@@ -29,14 +28,14 @@ body {
     overflow: hidden;
   }
 
-  > main {
+  >main {
     flex: 1 1 auto;
   }
 }
 
 ::selection {
-  background-color: rgba(lighten($primary, 20%), 0.75);
-  color: $white;
+  background-color: rgba(lighten($tertiary, 20%), 0.75);
+  color: $primary;
 }
 
 .fixed {
@@ -58,14 +57,264 @@ p {
   perspective: 2000px;
 }
 
-.footer, footer {
-  background-color: $secondary;
-  padding: 15px 0;
+// Global Elements
+
+.btn-global {
+  border-radius: 15px 0 15px 0;
+  padding: 5px 50px;
+  font-size: 2.0rem;
+  border: 0;
+  font-weight: bold;
+  box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.5);
+
+  &:hover {
+    box-shadow: none;
+    background: $fourthary;
+  }
 }
 
+.btn-purple {
+  background-color: $tertiary;
+}
+
+.btn-green {
+  background-color: $secondary;
+}
+
+h3 {
+  font-family: $font-family-sans-serif;
+  color: $fourthary !important;
+  font-size: 2.0rem;
+
+  @include md {
+    font-size: 2.5rem;
+    line-height: 56px;
+  }
+
+  .underline-this {
+    position: relative;
+
+    &:before {
+      height: 7px;
+      width: 100%;
+      background-color: $tertiary;
+      content: '';
+      position: absolute;
+      bottom: 5px;
+      left: 0;
+    }
+  }
+
+  .underline-this-green {
+    position: relative;
+
+    &:before {
+      height: 7px;
+      width: 100%;
+      background-color: $secondary;
+      content: '';
+      position: absolute;
+      bottom: 5px;
+      left: 0;
+    }
+  }
+}
+
+// Footer Styling
+
+.footer,
+footer {
+  background-color: #eee;
+  padding: 0;
+
+  .footer-spacing {
+    padding-top: 50px;
+    padding-bottom: 50px;
+
+    @include lg {
+      padding-top: 150px;
+      padding-bottom: 100px;
+    }
+
+  }
+
+  section {
+    background: url('/app/themes/frogspark/img/footer-bg.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+
+    .footer-box {
+      background-color: white;
+      border-radius: 15px 0 15px 0;
+      border: 5px solid $secondary;
+
+      @include lg {
+        position: relative;
+        bottom: -125px;
+      }
+
+      button {
+        width: 100%;
+      }
+    }
+  }
+
+  p {
+    padding-bottom: 0;
+    margin-bottom: 0;
+  }
+
+  .navbar-brand {
+
+    img {
+      max-height: 30px;
+
+      @include md {
+        max-height: 50px;
+      }
+    }
+  }
+
+  .copyright {
+    font-family: 'Helvetica', sans-serif;
+    color: $fourthary;
+  }
+
+  .btn-donate,
+  .btn-get-involved {
+    display: none;
+  }
+
+  .navbar-custom {
+    text-align: left !important;
+    background-color: #eee !important;
+
+    .nav-link {
+      margin-right: 35px;
+    }
+  }
+
+  .footer-last-link {
+    margin-right: 0 !important;
+
+    a {
+      margin-right: 0 !important;
+    }
+  }
+
+  .navbar-custom,
+  .nav,
+  .nav-item,
+  .nav-link {
+    padding: 0 !important;
+  }
+
+  // Social Media Styling
+
+  .social-media {
+    font-size: 16px;
+
+    @include lg {
+      font-size: 26px;
+    }
+
+    i {
+      padding: 15px 15px;
+      border: 2px solid $secondary;
+      margin-right: 20px;
+    }
+  }
+
+  .navbar-brand {
+
+    img {
+
+      @include lg {
+        max-width: 350px;
+      }
+    }
+  }
+}
+
+// Header Styling
+
 .navbar-custom {
+  text-align: center;
+  padding: 15px;
+  background-color: white !important;
+  font-weight: bold;
+  font-size: 1.5rem;
+  color: $fourthary;
+
+  .sticky-top {
+    &.scroll {
+      box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.5);
+    }
+  }
+
+  .navbar-brand {
+    img {
+      max-height: 30px;
+    }
+  }
+
+  @include lg {
+    padding: 0;
+  }
+
+  .nav {
+    padding: 15px 0;
+
+    @include md {
+      padding: 0;
+    }
+
+    .nav-item {
+
+      @include lg {
+        margin-right: 25px;
+      }
+    }
+
+    .btn-donate,
+    .btn-get-involved {
+      font-weight: bold;
+      font-size: 1.5rem;
+
+      @include md {
+        background-color: $secondary;
+        border-radius: 0;
+        border: 0;
+        padding: 8px 35px !important;
+        margin-right: 0;
+      }
+    }
+
+    .btn-get-involved {
+      @include md {
+        background-color: $tertiary;
+      }
+    }
+
+    .btn-get-involved a,
+    .btn-donate a {
+      @include md {
+        color: white;
+      }
+    }
+
+    .nav-item {
+      padding: 5px;
+    }
+  }
 
   button {
     border: 0;
+
+    &:focus {
+      border: 0;
+      outline: 0;
+    }
   }
 }
