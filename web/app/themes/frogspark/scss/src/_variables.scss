@@ -121,27 +121,5 @@ $link-color: $secondary;
 $link-decoration: none;
 $link-hover-color: darken($link-color, 15%);
 $link-hover-decoration: none;
-
-@font-face {
-  font-family: 'GarageGothic';
-  src: url('/app/themes/frogspark/fonts/GarageGothic-Regular.eot');
-  src: url('/app/themes/frogspark/fonts/GarageGothic-Regular.eot?#iefix') format('embedded-opentype'),
-    url('/app/themes/frogspark/fonts/GarageGothic-Regular.woff2') format('woff2'),
-    url('/app/themes/frogspark/fonts/GarageGothic-Regular.woff') format('woff'),
-    url('/app/themes/frogspark/fonts/GarageGothic-Regular.ttf') format('truetype'),
-    url('/app/themes/frogspark/fonts/GarageGothic-Regular.svg#GarageGothic-Regular') format('svg');
-  font-weight: normal;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: 'GarageGothic';
-  src: url('/app/themes/frogspark/fonts/GarageGothic-Bold.eot');
-  src: url('/app/themes/frogspark/fonts/GarageGothic-Bold.eot?#iefix') format('embedded-opentype'),
-    url('/app/themes/frogspark/fonts/GarageGothic-Bold.woff2') format('woff2'),
-    url('/app/themes/frogspark/fonts/GarageGothic-Bold.woff') format('woff'),
-    url('/app/themes/frogspark/fonts/GarageGothic-Bold.ttf') format('truetype'),
-    url('/app/themes/frogspark/fonts/GarageGothic-Bold.svg#GarageGothic-Bold') format('svg');
-  font-weight: bold;
-  font-style: normal;
-}
+$border-rad-global: 30px 0 30px 0;
+$box-shad-global: 5px 5px 20px rgba(0, 0, 0, 0.5);
