@@ -1,5 +1,14 @@
-/* Backgrounds */
+/* Backgrounds. */
+$bg-p: (
+  "center": center,
+);
+@each $key, $value in $bg-p {
+  .bg-position-#{$key} {
+    background-position: $value;
+  }
+}
 $bg-r: (
+  "alt": 20%,
   "cinematic": 42.8571%,
   "landscape": 56.25%,
   "portrait": 125%,
@@ -45,20 +54,24 @@ $primary: #000000;
 $secondary: #000000;
 $tertiary: #000000;
 $quaternary: #000000;
+$quinary: #000000;
+$senary: #000000;
+$septenary: #000000;
 $theme-colors: (
   "primary": $primary,
   "secondary": $secondary,
   "tertiary": $tertiary,
-  "quaternary": $quaternary
+  "quaternary": $quaternary,
+  "quinary": $quinary,
+  "senary": $senary,
+  "septenary": $septenary,
 );
 
 /* Gutters. */
 $grid-gutter-width: 32px;
 
 /* Misc */
-$transition-base: all .5s ease;
-$transition-fast: all .25s ease;
-$transition-slow: all .75s ease;
+$transition-base: all .25s ease;
 
 /* Spacing. */
 $spacer: 4px;
@@ -87,10 +100,10 @@ $font-family-sans-serif: '';
 $font-size-base: .9rem;
 $line-height-base: 1.5;
 $h1-font-size: 3.75rem;
-$h2-font-size: 2.75rem;
+$h2-font-size: 2.5rem;
 $h3-font-size: 1.75rem;
-$h4-font-size: 1.3rem;
-$h5-font-size: 1.1rem;
+$h4-font-size: 1.5rem;
+$h5-font-size: 1.25rem;
 $h6-font-size: 1rem;
 $headings-margin-bottom: 1.5rem;
 $headings-font-family: '';

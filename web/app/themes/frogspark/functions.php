@@ -243,7 +243,7 @@ function print_multi_level_menu($menu, $parent_item_class = 'parent-item'){
   $parent = null;
   echo '<ul class="nav">';
   foreach ($menu as $current){
-    $anchor_class = 'nav-link';
+    $anchor_class = 'mr-lg-10 nav-link p-0 text-primary';
     if ($current->menu_item_parent == 0){
       if ($parent != null) {
         echo '</li>';
@@ -263,7 +263,7 @@ function print_multi_level_menu($menu, $parent_item_class = 'parent-item'){
       }
     } else {
       if ($next && $next->menu_item_parent != 0) {
-        $anchor_class = 'nav-link ';
+        $anchor_class = 'mr-lg-10 nav-link parent p-0 text-primary ';
         $anchor_class .= $parent_item_class;
       }
     }
@@ -365,13 +365,31 @@ function get_email_address(){
 }
 function get_phone_number(){
   $phone_number = get_field('phone_number', 'options');
-  $number = ltrim($phone_number, '0');
-  $tel = str_replace(' ', '', $number);
-  return "<a href=\"tel:{$tel}\">{$number}</a>";
+  return "<a href=\"tel:{$phone_number}\">{$phone_number}</a>";
+}
+function get_address(){
+  $address = get_field('location', 'options')['address'];
+  return "{$address}";
+}
+function get_company_number(){
+  $company_number = get_field('company_number', 'options');
+  return "{$company_number}";
+}
+function get_vat_number(){
+  $vat_number = get_field('vat_number', 'options');
+  return "{$vat_number}";
+}
+function get_sitename(){
+  $sitename = get_bloginfo('name');
+  return "{$sitename}";
 }
 function register_shortcodes(){
   add_shortcode('email', 'get_email_address');
   add_shortcode('phone', 'get_phone_number');
+  add_shortcode('address', 'get_address');
+  add_shortcode('company_number', 'get_company_number');
+  add_shortcode('vat_number', 'get_vat_number');
+  add_shortcode('company', 'get_sitename');
 }
 add_action('init', 'register_shortcodes');
 

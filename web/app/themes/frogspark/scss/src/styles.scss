@@ -25,10 +25,6 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
-  &.no-scroll {
-    overflow: hidden;
-  }
-
   > main {
     flex: 1 1 auto;
   }
@@ -37,10 +33,6 @@ body {
 ::selection {
   background-color: rgba(lighten($primary, 20%), 0.75);
   color: $white;
-}
-
-.fixed {
-  position: fixed;
 }
 
 p:empty {

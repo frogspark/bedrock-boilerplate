@@ -1,73 +1,18 @@
-var $ = require('jquery');
-var Throttle = require('lodash.throttle');
-var slick = require('slick-carousel');
-var AOS = require('aos');
+import $ from 'jquery';
+window.jQuery = $;
+require('bootstrap');
+var _ = require('lodash');
+import slick from 'slick-carousel';
+import 'magnific-popup';
+import AOS from 'aos';
 
-(function($) {
+$(document).ready(function(){
+  // AOS.
+  AOS.init();
+});
 
-  $.fn.isInViewport = function() {
-    var elementTop = $(this).offset().top;
-    var elementBottom = elementTop + $(this).outerHeight();
-    var viewportTop = $(window).scrollTop();
-    var viewportBottom = viewportTop + $(window).height();
-    return elementBottom > viewportTop && elementTop < viewportBottom;
-  };
 
-  $(document).ready(function() {
-    var header = $('#header');
-    var headerHeight, currentScrollPosition, mobile;
-    var open = false;
-    var maxHeight = 0;
-    var maxWidth = 0;
-    var $element;
-
-    function fixHeader() {
-      headerHeight = header.outerHeight();
-      header.addClass('fixed');
-      $('body').css('margin-top', headerHeight + 'px');
-    };
-
-    function resizeEvents() {
-      mobile = $(window).width() < 992;
-      currentScrollPosition = $(window).scrollTop();
-      fixHeader();
-      open = false;
-      openMenu(open);
-      hero();
-    };
-
-    function scrollEvents() {
-      var newScrollPosition = $(window).scrollTop();
-      header.toggleClass('shadow', newScrollPosition > 0);
-      var pastThePointOfNoReturn = newScrollPosition > headerHeight;
-      header.toggleClass('scrolled', pastThePointOfNoReturn && !mobile);
-      var scrolledUp = newScrollPosition <= currentScrollPosition;
-      header.toggleClass('show', scrolledUp && pastThePointOfNoReturn && !mobile);
-      currentScrollPosition = newScrollPosition;
-      hero();
-    };
-
-    function openMenu(open) {
-      $('#navigation ul').toggleClass('open', open);
-      $('#burger').toggleClass('open', open);
-      $('html, body').toggleClass('no-scroll', open);
-    }
-
-    $(window).on('load resize', Throttle(resizeEvents, 100));
-    $(window).on('scroll', Throttle(scrollEvents, 100));
-
-    var open = false;
-
-    $('#burger').click(function() {
-      open = !open;
-      openMenu(open);
-    });
-
-    AOS.init();
-  });
-
-})($);
-
+// Google Maps.
 (function($) {
   function new_map($el) {
     var $markers = $el.find('.marker');
@@ -88,7 +33,6 @@ var AOS = require('aos');
 
   function add_marker($marker, map) {
     var latlng = new google.maps.LatLng($marker.attr('data-lat'), $marker.attr('data-lng'));
-
     var marker = new google.maps.Marker({
       position: latlng,
       map: map,
@@ -106,7 +50,6 @@ var AOS = require('aos');
 
   function center_map(map) {
     var bounds = new google.maps.LatLngBounds();
-
     $.each( map.markers, function(i, marker){
       var latlng = new google.maps.LatLng(marker.position.lat(), marker.position.lng());
       bounds.extend(latlng);
@@ -121,7 +64,7 @@ var AOS = require('aos');
 
   var map = null;
   $(document).ready(function(){
-    $('.acf-map').each(function(){
+    $('.map').each(function(){
       map = new_map($(this));
     });
   });
