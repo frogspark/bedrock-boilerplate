@@ -1,7 +1,5 @@
 <?php
 
-include_once 'lib/bootstrap-four-wp-navwalker.php';
-
 global $bootstrap_four_version;
 
 $bootstrap_four_version = '4.0.0';
