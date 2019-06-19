@@ -55,7 +55,7 @@ gulp.task('sass', () => {
     .pipe(sass())
     .pipe(gulpif(ENVIRONMENT, sourcemaps.write()))
     .pipe(autoprefix(autoprefixerOptions))
-    .pipe(gulpif(!ENVIRONMENT, cleanCSS()))
+    .pipe(cleanCSS())
     .pipe(rename('bundle.min.css'))
     .pipe(gulp.dest(`${themeURL}scss/dist`))
     .pipe(browserSync.stream());
