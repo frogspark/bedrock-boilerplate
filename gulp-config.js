@@ -7,5 +7,3 @@ export default {
     return this.environment === 'production';
   }
 }
-
-//test

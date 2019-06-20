@@ -19,11 +19,9 @@ const autoprefixerOptions = {
   browsers: ['last 2 versions', '> 5%', 'Firefox ESR'],
 };
 
-// By default assume that the environment is production
 const ENVIRONMENT = process.env.NODE_ENV || 'production';
 const projectURL = 'http://head-high:4234';
 const themeURL = 'web/app/themes/frogspark/';
-
 
 gulp.task('js', () => {
   return gulp.src(`${themeURL}js/src/*.js`)

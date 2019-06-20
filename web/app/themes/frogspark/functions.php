@@ -195,8 +195,6 @@ function bootstrap_four_the_posts_pagination($args = ''){
 
 define('ACF_EARLY_ACCESS', '5');
 
-require get_template_directory() . '/inc/customizer.php';
-
 /*
 * ACF map.
 */

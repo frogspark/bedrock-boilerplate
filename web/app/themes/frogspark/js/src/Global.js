@@ -3,7 +3,6 @@ window.jQuery = $;
 require('bootstrap');
 var _ = require('lodash');
 import slick from 'slick-carousel';
-import 'magnific-popup';
 import AOS from 'aos';
 
 $(document).ready(function(){
