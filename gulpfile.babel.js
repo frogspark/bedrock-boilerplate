@@ -20,7 +20,7 @@ const autoprefixerOptions = {
 };
 
 const ENVIRONMENT = process.env.NODE_ENV || 'production';
-const projectURL = 'http://head-high:4234';
+const projectURL = '';
 const themeURL = 'web/app/themes/frogspark/';
 
 gulp.task('js', () => {

@@ -398,3 +398,12 @@ function add_image_class($class){
   return $class;
 }
 add_filter('get_image_tag_class', 'add_image_class');
+
+/*
+* Removes the default content editor from all pages.
+*/
+
+add_action('admin_head', 'remove_content_editor');
+function remove_content_editor(){ 
+  remove_post_type_support('page', 'editor');        
+}
