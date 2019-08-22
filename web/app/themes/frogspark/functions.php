@@ -379,6 +379,10 @@ function get_sitename(){
   $sitename = get_bloginfo('name');
   return "{$sitename}";
 }
+function get_date(){
+  $date = get_the_date('F Y');
+  return "{$date}";
+}
 function register_shortcodes(){
   add_shortcode('email', 'get_email_address');
   add_shortcode('phone', 'get_phone_number');
@@ -386,6 +390,7 @@ function register_shortcodes(){
   add_shortcode('company_number', 'get_company_number');
   add_shortcode('vat_number', 'get_vat_number');
   add_shortcode('company', 'get_sitename');
+  add_shortcode('date', 'get_date');
 }
 add_action('init', 'register_shortcodes');
 
@@ -398,12 +403,3 @@ function add_image_class($class){
   return $class;
 }
 add_filter('get_image_tag_class', 'add_image_class');
-
-/*
-* Removes the default content editor from all pages.
-*/
-
-add_action('admin_head', 'remove_content_editor');
-function remove_content_editor(){ 
-  remove_post_type_support('page', 'editor');        
-}
