@@ -239,7 +239,7 @@ function print_multi_level_menu($menu, $parent_item_class = 'parent-item'){
   $parent = null;
   echo '<ul class="nav">';
   foreach ($menu as $current){
-    $anchor_class = 'mr-lg-10 nav-link p-0 text-primary';
+    $anchor_class = 'nav-link';
     if ($current->menu_item_parent == 0){
       if ($parent != null) {
         echo '</li>';
@@ -259,12 +259,12 @@ function print_multi_level_menu($menu, $parent_item_class = 'parent-item'){
       }
     } else {
       if ($next && $next->menu_item_parent != 0) {
-        $anchor_class = 'mr-lg-10 nav-link parent p-0 text-primary ';
+        $anchor_class = 'nav-link ';
         $anchor_class .= $parent_item_class;
       }
     }
     echo '<li class="nav-item">';
-    echo '<a href="' . $current->url . '" class="' . $anchor_class . '">';
+    echo '<a href="'.$current->url.'" class="'.$anchor_class.'">';
     echo $current->title;
     echo '</a>';
     if ($current->menu_item_parent == $parent->ID) {
@@ -352,7 +352,7 @@ if (!current_user_can('administrator')){
 }
 
 /*
-* Add Shortcodes
+* Add shortcodes.
 */
 
 function get_email_address(){

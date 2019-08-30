@@ -39,8 +39,116 @@ p:empty {
   display: none;
 }
 
+a {
+  transition: $transition-base;
+}
+
+.wysiwyg {
+  position: relative;
+
+  ul {
+    list-style: none;
+    padding-left: 0;
+
+    li {
+      margin-bottom: 8px;
+      padding-left: 32px;
+      position: relative;
+
+      &:before {
+        color: $primary;
+        content: '\f00c';
+        font-family: 'Font Awesome 5 Pro';
+        left: 0;
+        position: absolute;
+      }
+
+      &:last-of-type {
+        margin-bottom: 0;
+      }
+    }
+  }
+
+  > ol {
+    list-style: none;
+    padding-left: 0;
+
+    > li {
+      counter-increment: count;
+      margin-bottom: 4px;
+      position: relative;
+      padding-left: 28px;
+
+      &:before {
+        color: $primary;
+        content: counter(count) '.';
+        font-weight: bold;
+        left: 0;
+        position: absolute;
+        top: 0;
+        width: 24px;
+      }
+
+      ol {
+        list-style: none;
+        margin: 8px 0 12px;
+        padding-left: 0;
+
+        > li {
+          counter-increment: counter;
+          margin-bottom: 4px;
+          position: relative;
+          padding-left: 28px;
+
+          &:before {
+            color: $primary;
+            content: counter(counter) '.';
+            font-weight: bold;
+            left: 0;
+            position: absolute;
+            top: 0;
+            width: 24px;
+          }
+        }
+      }
+    }
+  }
+}
+
 .slick-list,
 .slick-slide,
 .slick-track {
   backface-visibility: hidden;
+}
+
+@each $label, $color in $theme-colors {
+  .btn-#{$label} {
+    transition: $transition-base;
+  }
+
+  a:hover .btn-#{$label},
+  .btn-#{$label}:hover {
+    transition: $transition-base;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  h1, .h1 {
+    font-size: 1.75rem;
+  }
+  h2, .h2 {
+    font-size: 1.5rem;
+  }
+  h3, .h3 {
+    font-size: 1.3rem;
+  }
+  h4, .h4 {
+    font-size: 1.2rem;
+  }
+  h5, .h5 {
+    font-size: 1.1rem;
+  }
+  h6, .h6 {
+    font-size: 1rem;
+  }
 }
