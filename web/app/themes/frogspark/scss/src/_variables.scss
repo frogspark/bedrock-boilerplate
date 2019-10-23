@@ -1,34 +1,18 @@
 /* Backgrounds. */
-$bg-p: (
-  "center": center,
-);
-@each $key, $value in $bg-p {
-  .bg-position-#{$key} {
-    background-position: $value;
-  }
-}
 $bg-r: (
-  "alt": 20%,
   "cinematic": 42.8571%,
   "landscape": 56.25%,
   "portrait": 125%,
   "square": 100%,
 );
 @each $key, $value in $bg-r {
-  .bg-ratio-#{$key} {
+  .bg-#{$key} {
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
     height: 0;
     padding-bottom: $value;
     width: 100%;
-  }
-}
-$bg-s: (
-  "contain": contain,
-  "cover": cover,
-);
-@each $key, $value in $bg-s {
-  .bg-size-#{$key} {
-    background-repeat: no-repeat;
-    background-size: $value;
   }
 }
 
@@ -97,7 +81,7 @@ $spacers: (
 
 /* Typography. */
 $font-family-sans-serif: '';
-$font-size-base: .9rem;
+$font-size-base: 1rem;
 $line-height-base: 1.5;
 $h1-font-size: 3.75rem;
 $h2-font-size: 2.5rem;
