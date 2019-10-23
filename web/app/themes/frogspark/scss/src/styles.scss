@@ -123,17 +123,6 @@ a {
   }
 }
 
-.slick-list,
-.slick-slide,
-.slick-track {
-  backface-visibility: hidden;
-}
-
-.slick-arrows:focus,
-.slick-dots:focus {
-  outline: none;
-}
-
 input:focus,
 select:focus
 textarea:focus,
@@ -324,10 +313,21 @@ button:focus {
   }
 }
 
+.slick-list,
+.slick-slide,
+.slick-track {
+  backface-visibility: hidden;
+}
+
+.slick-arrows:focus,
+.slick-dots:focus {
+  outline: none;
+}
+
+
 .pagination {
   display: flex;
   flex-direction: row;
-  justify-content: flex-end;
 
   span, a {
     align-items: center;
