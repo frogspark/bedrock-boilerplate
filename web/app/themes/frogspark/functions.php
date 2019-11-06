@@ -239,7 +239,7 @@ function print_multi_level_menu($menu, $parent_item_class = 'parent-item'){
   $parent = null;
   echo '<ul class="nav">';
   foreach ($menu as $current){
-    $anchor_class = 'mr-lg-10 nav-link p-0 text-primary';
+    $anchor_class = 'nav-link';
     if ($current->menu_item_parent == 0){
       if ($parent != null) {
         echo '</li>';
@@ -255,16 +255,16 @@ function print_multi_level_menu($menu, $parent_item_class = 'parent-item'){
       if (!$submenu){
         $submenu = true;
         echo '<div class="submenu">';
-        echo '<ul class="nav flex-column">';
+        echo '<ul class="flex-column nav">';
       }
     } else {
       if ($next && $next->menu_item_parent != 0) {
-        $anchor_class = 'mr-lg-10 nav-link parent p-0 text-primary ';
+        $anchor_class = 'nav-link ';
         $anchor_class .= $parent_item_class;
       }
     }
     echo '<li class="nav-item">';
-    echo '<a href="' . $current->url . '" class="' . $anchor_class . '">';
+    echo '<a href="'.$current->url.'" class="'.$anchor_class.'">';
     echo $current->title;
     echo '</a>';
     if ($current->menu_item_parent == $parent->ID) {
@@ -309,12 +309,13 @@ add_action('admin_menu', 'set_admin_menu_separator');
 if (function_exists('acf_add_options_page')) {
   /* Standard Options */
   acf_add_options_page();
+  
   /* 404 */
   $error_page = array(
-      'page_title' => '404 Page',
-      'menu_slug' => 'error_page',
-      'post_id' => 'error_page',
-      'icon_url' => 'dashicons-warning'
+    'page_title' => '404 Page',
+    'menu_slug' => 'error_page',
+    'post_id' => 'error_page',
+    'icon_url' => 'dashicons-warning'
   );
   acf_add_options_page($error_page);
 }
@@ -352,7 +353,7 @@ if (!current_user_can('administrator')){
 }
 
 /*
-* Add Shortcodes
+* Add shortcodes.
 */
 
 function get_email_address(){
@@ -403,3 +404,13 @@ function add_image_class($class){
   return $class;
 }
 add_filter('get_image_tag_class', 'add_image_class');
+
+/*
+* Hides the taxonomy description.
+*/
+
+function admin_css() {
+  echo '<style type="text/css">.term-description-wrap { display: none; }</style>';
+}
+
+add_action('admin_head', 'admin_css');
