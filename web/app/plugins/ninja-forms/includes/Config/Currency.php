@@ -41,6 +41,10 @@ return apply_filters( 'ninja_forms_currency', array(
         'label' => __( 'Mexican Pesos', 'ninja-forms' ),
         'value' => 'MXN'
     ),
+    'MYR' => array(
+        'label' => __( 'Malaysian Ringgit', 'ninja-forms' ),
+        'value' => 'MYR'
+    ),
     'NOK' => array(
         'label' => __( 'Norwegian Krone', 'ninja-forms' ),
         'value' => 'NOK'
@@ -89,4 +93,8 @@ return apply_filters( 'ninja_forms_currency', array(
         'label' => __( 'South African Rand', 'ninja-forms' ),
         'value' => 'ZAR'
     ),
+	'INR' => array(
+		'label' => __( 'Indian Rupee', 'ninja-forms' ),
+		'value' => 'INR'
+	),
 ));

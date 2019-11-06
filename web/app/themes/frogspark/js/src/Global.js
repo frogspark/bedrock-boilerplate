@@ -5,19 +5,60 @@ var _ = require('lodash');
 import slick from 'slick-carousel';
 import AOS from 'aos';
 
-$(document).ready(function(){
-  // Burger menu.
-  function openMenu(open) { $('#burger').toggleClass('open', open); $('#navigation-mobile ul').toggleClass('open', open); }
-  var open = false;
-  $('#burger').click(function() { open = !open; openMenu(open); });
+(function($) {
+  $.fn.isInViewport = function() {
+    var elementTop = $(this).offset().top;
+    var elementBottom = elementTop + $(this).outerHeight();
+    var viewportTop = $(window).scrollTop();
+    var viewportBottom = viewportTop + $(window).height();
+    return elementBottom > viewportTop && elementTop < viewportBottom;
+  };
 
-  // Active class.
-  $('header .nav [href]').each(function() { if (this.href == window.location.href) { $(this).addClass('active'); } });
+  $(document).ready(function() {
+    let header = $('header');
+    let headerHeight;
 
-  // AOS.
-  AOS.init();
-});
+    function fixHeader() {
+      headerHeight = header.outerHeight();
+      $('body').css('margin-top', headerHeight + 'px');
+    };
 
+    function resizeEvents() {
+      fixHeader();
+    };
+
+    $(function() {
+      //caches a jQuery object containing the header element
+      let header = $(".sticky-top");
+      $(window).scroll(function() {
+          let scroll = $(window).scrollTop();
+  
+          if (scroll >= 20) {
+              header.removeClass('noscroll').addClass("scroll");
+          } else {
+              header.removeClass("scroll").addClass('noscroll');
+          }
+      });
+    });
+
+    function openMenu(open) {
+      $('#navigation ul').toggleClass('open', open);
+      $('#burger').toggleClass('open', open);
+      $('html, body').toggleClass('no-scroll', open);
+    }
+
+    $(window).on('load resize', Throttle(resizeEvents, 100));
+
+    let open = false;
+    $('#burger').click(function() {
+      open = !open;
+      openMenu(open);
+    });
+
+    AOS.init();
+
+  });
+})($);
 
 // Google Maps.
 (function($) {

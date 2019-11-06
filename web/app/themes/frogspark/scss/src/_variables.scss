@@ -10,9 +10,41 @@ $bg-r: (
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
+  }
+
+  .bg-r-#{$key} {
     height: 0;
     padding-bottom: $value;
     width: 100%;
+  }
+}
+
+$bg-p: ( 
+  "bottom": bottom,
+  "center": center,
+  "left": left,
+  "left-bottom": left bottom,
+  "left-center": left center,
+  "left-top": left top,
+  "right": right,
+  "right-bottom": right bottom,
+  "right-center": right center, 
+  "right-top": right top,
+  "top": top
+);
+@each $key, $value in $bg-p {
+  .bg-p-#{$key} {
+    background-position: $value;
+  }
+}
+$bg-s: (
+  "contain": contain,
+  "cover": cover,
+);
+@each $key, $value in $bg-s {
+  .bg-s-#{$key} {
+    background-repeat: no-repeat;
+    background-size: $value;
   }
 }
 
@@ -30,7 +62,7 @@ $container-max-widths: (
   md: 720px,
   lg: 960px,
   xl: 1140px,
-  xxl: 1380px
+  xxl: 1300px
 );
 
 /* Colours. */
@@ -41,6 +73,7 @@ $quaternary: #000000;
 $quinary: #000000;
 $senary: #000000;
 $septenary: #000000;
+
 $theme-colors: (
   "primary": $primary,
   "secondary": $secondary,
@@ -81,7 +114,7 @@ $spacers: (
 
 /* Typography. */
 $font-family-sans-serif: '';
-$font-size-base: 1rem;
+$font-size-base: .9rem;
 $line-height-base: 1.5;
 $h1-font-size: 3.75rem;
 $h2-font-size: 2.5rem;
@@ -99,3 +132,5 @@ $link-color: $secondary;
 $link-decoration: none;
 $link-hover-color: darken($link-color, 15%);
 $link-hover-decoration: none;
+$border-rad-global: 30px 0 30px 0;
+$box-shad-global: 5px 5px 20px rgba(0, 0, 0, 0.5);
