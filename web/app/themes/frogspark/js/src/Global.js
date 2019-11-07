@@ -15,6 +15,8 @@ import AOS from 'aos';
   };
 
   $(document).ready(function() {
+    document.documentElement.setAttribute('data-browser', navigator.userAgent); // adding the user agent to the html element of the page
+
     let header = $('header');
     let headerHeight;
 
