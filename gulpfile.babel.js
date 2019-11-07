@@ -1,4 +1,3 @@
-import gulp from 'gulp';
 import sass from 'gulp-sass';
 import concat from 'gulp-concat';
 import sourcemaps from 'gulp-sourcemaps';
@@ -8,11 +7,14 @@ import rename from 'gulp-rename';
 import cleanCSS from 'gulp-clean-css';
 import babel from 'gulp-babel';
 import gulpif from 'gulp-if';
-import browserify from 'gulp-browserify';
+// import browserify from 'gulp-browserify';
+import browserify from 'gulp-bro';
 import autoprefix from 'gulp-autoprefixer';
 import browserSync from 'browser-sync';
 import plumber from 'gulp-plumber';
+import gulp from 'gulp';
 
+const {series} = require('gulp');
 browserSync.create();
 
 const autoprefixerOptions = {
@@ -20,10 +22,10 @@ const autoprefixerOptions = {
 };
 
 const ENVIRONMENT = process.env.NODE_ENV || 'production';
-const projectURL = 'http://head-high:4234';
+const projectURL = '';
 const themeURL = 'web/app/themes/frogspark/';
 
-gulp.task('js', () => {
+function js() {
   return gulp.src(`${themeURL}js/src/*.js`)
     .pipe(browserify({
       insertGlobals: true,
@@ -35,9 +37,8 @@ gulp.task('js', () => {
     .pipe(gulpif(!ENVIRONMENT, uglify()))
     .pipe(rename('bundle.min.js'))
     .pipe(gulp.dest(`${themeURL}js/dist`));
-});
-
-gulp.task('sass', () => {
+}
+function sassfn() {
   const onError = (err) => {
     notify({
       title: 'Gulp Task Error',
@@ -57,32 +58,27 @@ gulp.task('sass', () => {
     .pipe(rename('bundle.min.css'))
     .pipe(gulp.dest(`${themeURL}scss/dist`))
     .pipe(browserSync.stream());
-});
+}
 
-gulp.task('font', () => {
+function font() {
   return gulp.src('node_modules/@fortawesome/fontawesome-pro/webfonts/*')
     .pipe(gulp.dest(`${themeURL}scss/webfonts`));
-});
+}
 
-gulp.task('browserSync', () => {
+function browsersync() {
   browserSync.init({
     proxy: projectURL,
   });
-});
 
-gulp.task('sass:watch', () => {
-  gulp.watch(`${themeURL}scss/src/**/*.scss`, ['sass']);
+  gulp.watch(`${themeURL}scss/src/**/*.scss`, sassfn);
   gulp.watch(`${themeURL}**/*.php`).on('change', browserSync.reload);
-});
-
-gulp.task('js:watch', () => {
-  gulp.watch(`${themeURL}js/src/*.js`, ['js']);
+  gulp.watch(`${themeURL}js/src/*.js`, js);
   gulp.watch(`${themeURL}**/*.php`).on('change', browserSync.reload);
   gulp.watch(`${themeURL}**/*.js`).on('change', browserSync.reload);
-});
+}
 
-gulp.task('development', ['font', 'browserSync', 'sass:watch', 'js:watch']);
+const development = series(font, sassfn, js, browsersync);
+const production = series(font, sassfn, js);
 
-gulp.task('production', ['font', 'sass', 'js']);
-
-gulp.task('default', ['development']);
+exports.production = production;
+exports.default = development;
