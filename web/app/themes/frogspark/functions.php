@@ -413,4 +413,18 @@ function admin_css() {
   echo '<style type="text/css">.term-description-wrap { display: none; }</style>';
 }
 
+/*
+* Auto-closes all flexible content fields.
+*/
+
 add_action('admin_head', 'admin_css');
+function my_acf_admin_head() {
+  echo '<script type="text/javascript">';
+    echo '(function($){';
+      echo '$(document).ready(function(){';
+        echo '$(".layout").addClass("-collapsed");';
+      echo '});';
+    echo '})(jQuery);';
+  echo '</script>';
+}
+add_action('acf/input/admin_head', 'my_acf_admin_head');
