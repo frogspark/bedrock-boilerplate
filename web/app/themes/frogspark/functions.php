@@ -419,12 +419,34 @@ function admin_css() {
 
 add_action('admin_head', 'admin_css');
 function my_acf_admin_head() {
-  echo '<script type="text/javascript">';
-    echo '(function($){';
-      echo '$(document).ready(function(){';
-        echo '$(".layout").addClass("-collapsed");';
-      echo '});';
-    echo '})(jQuery);';
-  echo '</script>';
+  echo '<script type="text/javascript"> (function($){ $(document).ready(function(){ $(".layout").addClass("-collapsed"); }); })(jQuery); </script>';
 }
 add_action('acf/input/admin_head', 'my_acf_admin_head');
+
+/*
+* Adjusting the WordPress footer.
+*/
+
+function remove_footer_admin() {
+  echo 'Website by <a href="https://frogspark.co.uk" target="_blank">Frogspark</a>';
+}   
+add_filter('admin_footer_text', 'remove_footer_admin');
+
+/*
+* Disables RSS feeds site-wide.
+*/
+
+function rss_disable_feed() {
+  wp_die( __('No RSS feed is available. Please visit our <a href="'. get_bloginfo('url') .'">homepage</a>') );
+}   
+add_action('do_feed', 'rss_disable_feed', 1);
+add_action('do_feed_rdf', 'rss_disable_feed', 1);
+add_action('do_feed_rss', 'rss_disable_feed', 1);
+add_action('do_feed_rss2', 'rss_disable_feed', 1);
+add_action('do_feed_atom', 'rss_disable_feed', 1);
+
+/*
+* Removes the "Welcome" panel.
+*/
+
+remove_action('welcome_panel', 'wp_welcome_panel');
