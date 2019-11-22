@@ -1,38 +1,26 @@
-import gulp from 'gulp';
-import sass from 'gulp-sass';
-import concat from 'gulp-concat';
-import sourcemaps from 'gulp-sourcemaps';
-import uglify from 'gulp-uglify';
-import notify from 'gulp-notify';
-import rename from 'gulp-rename';
-import cleanCSS from 'gulp-clean-css';
-import babel from 'gulp-babel';
-import gulpif from 'gulp-if';
-import browserify from 'gulp-browserify';
-import autoprefix from 'gulp-autoprefixer';
-import browserSync from 'browser-sync';
-import plumber from 'gulp-plumber';
+var gulp = require('gulp');
+var sass = require('gulp-sass');
+var concat = require('gulp-concat');
+var sourcemaps = require('gulp-sourcemaps');
+var uglify = require('gulp-uglify');
+var notify = require('gulp-notify');
+var rename = require('gulp-rename');
+var cleanCSS = require('gulp-clean-css');
+var autoprefix = require('gulp-autoprefixer');
+var browserSync = require('browser-sync');
+var plumber = require('gulp-plumber');
 
 browserSync.create();
 
-const autoprefixerOptions = {
-  browsers: ['last 2 versions', '> 5%', 'Firefox ESR'],
-};
-
-const ENVIRONMENT = process.env.NODE_ENV || 'production';
-const projectURL = 'http://head-high:4234';
+const projectURL = 'http://valet.test';
 const themeURL = 'web/app/themes/frogspark/';
 
 gulp.task('js', () => {
   return gulp.src(`${themeURL}js/src/*.js`)
-    .pipe(browserify({
-      insertGlobals: true,
-    }))
     .pipe(concat('bundle.min.js'))
-    .pipe(gulpif(ENVIRONMENT, sourcemaps.init()))
-    .pipe(babel())
-    .pipe(gulpif(ENVIRONMENT, sourcemaps.write()))
-    .pipe(gulpif(!ENVIRONMENT, uglify()))
+    .pipe(sourcemaps.init())
+    .pipe(sourcemaps.write())
+    .pipe(uglify())
     .pipe(rename('bundle.min.js'))
     .pipe(gulp.dest(`${themeURL}js/dist`));
 });
@@ -48,11 +36,10 @@ gulp.task('sass', () => {
 
   return gulp.src(`${themeURL}scss/src/styles.scss`)
     .pipe(concat('bundle.min.scss'))
-    .pipe(gulpif(ENVIRONMENT, sourcemaps.init()))
+    .pipe(sourcemaps.init())
     .pipe(plumber({ errorHandler: onError }))
     .pipe(sass())
-    .pipe(gulpif(ENVIRONMENT, sourcemaps.write()))
-    .pipe(autoprefix(autoprefixerOptions))
+    .pipe(sourcemaps.write())
     .pipe(cleanCSS())
     .pipe(rename('bundle.min.css'))
     .pipe(gulp.dest(`${themeURL}scss/dist`))
