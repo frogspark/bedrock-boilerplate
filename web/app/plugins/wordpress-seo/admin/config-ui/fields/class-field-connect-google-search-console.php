@@ -6,10 +6,9 @@
  */
 
 /**
- * Class WPSEO_Config_Field_Connect_Google_Search_Console.
+ * Class WPSEO_Config_Field_Connect_Google_Search_Console
  */
 class WPSEO_Config_Field_Connect_Google_Search_Console extends WPSEO_Config_Field {
-
 	/**
 	 * WPSEO_Config_Field_Connect_Google_Search_Console constructor.
 	 */
@@ -18,7 +17,7 @@ class WPSEO_Config_Field_Connect_Google_Search_Console extends WPSEO_Config_Fiel
 	}
 
 	/**
-	 * Get the data.
+	 * Get the data
 	 *
 	 * @return array
 	 */

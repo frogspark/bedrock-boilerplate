@@ -10,53 +10,19 @@
  */
 class WPSEO_Admin_Asset {
 
-	/**
-	 * @var string
-	 */
 	const TYPE_JS = 'js';
-
-	/**
-	 * @var string
-	 */
 	const TYPE_CSS = 'css';
 
-	/**
-	 * @var string
-	 */
 	const NAME = 'name';
-
-	/**
-	 * @var string
-	 */
 	const SRC = 'src';
-
-	/**
-	 * @var string
-	 */
 	const DEPS = 'deps';
-
-	/**
-	 * @var string
-	 */
 	const VERSION = 'version';
 
-	/* Style specific. */
-
-	/**
-	 * @var string
-	 */
+	// Style specific.
 	const MEDIA = 'media';
-
-	/**
-	 * @var string
-	 */
 	const RTL = 'rtl';
 
-	/* Script specific. */
-
-	/**
-	 * @var string
-	 */
+	// Script specific.
 	const IN_FOOTER = 'in_footer';
 
 	/**
@@ -100,20 +66,6 @@ class WPSEO_Admin_Asset {
 	protected $suffix;
 
 	/**
-	 * Default asset arguments.
-	 *
-	 * @var array
-	 */
-	private $defaults = array(
-		'deps'      => array(),
-		'version'   => WPSEO_VERSION,
-		'in_footer' => true,
-		'rtl'       => true,
-		'media'     => 'all',
-		'suffix'    => WPSEO_CSSJS_SUFFIX,
-	);
-
-	/**
 	 * @param array $args The arguments for this asset.
 	 *
 	 * @throws InvalidArgumentException Throws when no name or src has been provided.
@@ -127,7 +79,14 @@ class WPSEO_Admin_Asset {
 			throw new InvalidArgumentException( 'src is a required argument' );
 		}
 
-		$args = array_merge( $this->defaults, $args );
+		$args = array_merge( array(
+			'deps'      => array(),
+			'version'   => WPSEO_VERSION,
+			'in_footer' => true,
+			'rtl'       => true,
+			'media'     => 'all',
+			'suffix'    => WPSEO_CSSJS_SUFFIX,
+		), $args );
 
 		$this->name      = $args['name'];
 		$this->src       = $args['src'];
@@ -197,9 +156,6 @@ class WPSEO_Admin_Asset {
 
 	/**
 	 * Returns the full URL for this asset based on the path to the plugin file.
-	 *
-	 * @deprecated 6.2
-	 * @codeCoverageIgnore
 	 *
 	 * @param string $type        Type of asset.
 	 * @param string $plugin_file Absolute path to the plugin file.

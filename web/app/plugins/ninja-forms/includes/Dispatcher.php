@@ -35,8 +35,6 @@ final class NF_Dispatcher
      * 
      * @since  3.2
      * @return void
-     * 
-     * @updated 3.3.17
      */
     public function update_environment_vars() {
         global $wpdb;
@@ -65,13 +63,7 @@ final class NF_Dispatcher
             $ip_address = $_SERVER[ 'LOCAL_ADDR' ];
         }
 
-        // If we have a valid IP Address...
-        if ( filter_var( $ip_address, FILTER_VALIDATE_IP ) ) {
-            // Get the hostname.
-            $host_name = gethostbyaddr( $ip_address );
-        } else {
-            $host_name = 'unknown';
-        }
+        $host_name = gethostbyaddr( $ip_address );
 
         if ( is_multisite() ) {
             $multisite_enabled = 1;
@@ -81,7 +73,6 @@ final class NF_Dispatcher
 
         $environment = array(
             'nf_version'                => Ninja_Forms::VERSION,
-            'nf_db_version'             => get_option( 'ninja_forms_db_version', '1.0' ),
             'wp_version'                => get_bloginfo('version'),
             'multisite_enabled'         => $multisite_enabled,
             'server_type'               => $_SERVER['SERVER_SOFTWARE'],

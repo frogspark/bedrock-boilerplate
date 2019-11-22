@@ -10,39 +10,19 @@
  */
 class WPSEO_Sitemap_Image_Parser {
 
-	/**
-	 * Holds the home_url() value to speed up loops.
-	 *
-	 * @var string
-	 */
+	/** @var string $home_url Holds the home_url() value to speed up loops. */
 	protected $home_url = '';
 
-	/**
-	 * Holds site URL hostname.
-	 *
-	 * @var string
-	 */
+	/** @var string $host Holds site URL hostname. */
 	protected $host = '';
 
-	/**
-	 * Holds site URL protocol.
-	 *
-	 * @var string
-	 */
+	/** @var string $scheme Holds site URL protocol. */
 	protected $scheme = 'http';
 
-	/**
-	 * Cached set of attachments for multiple posts.
-	 *
-	 * @var array
-	 */
+	/** @var array $attachments Cached set of attachments for multiple posts. */
 	protected $attachments = array();
 
-	/**
-	 * Holds blog charset value for use in DOM parsing.
-	 *
-	 * @var string
-	 */
+	/** @var string $charset Holds blog charset value for use in DOM parsing.  */
 	protected $charset = 'UTF-8';
 
 	/**
@@ -230,7 +210,7 @@ class WPSEO_Sitemap_Image_Parser {
 	 * Parse gallery shortcodes in a given content.
 	 *
 	 * @param string $content Content string.
-	 * @param int    $post_id Optional. ID of post being parsed.
+	 * @param int    $post_id Optional ID of post being parsed.
 	 *
 	 * @return array Set of attachment objects.
 	 */
@@ -259,7 +239,7 @@ class WPSEO_Sitemap_Image_Parser {
 		}
 
 		if ( PHP_VERSION_ID >= 50209 ) {
-			// phpcs:ignore PHPCompatibility.FunctionUse.NewFunctionParameters.array_unique_sort_flagsFound -- Wrapped in version check.
+			// phpcs:ignore PHPCompatibility.PHP.NewFunctionParameters.array_unique_sort_flagsFound -- Wrapped in version check.
 			return array_unique( $attachments, SORT_REGULAR );
 		}
 
@@ -413,7 +393,7 @@ class WPSEO_Sitemap_Image_Parser {
 		}
 
 		if ( strpos( $src, 'http' ) !== 0 ) {
-			// Protocol relative URL, we add the scheme as the standard requires a protocol.
+			// Protocol relative url, we add the scheme as the standard requires a protocol.
 			return $this->scheme . ':' . $src;
 		}
 
@@ -423,7 +403,7 @@ class WPSEO_Sitemap_Image_Parser {
 	/**
 	 * Returns the attachments for a gallery.
 	 *
-	 * @param int   $id      The post ID.
+	 * @param int   $id      The post id.
 	 * @param array $gallery The gallery config.
 	 *
 	 * @return array The selected attachments.
@@ -444,9 +424,9 @@ class WPSEO_Sitemap_Image_Parser {
 	}
 
 	/**
-	 * Returns the attachments for the given ID.
+	 * Returns the attachments for the given id.
 	 *
-	 * @param int   $id      The post ID.
+	 * @param int   $id      The post id.
 	 * @param array $gallery The gallery config.
 	 *
 	 * @return array The selected attachments.
@@ -466,9 +446,9 @@ class WPSEO_Sitemap_Image_Parser {
 	}
 
 	/**
-	 * Returns an array with attachments for the post IDs that will be included.
+	 * Returns an array with attachments for the post ids that will be included.
 	 *
-	 * @param array $include Array with IDs to include.
+	 * @param array $include Array with ids to include.
 	 *
 	 * @return array The found attachments.
 	 */

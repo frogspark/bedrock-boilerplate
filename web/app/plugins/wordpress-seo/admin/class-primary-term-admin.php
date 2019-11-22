@@ -6,16 +6,14 @@
  */
 
 /**
- * Adds the UI to change the primary term for a post.
+ * Adds the UI to change the primary term for a post
  */
-class WPSEO_Primary_Term_Admin implements WPSEO_WordPress_Integration {
+class WPSEO_Primary_Term_Admin {
 
 	/**
 	 * Constructor.
 	 */
-	public function register_hooks() {
-		add_filter( 'wpseo_content_meta_section_content', array( $this, 'add_input_fields' ) );
-
+	public function __construct() {
 		add_action( 'admin_footer', array( $this, 'wp_footer' ), 10 );
 
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_assets' ) );
@@ -27,7 +25,7 @@ class WPSEO_Primary_Term_Admin implements WPSEO_WordPress_Integration {
 	}
 
 	/**
-	 * Gets the current post ID.
+	 * Get the current post ID.
 	 *
 	 * @return integer The post ID.
 	 */
@@ -41,62 +39,7 @@ class WPSEO_Primary_Term_Admin implements WPSEO_WordPress_Integration {
 	}
 
 	/**
-	 * Adds hidden fields for primary taxonomies.
-	 *
-	 * @param string $content The metabox content.
-	 *
-	 * @return string The HTML content.
-	 */
-	public function add_input_fields( $content ) {
-		$taxonomies = $this->get_primary_term_taxonomies();
-
-		foreach ( $taxonomies as $taxonomy ) {
-			$content .= $this->primary_term_field( $taxonomy->name );
-			$content .= wp_nonce_field( 'save-primary-term', WPSEO_Meta::$form_prefix . 'primary_' . $taxonomy->name . '_nonce', false, false );
-		}
-		return $content;
-	}
-
-	/**
-	 * Generates the HTML for a hidden field for a primary taxonomy.
-	 *
-	 * @param string $taxonomy_name The taxonomy's slug.
-	 *
-	 * @return string The HTML for a hidden primary taxonomy field.
-	 */
-	protected function primary_term_field( $taxonomy_name ) {
-		return sprintf(
-			'<input class="yoast-wpseo-primary-term" type="hidden" id="%1$s" name="%2$s" value="%3$s" />',
-			esc_attr( $this->generate_field_id( $taxonomy_name ) ),
-			esc_attr( $this->generate_field_name( $taxonomy_name ) ),
-			esc_attr( $this->get_primary_term( $taxonomy_name ) )
-		);
-	}
-
-	/**
-	 * Generates an id for a primary taxonomy's hidden field.
-	 *
-	 * @param string $taxonomy_name The taxonomy's slug.
-	 *
-	 * @return string The field id.
-	 */
-	protected function generate_field_id( $taxonomy_name ) {
-		return 'yoast-wpseo-primary-' . $taxonomy_name;
-	}
-
-	/**
-	 * Generates a name for a primary taxonomy's hidden field.
-	 *
-	 * @param string $taxonomy_name The taxonomy's slug.
-	 *
-	 * @return string The field id.
-	 */
-	protected function generate_field_name( $taxonomy_name ) {
-		return WPSEO_Meta::$form_prefix . 'primary_' . $taxonomy_name . '_term';
-	}
-
-	/**
-	 * Adds primary term templates.
+	 * Add primary term templates
 	 */
 	public function wp_footer() {
 		$taxonomies = $this->get_primary_term_taxonomies();
@@ -107,7 +50,7 @@ class WPSEO_Primary_Term_Admin implements WPSEO_WordPress_Integration {
 	}
 
 	/**
-	 * Enqueues all the assets needed for the primary term interface.
+	 * Enqueues all the assets needed for the primary term interface
 	 *
 	 * @return void
 	 */
@@ -129,16 +72,16 @@ class WPSEO_Primary_Term_Admin implements WPSEO_WordPress_Integration {
 		$asset_manager->enqueue_style( 'primary-category' );
 		$asset_manager->enqueue_script( 'primary-category' );
 
-		$mapped_taxonomies = $this->get_mapped_taxonomies_for_js( $taxonomies );
+		$taxonomies = array_map( array( $this, 'map_taxonomies_for_js' ), $taxonomies );
 
 		$data = array(
-			'taxonomies' => $mapped_taxonomies,
+			'taxonomies' => $taxonomies,
 		);
 		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'primary-category', 'wpseoPrimaryCategoryL10n', $data );
 	}
 
 	/**
-	 * Saves all selected primary terms.
+	 * Saves all selected primary terms
 	 *
 	 * @param int $post_id Post ID to save primary terms for.
 	 */
@@ -156,7 +99,8 @@ class WPSEO_Primary_Term_Admin implements WPSEO_WordPress_Integration {
 	}
 
 	/**
-	 * Gets the id of the primary term.
+	 * /**
+	 * Get the id of the primary term
 	 *
 	 * @param string $taxonomy_name Taxonomy name for the term.
 	 *
@@ -169,12 +113,13 @@ class WPSEO_Primary_Term_Admin implements WPSEO_WordPress_Integration {
 	}
 
 	/**
-	 * Returns all the taxonomies for which the primary term selection is enabled.
+	 * Returns all the taxonomies for which the primary term selection is enabled
 	 *
 	 * @param int $post_id Default current post ID.
 	 * @return array
 	 */
 	protected function get_primary_term_taxonomies( $post_id = null ) {
+
 		if ( null === $post_id ) {
 			$post_id = $this->get_current_id();
 		}
@@ -192,14 +137,14 @@ class WPSEO_Primary_Term_Admin implements WPSEO_WordPress_Integration {
 	}
 
 	/**
-	 * Includes templates file.
+	 * Include templates file
 	 */
 	protected function include_js_templates() {
 		include_once WPSEO_PATH . 'admin/views/js-templates-primary-term.php';
 	}
 
 	/**
-	 * Saves the primary term for a specific taxonomy.
+	 * Save the primary term for a specific taxonomy
 	 *
 	 * @param int     $post_id  Post ID to save primary term for.
 	 * @param WP_Term $taxonomy Taxonomy to save primary term for.
@@ -215,7 +160,7 @@ class WPSEO_Primary_Term_Admin implements WPSEO_WordPress_Integration {
 	}
 
 	/**
-	 * Generates the primary term taxonomies.
+	 * Generate the primary term taxonomies.
 	 *
 	 * @param int $post_id ID of the post.
 	 *
@@ -241,22 +186,11 @@ class WPSEO_Primary_Term_Admin implements WPSEO_WordPress_Integration {
 	}
 
 	/**
-	 * Creates a map of taxonomies for localization.
-	 *
-	 * @param array $taxonomies The taxononmies that should be mapped.
-	 *
-	 * @return array The mapped taxonomies.
-	 */
-	protected function get_mapped_taxonomies_for_js( $taxonomies ) {
-		return array_map( array( $this, 'map_taxonomies_for_js' ), $taxonomies );
-	}
-
-	/**
-	 * Returns an array suitable for use in the javascript.
+	 * Returns an array suitable for use in the javascript
 	 *
 	 * @param stdClass $taxonomy The taxonomy to map.
 	 *
-	 * @return array The mapped taxonomy.
+	 * @return array
 	 */
 	private function map_taxonomies_for_js( $taxonomy ) {
 		$primary_term = $this->get_primary_term( $taxonomy->name );
@@ -265,25 +199,20 @@ class WPSEO_Primary_Term_Admin implements WPSEO_WordPress_Integration {
 			$primary_term = '';
 		}
 
-		$terms = get_terms( $taxonomy->name );
-
 		return array(
-			'title'         => $taxonomy->labels->singular_name,
-			'name'          => $taxonomy->name,
-			'primary'       => $primary_term,
-			'singularLabel' => $taxonomy->labels->singular_name,
-			'fieldId'       => $this->generate_field_id( $taxonomy->name ),
-			'restBase'      => ( $taxonomy->rest_base ) ? $taxonomy->rest_base : $taxonomy->name,
-			'terms'         => array_map( array( $this, 'map_terms_for_js' ), $terms ),
+			'title'   => $taxonomy->labels->singular_name,
+			'name'    => $taxonomy->name,
+			'primary' => $primary_term,
+			'terms'   => array_map( array( $this, 'map_terms_for_js' ), get_terms( $taxonomy->name ) ),
 		);
 	}
 
 	/**
-	 * Returns an array suitable for use in the javascript.
+	 * Returns an array suitable for use in the javascript
 	 *
 	 * @param stdClass $term The term to map.
 	 *
-	 * @return array The mapped terms.
+	 * @return array
 	 */
 	private function map_terms_for_js( $term ) {
 		return array(
@@ -293,7 +222,7 @@ class WPSEO_Primary_Term_Admin implements WPSEO_WordPress_Integration {
 	}
 
 	/**
-	 * Returns whether or not a taxonomy is hierarchical.
+	 * Returns whether or not a taxonomy is hierarchical
 	 *
 	 * @param stdClass $taxonomy Taxonomy object.
 	 *

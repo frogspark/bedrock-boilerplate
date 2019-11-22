@@ -6,22 +6,14 @@
  */
 
 /**
- * Sitemap Cache Data object, manages sitemap data stored in cache.
+ * Sitemap Cache Data object, manages sitemap data stored in cache
  */
 class WPSEO_Sitemap_Cache_Data implements WPSEO_Sitemap_Cache_Data_Interface, Serializable {
 
-	/**
-	 * Sitemap XML data.
-	 *
-	 * @var string
-	 */
+	/** @var string Sitemap XML data. */
 	private $sitemap = '';
 
-	/**
-	 * Status of the sitemap, usable or not.
-	 *
-	 * @var string
-	 */
+	/** @var string Status of the sitemap, usable or not. */
 	private $status = self::UNKNOWN;
 
 	/**
@@ -37,7 +29,7 @@ class WPSEO_Sitemap_Cache_Data implements WPSEO_Sitemap_Cache_Data_Interface, Se
 
 		$this->sitemap = $sitemap;
 
-		/*
+		/**
 		 * Empty sitemap is not usable.
 		 */
 		if ( ! empty( $sitemap ) ) {
@@ -96,7 +88,7 @@ class WPSEO_Sitemap_Cache_Data implements WPSEO_Sitemap_Cache_Data_Interface, Se
 	/**
 	 * Get the status of the sitemap.
 	 *
-	 * @return string Status of the sitemap, 'ok'/'error'/'unknown'.
+	 * @return string Status of the sitemap, 'ok'/'error'/'unknown'
 	 */
 	public function get_status() {
 
@@ -104,13 +96,11 @@ class WPSEO_Sitemap_Cache_Data implements WPSEO_Sitemap_Cache_Data_Interface, Se
 	}
 
 	/**
-	 * String representation of object.
+	 * String representation of object
 	 *
-	 * @link http://php.net/manual/en/serializable.serialize.php
-	 *
+	 * @link  http://php.net/manual/en/serializable.serialize.php
+	 * @return string the string representation of the object or null
 	 * @since 5.1.0
-	 *
-	 * @return string The string representation of the object or null.
 	 */
 	public function serialize() {
 
@@ -123,15 +113,14 @@ class WPSEO_Sitemap_Cache_Data implements WPSEO_Sitemap_Cache_Data_Interface, Se
 	}
 
 	/**
-	 * Constructs the object.
+	 * Constructs the object
 	 *
-	 * @link http://php.net/manual/en/serializable.unserialize.php
-	 *
-	 * @since 5.1.0
+	 * @link  http://php.net/manual/en/serializable.unserialize.php
 	 *
 	 * @param string $serialized The string representation of the object.
 	 *
 	 * @return void
+	 * @since 5.1.0
 	 */
 	public function unserialize( $serialized ) {
 

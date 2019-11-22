@@ -6,33 +6,12 @@
  * @subpackage Listings
  * @author WebDevStudios
  * @since 1.1.0
- * @license GPL-2.0+
  */
 
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
-
-/**
- * Enqueue our Custom Post Type UI assets.
- *
- * @since 1.6.0
- */
-function cptui_listings_assets() {
-	$current_screen = get_current_screen();
-
-	if ( ! is_object( $current_screen ) || 'cpt-ui_page_cptui_listings' !== $current_screen->base ) {
-		return;
-	}
-
-	if ( wp_doing_ajax() ) {
-		return;
-	}
-
-	wp_enqueue_style( 'cptui-css' );
-}
-add_action( 'admin_enqueue_scripts', 'cptui_listings_assets' );
 
 /**
  * Output the content for the "Registered Types/Taxes" page.
@@ -59,14 +38,7 @@ function cptui_listings() {
 			echo '<h2 id="post-types">' . esc_html__( 'Post Types', 'custom-post-type-ui' ) . '</h2>';
 			if ( ! empty( $post_types ) ) {
 			?>
-			<p><?php
-			printf(
-				/* translators: %s: Total count of registered CPTUI post types */
-				esc_html__( 'Custom Post Type UI registered post types count total: %d', 'custom-post-type-ui' ),
-				count( $post_types )
-			);
-			?>
-			</p>
+			<p><?php printf( esc_html__( 'CPTUI registered post types count total: %d', 'custom-post-type-ui' ), count( $post_types ) ); ?></p>
 
 			<?php
 
@@ -141,7 +113,6 @@ function cptui_listings() {
 									<a href="%s">%s</a><br/>',
 									esc_attr( $post_type_link_url ),
 									sprintf(
-										/* translators: %s: Post type slug */
 										esc_html__( 'Edit %s', 'custom-post-type-ui' ),
 										esc_html( $post_type )
 									),
@@ -158,7 +129,7 @@ function cptui_listings() {
 								<?php
 								foreach ( $strings as $key => $value ) {
 									printf( '<strong>%s:</strong> ', esc_html( $key ) );
-									if ( in_array( $value, array( '1', '0' ), true ) ) {
+									if ( in_array( $value, array( '1', '0' ) ) ) {
 										echo esc_html( disp_boolean( $value ) );
 									} else {
 										echo ( ! empty( $value ) ) ? esc_html( $value ) : '""';
@@ -216,10 +187,10 @@ function cptui_listings() {
 								</p>
 
 								<p><strong><?php esc_html_e( 'Single Posts file name examples.', 'custom-post-type-ui' ); ?></strong><br/>
-								single-<?php echo esc_html( $post_type ); ?>-post_slug.php *<br/>
+								single-<?php echo esc_html( $post_type ); ?>-post_slug.php (WP 4.4+) *<br/>
 								single-<?php echo esc_html( $post_type ); ?>.php<br/>
 								single.php<br/>
-								singular.php<br/>
+								singular.php (WP 4.3+)<br/>
 								index.php
 								</p>
 
@@ -271,15 +242,7 @@ function cptui_listings() {
 			echo '<h2 id="taxonomies">' . esc_html__( 'Taxonomies', 'custom-post-type-ui' ) . '</h2>';
 			if ( ! empty( $taxonomies ) ) {
 				?>
-				<p>
-				<?php
-				printf(
-					/* translators: %s: Total count of CPTUI registered taxonomies */
-					esc_html__( 'Custom Post Type UI registered taxonomies count total: %d', 'custom-post-type-ui' ),
-					count( $taxonomies )
-				);
-				?>
-				</p>
+				<p><?php printf( esc_html__( 'CPTUI registered taxonomies count total: %d', 'custom-post-type-ui' ), count( $taxonomies ) ); ?></p>
 
 				<?php
 
@@ -346,7 +309,6 @@ function cptui_listings() {
 										<a href="%s">%s</a>',
 										esc_attr( $taxonomy_link_url ),
 										sprintf(
-											/* translators: %s: Taxonomy slug */
 											esc_html__( 'Edit %s', 'custom-post-type-ui' ),
 											esc_html( $taxonomy )
 										),
@@ -358,7 +320,7 @@ function cptui_listings() {
 									<?php
 									foreach ( $strings as $key => $value ) {
 										printf( '<strong>%s:</strong> ', esc_html( $key ) );
-										if ( in_array( $value, array( '1', '0' ), true ) ) {
+										if ( in_array( $value, array( '1', '0' ) ) ) {
 											echo esc_html( disp_boolean( $value ) );
 										} else {
 											echo ( ! empty( $value ) ) ? esc_html( $value ) : '""';
@@ -460,9 +422,7 @@ function cptui_listings() {
  * @internal
  */
 function cptui_no_post_types_to_list() {
-	echo '<p>' . sprintf(
-		/* translators: 1st %s: Link to manage post types section 2nd %s Link text */
-		esc_html__( 'No post types registered for display. Visit %s to get started.', 'custom-post-type-ui' ),
+	echo '<p>' . sprintf( esc_html__( 'No post types registered for display. Visit %s to get started.', 'custom-post-type-ui' ),
 		sprintf( '<a href="%s">%s</a>',
 			esc_attr( admin_url( 'admin.php?page=cptui_manage_post_types' ) ),
 			esc_html__( 'Add/Edit Post Types', 'custom-post-type-ui' )
@@ -481,9 +441,7 @@ add_action( 'cptui_no_post_types_listing', 'cptui_no_post_types_to_list' );
  * @internal
  */
 function cptui_no_taxonomies_to_list() {
-	echo '<p>' . sprintf(
-		/* translators: %s: Link to manage taxonomies section */
-		esc_html__( 'No taxonomies registered for display. Visit %s to get started.', 'custom-post-type-ui' ),
+	echo '<p>' . sprintf( esc_html__( 'No taxonomies registered for display. Visit %s to get started.', 'custom-post-type-ui' ),
 		sprintf( '<a href="%s">%s</a>',
 			esc_attr( admin_url( 'admin.php?page=cptui_manage_taxonomies' ) ),
 			esc_html__( 'Add/Edit Taxonomies', 'custom-post-type-ui' )

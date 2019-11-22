@@ -6,12 +6,11 @@
  */
 
 /**
- * Class WPSEO_Import_HeadSpace.
+ * Class WPSEO_Import_HeadSpace
  *
  * Class with functionality to import & clean HeadSpace SEO post metadata.
  */
 class WPSEO_Import_HeadSpace extends WPSEO_Plugin_Importer {
-
 	/**
 	 * The plugin name.
 	 *

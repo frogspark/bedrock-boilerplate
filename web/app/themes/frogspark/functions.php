@@ -16,8 +16,8 @@ if (! function_exists('bootstrap_four_widgets_init')):
         'id' => 'footer_column_one',
         'before_widget' => '<aside id="%1$s" class="widget %2$s">',
         'after_widget' => '</aside>',
-        'before_title' => '<h3 class="footer-nav-title">',
-        'after_title' => '</h3>',
+        'before_title' => '<h5>',
+        'after_title' => '</h5>',
       )
     );
     register_sidebar(
@@ -26,8 +26,8 @@ if (! function_exists('bootstrap_four_widgets_init')):
         'id' => 'footer_column_two',
         'before_widget' => '<aside id="%1$s" class="widget %2$s">',
         'after_widget' => '</aside>',
-        'before_title' => '<h3 class="footer-nav-title">',
-        'after_title' => '</h3>',
+        'before_title' => '<h5>',
+        'after_title' => '</h5>',
       )
     );
     register_sidebar(
@@ -111,9 +111,9 @@ function bootstrap_four_nav_li_class($classes, $item){
 add_filter('nav_menu_css_class', 'bootstrap_four_nav_li_class', 10, 2);
 
 function bootstrap_four_nav_anchor_class($atts, $item, $args){
-  if(isset($atts['class'])){
+  if(isset($atts['class'])):
     $atts['class'] .= ' nav-link';
-  }
+  endif;
   return $atts;
 }
 add_filter('nav_menu_link_attributes', 'bootstrap_four_nav_anchor_class', 10, 3);
@@ -408,10 +408,45 @@ add_filter('get_image_tag_class', 'add_image_class');
 /*
 * Hides the taxonomy description.
 */
+
 function admin_css() {
   echo '<style type="text/css">.term-description-wrap { display: none; }</style>';
 }
-add_action('admin_head', 'admin_css');
 
-// Register Custom Navigation Walker
-require_once get_template_directory() . '/class-wp-bootstrap-navwalker.php';
+/*
+* Auto-closes all flexible content fields.
+*/
+
+add_action('admin_head', 'admin_css');
+function my_acf_admin_head() {
+  echo '<script type="text/javascript"> (function($){ $(document).ready(function(){ $(".layout").addClass("-collapsed"); }); })(jQuery); </script>';
+}
+add_action('acf/input/admin_head', 'my_acf_admin_head');
+
+/*
+* Adjusting the WordPress footer.
+*/
+
+function remove_footer_admin() {
+  echo 'Website by <a href="https://frogspark.co.uk" target="_blank">Frogspark</a>';
+}   
+add_filter('admin_footer_text', 'remove_footer_admin');
+
+/*
+* Disables RSS feeds site-wide.
+*/
+
+function rss_disable_feed() {
+  wp_die( __('No RSS feed is available. Please visit our <a href="'. get_bloginfo('url') .'">homepage</a>') );
+}   
+add_action('do_feed', 'rss_disable_feed', 1);
+add_action('do_feed_rdf', 'rss_disable_feed', 1);
+add_action('do_feed_rss', 'rss_disable_feed', 1);
+add_action('do_feed_rss2', 'rss_disable_feed', 1);
+add_action('do_feed_atom', 'rss_disable_feed', 1);
+
+/*
+* Removes the "Welcome" panel.
+*/
+
+remove_action('welcome_panel', 'wp_welcome_panel');

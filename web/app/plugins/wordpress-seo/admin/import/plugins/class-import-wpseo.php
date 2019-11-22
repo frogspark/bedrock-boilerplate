@@ -6,12 +6,11 @@
  */
 
 /**
- * Class WPSEO_Import_WPSEO.
+ * Class WPSEO_Import_WPSEO
  *
  * Class with functionality to import & clean wpSEO.de post metadata.
  */
 class WPSEO_Import_WPSEO extends WPSEO_Plugin_Importer {
-
 	/**
 	 * The plugin name.
 	 *

@@ -6,19 +6,16 @@
  */
 
 /**
- * Class that handles the Admin side of XML sitemaps.
+ * Class that handles the Admin side of XML sitemaps
  */
 class WPSEO_Sitemaps_Admin {
-
 	/**
-	 * Post_types that are being imported.
-	 *
-	 * @var array
+	 * @var array Post_types that are being imported.
 	 */
 	private $importing_post_types = array();
 
 	/**
-	 * Class constructor.
+	 * Class constructor
 	 */
 	public function __construct() {
 		add_action( 'transition_post_status', array( $this, 'status_transition' ), 10, 3 );
@@ -52,7 +49,7 @@ class WPSEO_Sitemaps_Admin {
 
 		wp_cache_delete( 'lastpostmodified:gmt:' . $post_type, 'timeinfo' ); // #17455.
 
-		// Not something we're interested in.
+		// None of our interest..
 		if ( 'nav_menu_item' === $post_type ) {
 			return;
 		}
@@ -62,8 +59,12 @@ class WPSEO_Sitemaps_Admin {
 			return;
 		}
 
+		if ( WP_CACHE ) {
+			wp_schedule_single_event( ( time() + 300 ), 'wpseo_hit_sitemap_index' );
+		}
+
 		/**
-		 * Filter: 'wpseo_allow_xml_sitemap_ping' - Check if pinging is not allowed (allowed by default).
+		 * Filter: 'wpseo_allow_xml_sitemap_ping' - Check if pinging is not allowed (allowed by default)
 		 *
 		 * @api boolean $allow_ping The boolean that is set to true by default.
 		 */
@@ -80,10 +81,10 @@ class WPSEO_Sitemaps_Admin {
 	}
 
 	/**
-	 * While bulk importing, just save unique post_types.
+	 * While bulk importing, just save unique post_types
 	 *
 	 * When importing is done, if we have a post_type that is saved in the sitemap
-	 * try to ping the search engines.
+	 * try to ping the search engines
 	 *
 	 * @param string   $new_status New post status.
 	 * @param string   $old_status Old post status.
@@ -133,13 +134,11 @@ class WPSEO_Sitemaps_Admin {
 		WPSEO_Sitemaps::ping_search_engines();
 	}
 
-	/* ********************* DEPRECATED METHODS ********************* */
-
+	// @codeCoverageIgnoreStart
 	/**
 	 * Find sitemaps residing on disk as they will block our rewrite.
 	 *
 	 * @deprecated 7.0
-	 * @codeCoverageIgnore
 	 */
 	public function delete_sitemaps() {
 		_deprecated_function( 'WPSEO_Sitemaps_Admin::delete_sitemaps', '7.0' );
@@ -149,9 +148,9 @@ class WPSEO_Sitemaps_Admin {
 	 * Find sitemaps residing on disk as they will block our rewrite.
 	 *
 	 * @deprecated 7.0
-	 * @codeCoverageIgnore
 	 */
 	public function detect_blocking_filesystem_sitemaps() {
 		_deprecated_function( 'WPSEO_Sitemaps_Admin::delete_sitemaps', '7.0' );
 	}
+	// @codeCoverageIgnoreEnd
 } /* End of class */

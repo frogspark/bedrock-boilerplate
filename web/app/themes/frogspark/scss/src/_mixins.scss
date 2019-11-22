@@ -1,4 +1,4 @@
-/* Min Responsive mixins. */
+/* Responsive mixins. */
 @mixin sm {
   @media only screen and (min-width: map-get($grid-breakpoints, "sm")) {
     @content;
@@ -21,33 +21,6 @@
 }
 @mixin xxl {
   @media only screen and (min-width: map-get($grid-breakpoints, "xxl")) {
-    @content;
-  }
-}
-
-/* Max Responsive mixins. */
-@mixin sm-max {
-  @media only screen and (max-width: map-get($grid-breakpoints, "sm")) {
-    @content;
-  }
-}
-@mixin md-max {
-  @media only screen and (max-width: map-get($grid-breakpoints, "md")) {
-    @content;
-  }
-}
-@mixin lg-max {
-  @media only screen and (max-width: map-get($grid-breakpoints, "lg")) {
-    @content;
-  }
-}
-@mixin xl-max {
-  @media only screen and (max-width: map-get($grid-breakpoints, "xl")) {
-    @content;
-  }
-}
-@mixin xxl-max {
-  @media only screen and (max-width: map-get($grid-breakpoints, "xxl")) {
     @content;
   }
 }

@@ -6,7 +6,7 @@
  */
 
 /**
- * Class WPSEO_Config_Field_Profile_URL_YouTube.
+ * Class WPSEO_Config_Field_Profile_URL_YouTube
  */
 class WPSEO_Config_Field_Profile_URL_YouTube extends WPSEO_Config_Field {
 
@@ -18,12 +18,10 @@ class WPSEO_Config_Field_Profile_URL_YouTube extends WPSEO_Config_Field {
 
 		$this->set_property( 'label', __( 'YouTube URL', 'wordpress-seo' ) );
 		$this->set_property( 'pattern', '^https:\/\/www\.youtube\.com\/([^/]+)$' );
-
-		$this->set_requires( 'publishingEntityType', 'company' );
 	}
 
 	/**
-	 * Set adapter.
+	 * Set adapter
 	 *
 	 * @param WPSEO_Configuration_Options_Adapter $adapter Adapter to register lookup on.
 	 */
