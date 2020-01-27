@@ -44,7 +44,7 @@ define( ['models/formModel'], function( FormModel ) {
             messageBox = document.createElement( 'p' );
             title = document.createElement( 'em' );
             buttons = document.createElement( 'div' );
-            confirm = document.createElement( 'button' );
+            confirm = document.createElement( 'div' );
             cancel = document.createElement( 'div' );
 
             container.classList.add( 'message' );
@@ -121,10 +121,9 @@ define( ['models/formModel'], function( FormModel ) {
             } );
 
             var btnConfirm = this.modal.container[0].getElementsByClassName('confirm')[0];
-            btnConfirm.addEventListener('click', function( e ) {
-                e.preventDefault();
+            btnConfirm.addEventListener('click', function() {
                 var deleteInputVal = document.getElementById( 'confirmDeleteFormInput' ).value;
-                
+
                 if( 'DELETE' === deleteInputVal ) {
 	                that.confirmDelete(view);
                 } else {

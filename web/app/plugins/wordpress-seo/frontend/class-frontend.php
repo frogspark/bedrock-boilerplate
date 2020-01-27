@@ -10,64 +10,48 @@
  * default WordPress output.
  */
 class WPSEO_Frontend {
-
 	/**
-	 * Instance of this class.
-	 *
-	 * @var object
+	 * @var    object    Instance of this class.
 	 */
 	public static $instance;
-
 	/**
-	 * Toggle indicating whether output buffering has been started.
-	 *
-	 * @var boolean
+	 * @var boolean Boolean indicating whether output buffering has been started.
 	 */
 	private $ob_started = false;
-
 	/**
 	 * Holds the canonical URL for the current page.
 	 *
 	 * @var string
 	 */
 	private $canonical = null;
-
 	/**
 	 * Holds the canonical URL for the current page that cannot be overriden by a manual canonical input.
 	 *
 	 * @var string
 	 */
 	private $canonical_no_override = null;
-
 	/**
 	 * Holds the canonical URL for the current page without pagination.
 	 *
 	 * @var string
 	 */
 	private $canonical_unpaged = null;
-
 	/**
 	 * Holds the pages meta description.
 	 *
 	 * @var string
 	 */
 	private $metadesc = null;
-
 	/**
 	 * Holds the generated title for the page.
 	 *
 	 * @var string
 	 */
 	private $title = null;
-
-	/**
-	 * @var WPSEO_Frontend_Page_Type
-	 */
+	/** @var WPSEO_Frontend_Page_Type */
 	protected $frontend_page_type;
 
-	/**
-	 * @var WPSEO_WooCommerce_Shop_Page
-	 */
+	/** @var WPSEO_WooCommerce_Shop_Page */
 	protected $woocommerce_shop_page;
 
 	/**
@@ -86,6 +70,7 @@ class WPSEO_Frontend {
 		add_action( 'wpseo_head', array( $this, 'robots' ), 10 );
 		add_action( 'wpseo_head', array( $this, 'canonical' ), 20 );
 		add_action( 'wpseo_head', array( $this, 'adjacent_rel_links' ), 21 );
+		add_action( 'wpseo_head', array( $this, 'publisher' ), 22 );
 
 		// Remove actions that we will handle through our wpseo_head call, and probably change the output of.
 		remove_action( 'wp_head', 'rel_canonical' );
@@ -106,9 +91,6 @@ class WPSEO_Frontend {
 
 		add_filter( 'loginout', array( $this, 'nofollow_link' ) );
 		add_filter( 'register', array( $this, 'nofollow_link' ) );
-
-		// Add support for shortcodes to category descriptions.
-		add_filter( 'category_description', array( $this, 'custom_category_descriptions_add_shortcode_support' ) );
 
 		// Fix the WooThemes woo_title() output.
 		add_filter( 'woo_title', array( $this, 'fix_woo_title' ), 99 );
@@ -139,10 +121,8 @@ class WPSEO_Frontend {
 
 		$integrations = array(
 			new WPSEO_Frontend_Primary_Category(),
-			new WPSEO_Schema(),
-			new WPSEO_Handle_404(),
+			new WPSEO_JSON_LD(),
 			new WPSEO_Remove_Reply_To_Com(),
-			new WPSEO_OpenGraph_OEmbed(),
 			$this->woocommerce_shop_page,
 		);
 
@@ -209,6 +189,45 @@ class WPSEO_Frontend {
 	 */
 	public function fix_woo_title( $title ) {
 		return $this->title( $title );
+	}
+
+	/**
+	 * Determine whether this is the homepage and shows posts.
+	 *
+	 * @deprecated 7.7
+	 *
+	 * @return bool Whether or not the current page is the homepage that displays posts.
+	 */
+	public function is_home_posts_page() {
+		_deprecated_function( __FUNCTION__, '7.7', 'WPSEO_Frontend_Page_Type::is_home_posts_page' );
+
+		return $this->frontend_page_type->is_home_posts_page();
+	}
+
+	/**
+	 * Determine whether the this is the static frontpage.
+	 *
+	 * @deprecated 7.7
+	 *
+	 * @return bool Whether or not the current page is a static frontpage.
+	 */
+	public function is_home_static_page() {
+		_deprecated_function( __FUNCTION__, '7.7', 'WPSEO_Frontend_Page_Type::is_home_static_page' );
+
+		return $this->frontend_page_type->is_home_static_page();
+	}
+
+	/**
+	 * Determine whether this is the posts page, when it's not the frontpage.
+	 *
+	 * @deprecated 7.7
+	 *
+	 * @return bool Whether or not it's a non-frontpage, posts page.
+	 */
+	public function is_posts_page() {
+		_deprecated_function( __FUNCTION__, '7.7', 'WPSEO_Frontend_Page_Type::is_posts_page' );
+
+		return $this->frontend_page_type->is_posts_page();
 	}
 
 	/**
@@ -446,7 +465,8 @@ class WPSEO_Frontend {
 			$title = $this->get_title_from_options( 'title-home-wpseo' );
 		}
 		elseif ( $this->woocommerce_shop_page->is_shop_page() ) {
-			$title = $this->get_woocommerce_title();
+			$post  = get_post( $this->woocommerce_shop_page->get_shop_page_id() );
+			$title = $this->get_seo_title( $post );
 
 			if ( ! is_string( $title ) || $title === '' ) {
 				$title = $this->get_post_type_archive_title( $separator, $separator_location );
@@ -586,10 +606,17 @@ class WPSEO_Frontend {
 	/**
 	 * Outputs or returns the debug marker, which is also used for title replacement when force rewrite is active.
 	 *
+	 * @param bool $echo Deprecated. Since 5.9. Whether or not to echo the debug marker.
+	 *
 	 * @return string The marker that will be echoed.
 	 */
-	public function debug_mark() {
+	public function debug_mark( $echo = true ) {
 		$marker = $this->get_debug_mark();
+		if ( $echo === false ) {
+			_deprecated_argument( 'WPSEO_Frontend::debug_mark', '5.9', 'WPSEO_Frontend::get_debug_mark' );
+
+			return $marker;
+		}
 
 		echo "\n${marker}\n";
 
@@ -688,7 +715,7 @@ class WPSEO_Frontend {
 		$robots['follow'] = 'follow';
 		$robots['other']  = array();
 
-		if ( is_object( $post ) && $this->frontend_page_type->is_simple_page() ) {
+		if ( ( is_object( $post ) && is_singular() ) || ( WPSEO_Utils::is_woocommerce_active() && is_shop() ) ) {
 			$private = 'private' === $post->post_status;
 			$noindex = ! WPSEO_Post_Type::is_post_type_indexable( $post->post_type );
 
@@ -696,7 +723,7 @@ class WPSEO_Frontend {
 				$robots['index'] = 'noindex';
 			}
 
-			$robots = $this->robots_for_single_post( $robots, $this->frontend_page_type->get_simple_page_id() );
+			$robots = $this->robots_for_single_post( $robots );
 		}
 		else {
 			if ( is_search() || is_404() ) {
@@ -791,7 +818,7 @@ class WPSEO_Frontend {
 	 * @param array $robots  Robots data array.
 	 * @param int   $post_id The post ID for which to determine the $robots values, defaults to current post.
 	 *
-	 * @return array
+	 * @return    array
 	 */
 	public function robots_for_single_post( $robots, $post_id = 0 ) {
 		$noindex = $this->get_seo_meta_value( 'meta-robots-noindex', $post_id );
@@ -1009,6 +1036,16 @@ class WPSEO_Frontend {
 	 * @since 1.0.3
 	 */
 	public function adjacent_rel_links() {
+		// Don't do this for Genesis, as the way Genesis handles homepage functionality is different and causes issues sometimes.
+		/**
+		 * Filter 'wpseo_genesis_force_adjacent_rel_home' - Allows devs to allow echoing rel="next" / rel="prev" by Yoast SEO on Genesis installs.
+		 *
+		 * @api bool $unsigned Whether or not to rel=next / rel=prev .
+		 */
+		if ( is_home() && function_exists( 'genesis' ) && apply_filters( 'wpseo_genesis_force_adjacent_rel_home', false ) === false ) {
+			return;
+		}
+
 		/**
 		 * Filter: 'wpseo_disable_adjacent_rel_links' - Allows disabling of Yoast adjacent links if this is being handled by other code.
 		 *
@@ -1112,15 +1149,6 @@ class WPSEO_Frontend {
 		}
 
 		/**
-		 * Filter: 'wpseo_adjacent_rel_url' - Allow changing the URL for rel output by Yoast SEO.
-		 *
-		 * @api string $url The URL that's going to be output for $rel.
-		 *
-		 * @param string $rel Link relationship, prev or next.
-		 */
-		$url = apply_filters( 'wpseo_adjacent_rel_url', $url, $rel );
-
-		/**
 		 * Filter: 'wpseo_' . $rel . '_rel_link' - Allow changing link rel output by Yoast SEO.
 		 *
 		 * @api string $unsigned The full `<link` element.
@@ -1144,6 +1172,22 @@ class WPSEO_Frontend {
 			$base = trailingslashit( $GLOBALS['wp_rewrite']->pagination_base );
 		}
 		return $base;
+	}
+
+	/**
+	 * Output the rel=publisher code on every page of the site.
+	 *
+	 * @return boolean Boolean indicating whether the publisher link was printed.
+	 */
+	public function publisher() {
+		$publisher = WPSEO_Options::get( 'plus-publisher', '' );
+		if ( $publisher !== '' ) {
+			echo '<link rel="publisher" href="', esc_url( $publisher ), '"/>', "\n";
+
+			return true;
+		}
+
+		return false;
 	}
 
 	/**
@@ -1172,8 +1216,8 @@ class WPSEO_Frontend {
 			printf(
 				/* Translators: %1$s resolves to the SEO menu item, %2$s resolves to the Search Appearance submenu item. */
 				esc_html__( 'Admin only notice: this page does not show a meta description because it does not have one, either write it for this page specifically or go into the [%1$s - %2$s] menu and set up a template.', 'wordpress-seo' ),
-				esc_html__( 'SEO', 'wordpress-seo' ),
-				esc_html__( 'Search Appearance', 'wordpress-seo' )
+				__( 'SEO', 'wordpress-seo' ),
+				__( 'Search Appearance', 'wordpress-seo' )
 			);
 			echo ' -->' . "\n";
 		}
@@ -1309,7 +1353,7 @@ class WPSEO_Frontend {
 			$redir = $this->get_seo_meta_value( 'redirect', $post->ID );
 			if ( $redir !== '' ) {
 				header( 'X-Redirect-By: Yoast SEO' );
-				wp_redirect( $redir, 301, 'Yoast SEO' );
+				wp_redirect( $redir, 301 );
 				exit;
 			}
 		}
@@ -1417,7 +1461,7 @@ class WPSEO_Frontend {
 	 */
 	public function do_attachment_redirect( $attachment_url ) {
 		header( 'X-Redirect-By: Yoast SEO' );
-		wp_redirect( $attachment_url, 301, 'Yoast SEO' );
+		wp_redirect( $attachment_url, 301 );
 		exit;
 	}
 
@@ -1551,10 +1595,7 @@ class WPSEO_Frontend {
 			$title      = $this->title( '' );
 			$debug_mark = $this->get_debug_mark();
 
-			/*
-			 * Find all titles, strip them out and add the new one in within the debug marker,
-			 * so it's easily identified whether a site uses force rewrite.
-			 */
+			// Find all titles, strip them out and add the new one in within the debug marker, so it's easily identified whether a site uses force rewrite.
 			$content = preg_replace( '/<title.*?\/title>/i', '', $content );
 			$content = str_replace( $debug_mark, $debug_mark . "\n" . '<title>' . esc_html( $title ) . '</title>', $content );
 		}
@@ -1572,6 +1613,42 @@ class WPSEO_Frontend {
 	public function force_rewrite_output_buffer() {
 		$this->ob_started = true;
 		ob_start();
+	}
+
+	/**
+	 * Function used in testing whether the title should be force rewritten or not.
+	 *
+	 * @param string $title Title string.
+	 *
+	 * @return string
+	 */
+	public function title_test_helper( $title ) {
+		WPSEO_Options::set( 'title_test', ( WPSEO_Options::get( 'title_test' ) + 1 ) );
+
+		// Prevent this setting from being on forever when something breaks, as it breaks caching.
+		if ( WPSEO_Options::get( 'title_test' ) > 5 ) {
+			WPSEO_Options::set( 'title_test', 0 );
+
+			remove_filter( 'wpseo_title', array( $this, 'title_test_helper' ) );
+
+			return $title;
+		}
+
+		if ( ! defined( 'DONOTCACHEPAGE' ) ) {
+			define( 'DONOTCACHEPAGE', true );
+		}
+		if ( ! defined( 'DONOTCACHCEOBJECT' ) ) {
+			define( 'DONOTCACHCEOBJECT', true );
+		}
+		if ( ! defined( 'DONOTMINIFY' ) ) {
+			define( 'DONOTMINIFY', true );
+		}
+
+		if ( $_SERVER['HTTP_USER_AGENT'] === "WordPress/{$GLOBALS['wp_version']}; " . get_bloginfo( 'url' ) . ' - Yoast' ) {
+			return 'This is a Yoast Test Title';
+		}
+
+		return $title;
 	}
 
 	/**
@@ -1627,7 +1704,7 @@ class WPSEO_Frontend {
 	 */
 	public function redirect( $location, $status = 302 ) {
 		header( 'X-Redirect-By: Yoast SEO' );
-		wp_safe_redirect( $location, $status, 'Yoast SEO' );
+		wp_safe_redirect( $location, $status );
 		exit;
 	}
 
@@ -1687,39 +1764,6 @@ class WPSEO_Frontend {
 	}
 
 	/**
-	 * Retrieves the WooCommerce title.
-	 *
-	 * @return string The WooCommerce title.
-	 */
-	protected function get_woocommerce_title() {
-		$shop_page_id = $this->woocommerce_shop_page->get_shop_page_id();
-		$post         = get_post( $shop_page_id );
-		$title        = $this->get_seo_title( $post );
-
-		if ( is_string( $title ) && $title !== '' ) {
-			return $title;
-		}
-
-		if ( $shop_page_id !== -1 && is_archive() ) {
-			$title = $this->get_template( 'title-' . $post->post_type );
-			$title = $this->replace_vars( $title, $post );
-		}
-
-		return $title;
-	}
-
-	/**
-	 * Retrieves a template from the options.
-	 *
-	 * @param string $template The template to retrieve.
-	 *
-	 * @return string The set template.
-	 */
-	protected function get_template( $template ) {
-		return WPSEO_Options::get( $template );
-	}
-
-	/**
 	 * Retrieves the queried post type.
 	 *
 	 * @return string The queried post type.
@@ -1761,28 +1805,29 @@ class WPSEO_Frontend {
 		return $replacer->replace( $string, $args, $omit );
 	}
 
+	/** Deprecated functions */
+	// @codeCoverageIgnoreStart
 	/**
-	 * Adds shortcode support to category descriptions.
+	 * Outputs or returns the debug marker, which is also used for title replacement when force rewrite is active.
 	 *
-	 * @param string $desc String to add shortcodes in.
+	 * @deprecated 4.4
 	 *
-	 * @return string Content with shortcodes filtered out.
+	 * @param bool $echo Whether or not to echo the debug marker.
+	 *
+	 * @return string
 	 */
-	public function custom_category_descriptions_add_shortcode_support( $desc ) {
-		// Wrap in output buffering to prevent shortcodes that echo stuff instead of return from breaking things.
-		ob_start();
-		$desc = do_shortcode( $desc );
-		ob_end_clean();
-		return $desc;
-	}
+	public function debug_marker( $echo = false ) {
+		if ( function_exists( 'wp_get_current_user' ) && current_user_can( 'manage_options' ) ) {
+			_deprecated_function( 'WPSEO_Frontend::debug_marker', '4.4', 'WPSEO_Frontend::debug_mark' );
+		}
 
-	/* ********************* DEPRECATED METHODS ********************* */
+		return $this->debug_mark( $echo );
+	}
 
 	/**
 	 * Outputs the meta keywords element.
 	 *
 	 * @deprecated 6.3
-	 * @codeCoverageIgnore
 	 *
 	 * @return void
 	 */
@@ -1796,7 +1841,6 @@ class WPSEO_Frontend {
 	 * Removes unneeded query variables from the URL.
 	 *
 	 * @deprecated 7.0
-	 * @codeCoverageIgnore
 	 *
 	 * @return void
 	 */
@@ -1811,7 +1855,6 @@ class WPSEO_Frontend {
 	 * Trailing slashes for everything except is_single().
 	 *
 	 * @deprecated 7.0
-	 * @codeCoverageIgnore
 	 */
 	public function add_trailingslash() {
 		// As this is a frontend method, we want to make sure it is not displayed for non-logged in users.
@@ -1824,7 +1867,6 @@ class WPSEO_Frontend {
 	 * Removes the ?replytocom variable from the link, replacing it with a #comment-<number> anchor.
 	 *
 	 * @deprecated 7.0
-	 * @codeCoverageIgnore
 	 *
 	 * @param string $link The comment link as a string.
 	 *
@@ -1841,7 +1883,6 @@ class WPSEO_Frontend {
 	 * Redirects out the ?replytocom variables.
 	 *
 	 * @deprecated 7.0
-	 * @codeCoverageIgnore
 	 *
 	 * @return boolean True when redirect has been done.
 	 */
@@ -1851,76 +1892,5 @@ class WPSEO_Frontend {
 		$remove_replytocom = new WPSEO_Remove_Reply_To_Com();
 		return $remove_replytocom->replytocom_redirect();
 	}
-
-	/**
-	 * Determine whether this is the homepage and shows posts.
-	 *
-	 * @deprecated 7.7
-	 * @codeCoverageIgnore
-	 *
-	 * @return bool Whether or not the current page is the homepage that displays posts.
-	 */
-	public function is_home_posts_page() {
-		_deprecated_function( __FUNCTION__, '7.7', 'WPSEO_Frontend_Page_Type::is_home_posts_page' );
-
-		return $this->frontend_page_type->is_home_posts_page();
-	}
-
-	/**
-	 * Determine whether the this is the static frontpage.
-	 *
-	 * @deprecated 7.7
-	 * @codeCoverageIgnore
-	 *
-	 * @return bool Whether or not the current page is a static frontpage.
-	 */
-	public function is_home_static_page() {
-		_deprecated_function( __FUNCTION__, '7.7', 'WPSEO_Frontend_Page_Type::is_home_static_page' );
-
-		return $this->frontend_page_type->is_home_static_page();
-	}
-
-	/**
-	 * Determine whether this is the posts page, when it's not the frontpage.
-	 *
-	 * @deprecated 7.7
-	 * @codeCoverageIgnore
-	 *
-	 * @return bool Whether or not it's a non-frontpage, posts page.
-	 */
-	public function is_posts_page() {
-		_deprecated_function( __FUNCTION__, '7.7', 'WPSEO_Frontend_Page_Type::is_posts_page' );
-
-		return $this->frontend_page_type->is_posts_page();
-	}
-
-	/**
-	 * Function used in testing whether the title should be force rewritten or not.
-	 *
-	 * @deprecated 9.6
-	 * @codeCoverageIgnore
-	 *
-	 * @param string $title Title string.
-	 *
-	 * @return string
-	 */
-	public function title_test_helper( $title ) {
-		_deprecated_function( __METHOD__, 'WPSEO 9.6' );
-
-		return $title;
-	}
-
-	/**
-	 * Output the rel=publisher code on every page of the site.
-	 *
-	 * @deprecated 10.1.3
-	 * @codeCoverageIgnore
-	 *
-	 * @return boolean Boolean indicating whether the publisher link was printed.
-	 */
-	public function publisher() {
-		_deprecated_function( __METHOD__, 'WPSEO 10.1.3' );
-
-		return false;
-	}
+	// @codeCoverageIgnoreEnd
 }

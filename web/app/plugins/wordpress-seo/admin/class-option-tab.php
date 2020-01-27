@@ -6,29 +6,17 @@
  */
 
 /**
- * Class WPSEO_Option_Tab.
+ * Class WPSEO_Option_Tab
  */
 class WPSEO_Option_Tab {
 
-	/**
-	 * Name of the tab.
-	 *
-	 * @var string
-	 */
+	/** @var string Name of the tab */
 	private $name;
 
-	/**
-	 * Label of the tab.
-	 *
-	 * @var string
-	 */
+	/** @var string Label of the tab */
 	private $label;
 
-	/**
-	 * Optional arguments.
-	 *
-	 * @var array
-	 */
+	/** @var array Optional arguments */
 	private $arguments;
 
 	/**

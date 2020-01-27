@@ -10,19 +10,11 @@
  */
 class WPSEO_Product_Upsell_Notice {
 
-	/**
-	 * @var string
-	 */
 	const USER_META_DISMISSED = 'wpseo-remove-upsell-notice';
 
-	/**
-	 * @var string
-	 */
 	const OPTION_NAME = 'wpseo';
 
-	/**
-	 * @var array
-	 */
+	/** @var array */
 	protected $options;
 
 	/**
@@ -36,7 +28,15 @@ class WPSEO_Product_Upsell_Notice {
 	 * Checks if the notice should be added or removed.
 	 */
 	public function initialize() {
-		$this->remove_notification();
+		if ( $this->is_notice_dismissed() ) {
+			$this->remove_notification();
+
+			return;
+		}
+
+		if ( $this->should_add_notification() ) {
+			$this->add_notification();
+		}
 	}
 
 	/**
@@ -100,7 +100,7 @@ class WPSEO_Product_Upsell_Notice {
 	}
 
 	/**
-	 * Removes a notification to the notification center.
+	 * Adds a notification to the notification center.
 	 */
 	protected function remove_notification() {
 		$notification_center = Yoast_Notification_Center::get();
@@ -117,7 +117,7 @@ class WPSEO_Product_Upsell_Notice {
 		if ( $features->is_free() ) {
 			return sprintf(
 				/* translators: %1$s expands anchor to premium plugin page, %2$s expands to </a> */
-				__( 'By the way, did you know we also have a %1$sPremium plugin%2$s? It offers advanced features, like a redirect manager and support for multiple keyphrases. It also comes with 24/7 personal support.', 'wordpress-seo' ),
+				__( 'By the way, did you know we also have a %1$sPremium plugin%2$s? It offers advanced features, like a redirect manager and support for multiple keywords. It also comes with 24/7 personal support.', 'wordpress-seo' ),
 				"<a href='" . WPSEO_Shortlinker::get( 'https://yoa.st/premium-notification' ) . "'>",
 				'</a>'
 			);
@@ -149,7 +149,12 @@ class WPSEO_Product_Upsell_Notice {
 
 		$message .= $this->get_premium_upsell_section() . "\n\n";
 
-		$message .= '<a class="button" href="' . admin_url( '?page=' . WPSEO_Admin::PAGE_IDENTIFIER . '&yoast_dismiss=upsell' ) . '">' . __( 'Please don\'t show me this notification anymore', 'wordpress-seo' ) . '</a>';
+		$message .= sprintf(
+			/* translators: %1$s is the notification dismissal link start tag, %2$s is the link closing tag. */
+			__( '%1$sPlease don\'t show me this notification anymore%2$s', 'wordpress-seo' ),
+			'<a class="button" href="' . admin_url( '?page=' . WPSEO_Admin::PAGE_IDENTIFIER . '&yoast_dismiss=upsell' ) . '">',
+			'</a>'
+		);
 
 		$notification = new Yoast_Notification(
 			$message,
@@ -181,7 +186,7 @@ class WPSEO_Product_Upsell_Notice {
 	}
 
 	/**
-	 * Returns the set options.
+	 * Returns the set options
 	 *
 	 * @return mixed|void
 	 */

@@ -6,43 +6,22 @@
  */
 
 /**
- * Class WPSEO_Config_Field.
+ * Class WPSEO_Config_Field
  */
 class WPSEO_Config_Field {
-
-	/**
-	 * Field name.
-	 *
-	 * @var string
-	 */
+	/** @var string Field name */
 	protected $field;
 
-	/**
-	 * Component to use.
-	 *
-	 * @var string
-	 */
+	/** @var string Component to use */
 	protected $component;
 
-	/**
-	 * Properties of this field.
-	 *
-	 * @var array
-	 */
+	/** @var array Properties of this field */
 	protected $properties = array();
 
-	/**
-	 * Field requirements.
-	 *
-	 * @var array
-	 */
+	/** @var array Field requirements */
 	protected $requires = array();
 
-	/**
-	 * Value of this field.
-	 *
-	 * @var array|mixed
-	 */
+	/** @var array|mixed Value of this field */
 	protected $data = array();
 
 	/**
@@ -57,7 +36,7 @@ class WPSEO_Config_Field {
 	}
 
 	/**
-	 * Get the identifier.
+	 * Get the identifier
 	 *
 	 * @return string
 	 */
@@ -66,7 +45,7 @@ class WPSEO_Config_Field {
 	}
 
 	/**
-	 * Get the component.
+	 * Get the component
 	 *
 	 * @return string
 	 */
@@ -75,7 +54,7 @@ class WPSEO_Config_Field {
 	}
 
 	/**
-	 * Set a property value.
+	 * Set a property value
 	 *
 	 * @param string $name  Property to set.
 	 * @param mixed  $value Value to apply.
@@ -85,7 +64,7 @@ class WPSEO_Config_Field {
 	}
 
 	/**
-	 * Get all the properties.
+	 * Get all the properties
 	 *
 	 * @return array
 	 */
@@ -94,7 +73,7 @@ class WPSEO_Config_Field {
 	}
 
 	/**
-	 * Get the data.
+	 * Get the data
 	 *
 	 * @return mixed
 	 */
@@ -126,7 +105,7 @@ class WPSEO_Config_Field {
 	}
 
 	/**
-	 * Set the adapter to use.
+	 * Set the adapter to use
 	 *
 	 * @param WPSEO_Configuration_Options_Adapter $adapter Adapter to register lookup on.
 	 */
@@ -147,7 +126,7 @@ class WPSEO_Config_Field {
 	}
 
 	/**
-	 * Get the required field settings (if present).
+	 * Get the required field settings (if present)
 	 *
 	 * @return array
 	 */

@@ -21,9 +21,7 @@ class WPSEO_Taxonomy_Columns {
 	private $analysis_readability;
 
 	/**
-	 * The current taxonomy.
-	 *
-	 * @var string
+	 * @var string The current taxonomy
 	 */
 	private $taxonomy;
 
@@ -109,7 +107,7 @@ class WPSEO_Taxonomy_Columns {
 	 * @return string|null
 	 */
 	private function get_taxonomy() {
-		if ( wp_doing_ajax() ) {
+		if ( defined( 'DOING_AJAX' ) && DOING_AJAX === true ) {
 			return FILTER_INPUT( INPUT_POST, 'taxonomy' );
 		}
 
@@ -159,7 +157,7 @@ class WPSEO_Taxonomy_Columns {
 	/**
 	 * Creates an icon by the given values.
 	 *
-	 * @param WPSEO_Rank $rank  The ranking object.
+	 * @param WPSEO_Rank $rank The ranking object.
 	 * @param string     $title Optional. The title to show. Defaults to the rank label.
 	 *
 	 * @return string The HTML for a score icon.
@@ -169,7 +167,7 @@ class WPSEO_Taxonomy_Columns {
 			$title = $rank->get_label();
 		}
 
-		return '<div aria-hidden="true" title="' . esc_attr( $title ) . '" class="wpseo-score-icon ' . esc_attr( $rank->get_css_class() ) . '"></div><span class="screen-reader-text wpseo-score-text">' . $title . '</span>';
+		return '<div aria-hidden="true" title="' . esc_attr( $title ) . '" class="wpseo-score-icon ' . esc_attr( $rank->get_css_class() ) . '"></div><span class="screen-reader-text">' . $title . '</span>';
 	}
 
 	/**
@@ -246,4 +244,6 @@ class WPSEO_Taxonomy_Columns {
 
 		return WPSEO_Utils::is_metabox_active( $taxonomy, 'taxonomy' );
 	}
+
+
 }

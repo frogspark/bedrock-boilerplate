@@ -4,14 +4,6 @@ class NF_Database_Migrations
 {
     protected $migrations = array();
 
-
-    /**
-     * Constructor method for the NF_Database_Migrations class.
-     * 
-     * @since 3.0.0
-     * 
-     * @updated 3.3.8
-     */
     public function __construct()
     {
         $this->migrations[ 'forms' ]         = new NF_Database_Migrations_Forms();
@@ -28,45 +20,24 @@ class NF_Database_Migrations
         $this->migrations[ 'chunks' ]        = new NF_Database_Migrations_Chunks();
     }
 
-
-    /**
-     * Function to run each migration on the stack.
-     * 
-     * @since 3.0.0
-     */
     public function migrate()
     {
         foreach( $this->migrations as $migration ){
             $migration->_run();
         }
     }
-
-
+    
     /**
-     * Function to run any required database upgrades.
-     * 
-     * @param $callback (String) The method this upgrade will call from individual migration files.
-     * 
-     * @since 3.4.0
+     * Function to run all our stage one changes.
      */
-    public function do_upgrade( $callback )
+    public function do_stage_one()
     {
         foreach( $this->migrations as $migration ) {
-            $migration->_do_upgrade( $callback );
+            $migration->_stage_one();
         }
     }
 
-    /**
-     * This function drops ninja forms tables and options
-     * 
-     * @param $areYouSure (Boolean)
-     * @param $areYouReallySure (Boolean)
-     * @param $nuke_multisite (Boolean)
-     * 
-     * @since 2.9.34
-     * @updated 3.3.16
-     */
-    public function nuke( $areYouSure = FALSE, $areYouReallySure = FALSE, $nuke_multisite = TRUE )
+    public function nuke( $areYouSure = FALSE, $areYouReallySure = FALSE )
     {
         if( ! $areYouSure || ! $areYouReallySure ) return;
 
@@ -76,27 +47,16 @@ class NF_Database_Migrations
             $this->_nuke();
             return;
         }
-        // adding this to make sure we don't nuke ALL subsites when upgrading one subsite
-        if ( $nuke_multisite ) {
-            $blog_ids = $wpdb->get_col( "SELECT blog_id FROM $wpdb->blogs" );
 
-            foreach( $blog_ids as $blog_id ){
-                switch_to_blog( $blog_id );
-                $this->_nuke();
-                restore_current_blog(); // Call after EVERY switch_to_blog().
-            }
-        } else {
+        $blog_ids = $wpdb->get_col( "SELECT blog_id FROM $wpdb->blogs" );
+
+        foreach( $blog_ids as $blog_id ){
+            switch_to_blog( $blog_id );
             $this->_nuke();
-            return;
+            restore_current_blog(); // Call after EVERY switch_to_blog().
         }
     }
 
-
-    /**
-     * Function to handle the actual deletion of tables and caches.
-     * 
-     * @since 3.1.0
-     */
     private function _nuke()
     {
         global $wpdb;
@@ -112,15 +72,6 @@ class NF_Database_Migrations
         $wpdb->query( "DELETE FROM `{$wpdb->options}` WHERE `option_name` LIKE '_transient_timeout_nf_form_%'" );
     }
 
-
-    /**
-     * Function to nuke our 3.0 settings.
-     * 
-     * @param $areYouSure (Boolean)
-     * @param $areYouReallySure (Boolean)
-     * 
-     * @since 3.1.0
-     */
     public function nuke_settings( $areYouSure = FALSE, $areYouReallySure = FALSE )
     {
         if( ! $areYouSure || ! $areYouReallySure ) return;
@@ -141,12 +92,6 @@ class NF_Database_Migrations
         }
     }
 
-
-    /**
-     * Function to handle the actual deletion of our 3.0 settings.
-     * 
-     * @since 3.1.0
-     */
     private function _nuke_settings()
     {
         global $wpdb;
@@ -174,16 +119,7 @@ class NF_Database_Migrations
         $wpdb->query( "DELETE FROM `{$wpdb->options}` WHERE `option_name` LIKE 'wp_nf_update_fields_%'" );
     }
 
-
-    /**
-     * Function to nuke our 2.9 database tables.
-     * 
-     * @param $areYouSure (Boolean)
-     * @param $areYouReallySure (Boolean)
-     * 
-     * @since 3.1.0
-     */
-    public function nuke_deprecated( $areYouSure = FALSE, $areYouReallySure = FALSE  )
+    public function nuke_deprecated(  $areYouSure = FALSE, $areYouReallySure = FALSE  )
     {
         if( ! $areYouSure || ! $areYouReallySure ) return;
 
@@ -203,12 +139,6 @@ class NF_Database_Migrations
         }
     }
 
-
-    /**
-     * Function to handle the actual deletion of deprecated tables and options.
-     * 
-     * @since 3.1.0
-     */
     private function _nuke_deprecated()
     {
         global $wpdb;

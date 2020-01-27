@@ -6,21 +6,16 @@
  */
 
 /**
- * This class parses all the values for the social tab in the Yoast SEO settings metabox.
+ * This class parses all the values for the social tab in the Yoast SEO settings metabox
  */
 class WPSEO_Taxonomy_Social_Fields extends WPSEO_Taxonomy_Fields {
-
-	/**
-	 * List of social networks.
-	 *
-	 * @var array
-	 */
+	/** @var array List of social networks */
 	protected $networks;
 
 	/**
-	 * Setting the class properties.
+	 * Setting the class properties
 	 *
-	 * @param stdClass|WP_Term $term The current taxonomy.
+	 * @param stdClass|WP_Term $term    The current taxonomy.
 	 */
 	public function __construct( $term ) {
 		parent::__construct( $term );
@@ -29,7 +24,7 @@ class WPSEO_Taxonomy_Social_Fields extends WPSEO_Taxonomy_Fields {
 	}
 
 	/**
-	 * When this method returns false, the social tab in the meta box will be hidden.
+	 * When this method returns false, the social tab in the meta box will be hidden
 	 *
 	 * @return bool
 	 */
@@ -72,16 +67,11 @@ class WPSEO_Taxonomy_Social_Fields extends WPSEO_Taxonomy_Fields {
 				sprintf( __( 'The recommended image size for %1$s is %2$s pixels.', 'wordpress-seo' ), $settings['label'], $settings['size'] ),
 				'upload'
 			),
-			$settings['network'] . '-image-id' => $this->get_field_config(
-				'',
-				'',
-				'hidden'
-			),
 		);
 	}
 
 	/**
-	 * Returning the fields for the social media tab.
+	 * Returning the fields for the social media tab
 	 *
 	 * @return array
 	 */
@@ -97,36 +87,28 @@ class WPSEO_Taxonomy_Social_Fields extends WPSEO_Taxonomy_Fields {
 	}
 
 	/**
-	 * Getting array with the social networks.
+	 * Getting array with the social networks
 	 *
 	 * @return array
 	 */
 	private function get_social_networks() {
-		// Source: https://developers.facebook.com/docs/sharing/best-practices#images.
-		$fb_image_size = sprintf(
-			/* translators: %1$s expands to the image recommended width, %2$s to its height. */
-			__( '%1$s by %2$s', 'wordpress-seo' ),
-			'1200',
-			'630'
-		);
-
-		$twitter_image_size = sprintf(
-			/* translators: %1$s expands to the image recommended width, %2$s to its height. */
-			__( '%1$s by %2$s', 'wordpress-seo' ),
-			'1024',
-			'512'
-		);
-
 		$social_networks = array(
-			'opengraph' => $this->social_network( 'opengraph', __( 'Facebook', 'wordpress-seo' ), $fb_image_size ),
-			'twitter'   => $this->social_network( 'twitter', __( 'Twitter', 'wordpress-seo' ), $twitter_image_size ),
+			// Source: https://developers.facebook.com/docs/sharing/best-practices#images.
+			'opengraph' => $this->social_network( 'opengraph', __( 'Facebook', 'wordpress-seo' ), sprintf(
+				/* translators: %1$s expands to the image recommended width, %2$s to its height. */
+				__( '%1$s by %2$s', 'wordpress-seo' ), '1200', '630'
+			) ),
+			'twitter'   => $this->social_network( 'twitter', __( 'Twitter', 'wordpress-seo' ), sprintf(
+				/* translators: %1$s expands to the image recommended width, %2$s to its height. */
+				__( '%1$s by %2$s', 'wordpress-seo' ), '1024', '512'
+			) ),
 		);
 
 		return $this->filter_social_networks( $social_networks );
 	}
 
 	/**
-	 * Returns array with the config fields for the social network.
+	 * Returns array with the config fields for the social network
 	 *
 	 * @param string $network    The name of the social network.
 	 * @param string $label      The label for the social network.
@@ -143,7 +125,7 @@ class WPSEO_Taxonomy_Social_Fields extends WPSEO_Taxonomy_Fields {
 	}
 
 	/**
-	 * Filter the social networks which are disabled in the configuration.
+	 * Filter the social networks which are disabled in the configuration
 	 *
 	 * @param array $social_networks Array with the social networks that have to be filtered.
 	 *

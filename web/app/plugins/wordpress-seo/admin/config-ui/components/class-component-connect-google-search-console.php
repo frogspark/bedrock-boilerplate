@@ -6,25 +6,15 @@
  */
 
 /**
- * Class WPSEO_Config_Component_Connect_Google_Search_Console.
+ * Class WPSEO_Config_Component_Connect_Google_Search_Console
  */
 class WPSEO_Config_Component_Connect_Google_Search_Console implements WPSEO_Config_Component {
 
-	/**
-	 * @var string
-	 */
 	const OPTION_ACCESS_TOKEN = 'wpseo-gsc-access_token';
-
-	/**
-	 * @var string
-	 */
 	const OPTION_REFRESH_TOKEN = 'wpseo-gsc-refresh_token';
 
-	/**
-	 * Service to use.
-	 *
-	 * @var WPSEO_GSC_Service
-	 */
+
+	/** @var WPSEO_GSC_Service Service to use */
 	protected $gsc_service;
 
 	/**
@@ -78,7 +68,7 @@ class WPSEO_Config_Component_Connect_Google_Search_Console implements WPSEO_Conf
 	}
 
 	/**
-	 * Save data.
+	 * Save data
 	 *
 	 * @param array $data Data containing changes.
 	 *
@@ -105,7 +95,7 @@ class WPSEO_Config_Component_Connect_Google_Search_Console implements WPSEO_Conf
 	}
 
 	/**
-	 * Remove issues when the profile has changed.
+	 * Remove issues when the profile has changed
 	 *
 	 * @param array $current_data Saved data before changes.
 	 * @param array $data         Data after changes.
@@ -120,7 +110,7 @@ class WPSEO_Config_Component_Connect_Google_Search_Console implements WPSEO_Conf
 	}
 
 	/**
-	 * Get the current GSC profile.
+	 * Get the current GSC profile
 	 *
 	 * @return string
 	 */
@@ -129,7 +119,7 @@ class WPSEO_Config_Component_Connect_Google_Search_Console implements WPSEO_Conf
 	}
 
 	/**
-	 * Reload GSC issues.
+	 * Reload GSC issues
 	 */
 	protected function reload_issues() {
 		WPSEO_GSC_Settings::reload_issues();

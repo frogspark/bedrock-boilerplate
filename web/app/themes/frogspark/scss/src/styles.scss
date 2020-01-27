@@ -1,4 +1,5 @@
 @import 'variables';
+@import 'fonts';
 @import 'node_modules/bootstrap/scss/bootstrap.scss';
 @import 'node_modules/aos/src/sass/aos.scss';
 @import 'node_modules/slick-carousel/slick/slick.scss';
@@ -26,16 +27,188 @@ body {
   -moz-osx-font-smoothing: grayscale;
 
   > main {
-    &.no-scroll {
-      overflow: hidden;
-    }
     flex: 1 1 auto;
   }
 }
 
 ::selection {
   background-color: rgba(lighten($secondary, 10%), 0.5);
-  color: $primary;
+  color: $white;
+}
+
+.nf-form-wrap {
+  position: relative;
+
+  .nf-error-msg {
+    color: $primary;
+  }
+
+  .nf-error-required-error {
+    display: none;
+  }
+
+  .nf-before-form-content {
+    display: none;
+  }
+
+  .nf-form-content {
+    max-width: 100%;
+    padding: 0;
+  }
+
+  .nf-form-content .list-select-wrap > div div:after {
+    display: none;
+  }
+
+  .nf-pass.field-wrap .nf-field-element:after,
+  .nf-error.field-wrap .nf-field-element:after {
+    display: none;
+  }
+
+  .nf-pass .ninja-forms-field,
+  .nf-error .ninja-forms-field {
+    border-color: $primary !important;
+  }
+
+  nf-fields-wrap {
+    display: block;
+    flex-direction: row;
+    flex-wrap: wrap;
+
+    .nf-field-container {
+      margin-bottom: 8px;
+
+      @include md {
+        margin-bottom: 24px;
+      }
+
+      input:not([type="button"]),
+      textarea {
+        background-color: color-yiq($primary);
+        border: 1px solid $primary;
+        border-radius: 0;
+        color: $primary;
+        height: auto;
+        padding: 16px;
+        transition: $transition-base;
+        width: 100%;
+        -moz-appearance: none;
+        -webkit-appearance: none;
+
+        &:focus {
+          box-shadow: 0px 0px 0px 4px rgba($primary, .5);
+          outline: none;
+
+          &::placeholder {
+            opacity: .5;
+          }
+        }
+
+        &::placeholder {
+          color: $primary;
+          transition: $transition-base;
+        }
+      }
+
+      textarea {
+        height: 128px;
+      }
+    }
+
+    .list-wrap .nf-field-element {
+      position: relative;
+  
+      > div {
+        display: none;
+      }
+  
+      &:after {
+        color: $secondary;
+        content: '\f078';
+        font-family: 'Font Awesome 5 Pro';
+        font-weight: bold;
+        position: absolute;
+        right: 16px;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 5;
+      }
+  
+      select {
+        background-color: color-yiq($primary);
+        border: 1px solid $primary;
+        border-radius: 0;
+        color: $primary;
+        height: auto !important;
+        padding: 16px;
+        transition: $transition-base;
+        width: 100%;
+        -moz-appearance: none;
+        -webkit-appearance: none;
+    
+        &:focus {
+          box-shadow: 0px 0px 0px 4px rgba($primary, .5);
+          outline: none;
+        }
+      }
+    }
+
+    .textarea-container {
+      margin-bottom: 0;
+
+      @include md {
+        margin-bottom: 16px;
+      }
+    }
+
+    .submit-container {
+      margin-bottom: 0;
+      text-align: right;
+
+      input {
+        background-color: $primary;
+        border-radius: 100vh;
+        color: color-yiq($primary);
+        display: inline-block;
+        height: auto;
+        max-width: 100%;
+        min-width: 128px;
+        padding: 16px;
+        text-align: center;
+        transition: $transition-base;
+
+        &:focus {
+          outline: none;
+        }
+
+        &:hover {
+          background-color: $primary;
+          box-shadow: 0px 0px 0px 4px rgba($primary, .5);
+          color: color-yiq($primary);
+        }
+      }
+    }
+
+    @include lg {
+      display: flex;
+
+      nf-field {
+        flex: 100%;
+  
+        &:nth-child(-n+4) {
+          flex: 50%;
+
+          &:nth-child(odd) {
+            padding-right: 12px;
+          }
+  
+          &:nth-child(even) {
+            padding-left: 12px;
+          }
+        }
+      }
+    }
+  }
 }
 
 .slick-list,
@@ -48,6 +221,7 @@ body {
 .slick-dots:focus {
   outline: none;
 }
+
 
 .pagination {
   display: flex;
@@ -71,7 +245,6 @@ body {
     &:hover {
       color: $primary;
       opacity: 1;
-      perspective: 2000px;
     }
   }
 }
@@ -114,7 +287,7 @@ body {
 
   a:hover .btn-#{$label},
   .btn-#{$label}:hover {
-    background-color: $color;
+    background-color: color-yiq($color);
     box-shadow: 0px 0px 0px 4px rgba($color, .5);
     color: color-yiq($color);
 
@@ -309,96 +482,6 @@ button:focus {
   }
 }
 
-// Header Styling
-.navbar-custom {
-  text-align: center;
-  padding: 15px;
-  background-color: white !important;
-  font-weight: bold;
-  font-size: 1.5rem;
-  color: $fourthary;
-
-  .sticky-top {
-
-    &.scroll {
-      box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.5);
-    }
-
-    &.noscroll {
-      box-shadow: none;
-    }
-  }
-
-  .navbar-brand {
-    img {
-      max-height: 30px;
-    }
-  }
-
-  @include lg {
-    padding: 0;
-  }
-
-  .nav {
-    padding: 15px 0;
-
-    @include md {
-      padding: 0;
-    }
-
-    .nav-item {
-
-      @include lg {
-        margin-right: 25px;
-      }
-    }
-
-    .btn-donate,
-    .btn-get-involved {
-      font-weight: bold;
-      font-size: 1.5rem;
-
-      &:hover {
-        background-color: $fourthary;
-        color: white;
-      }
-
-      @include md {
-        background-color: $secondary;
-        border-radius: 0;
-        border: 0;
-        padding: 8px 35px !important;
-        margin-right: 0;
-      }
-    }
-
-    .btn-get-involved {
-      @include md {
-        background-color: $tertiary;
-      }
-    }
-
-    .btn-get-involved a,
-    .btn-donate a {
-      @include md {
-        color: white !important;
-      }
-    }
-
-    .nav-item {
-      padding: 5px;
-    }
-  }
-
-  button {
-    border: 0;
-
-    &:focus {
-      border: 0;
-      outline: 0;
-    }
-  }
-}
 .logo img {
   height: auto;
   width: 64px;
@@ -408,7 +491,7 @@ button:focus {
   }
 }
 
-header, .header {
+header {
   border-bottom: 1px solid rgba($primary, .25);
   position: sticky;
   top: 0;
@@ -492,38 +575,23 @@ header, .header {
   }
 }
 
-// Contact Page
-.page-id-20 {
-
-  .navbar-custom {
-    border-bottom: 10px solid #eee;
+@media screen and (max-width: 767px) {
+  h1, .h1 {
+    font-size: 1.75rem;
   }
-
-  a {
-    color: #4E4E4E;
-
-    &:hover {
-      color: $tertiary;
-    }
+  h2, .h2 {
+    font-size: 1.5rem;
   }
-}
-.nf-error-msg {
-  font-size: 1.3rem;
-}
-.form-custom {
-  font-weight: bold;
-  font-size: 25px;
-  border-radius: 0;
-  border: 0;
-  background-color: #F2F2F2;
-  padding: 15px 20px;
-
-  &:focus {
-    background-color: #F2F2F2;
+  h3, .h3 {
+    font-size: 1.3rem;
   }
-
-  &::placeholder {
-    color: #C1C1C1;
-
+  h4, .h4 {
+    font-size: 1.2rem;
+  }
+  h5, .h5 {
+    font-size: 1.1rem;
+  }
+  h6, .h6 {
+    font-size: 1rem;
   }
 }
