@@ -38,14 +38,6 @@ body {
   color: $primary;
 }
 
-p:empty {
-  display: none;
-}
-
-p {
-  color: $primary;
-}
-
 .slick-list,
 .slick-slide,
 .slick-track {
@@ -84,40 +76,109 @@ p {
   }
 }
 
-// Global Elements
-.btn-global {
-  border-radius: $border-rad-global;
-  padding: 5px 50px;
-  font-size: 2.0rem;
-  border: 0;
-  font-weight: bold;
-  box-shadow: $box-shad-global;
-  transition: all 0.4s ease-in-out;
-
-  &:hover {
-    box-shadow: none;
-    background: $fourthary;
-  }
-}
 @each $label, $color in $theme-colors {
   .btn-#{$label} {
     background-color: $color;
     border: 2px solid $color;
-    border-radius: .5rem;
     color: color-yiq($color);
-    font-weight: bold;
+    display: inline-block;
+    font-weight: normal;
+    letter-spacing: 2px;
+    padding: 12px 16px 10px;
+    position: relative;
     text-align: center;
+    text-transform: uppercase;
     transition: $transition-base;
+
+    &:before {
+      background-color: transparent;
+      box-shadow: 0px 0px 0px 4px rgba($color, 0);
+      content: '';
+      height: 100%;
+      left: 0;
+      position: absolute;
+      top: 0;
+      width: 100%;
+    }
+
+    i {
+      color: lighten($color, 15%);
+      display: none;
+      margin-right: 8px;
+
+      @include md {
+        display: inline-block;
+      }
+    }
   }
 
   a:hover .btn-#{$label},
   .btn-#{$label}:hover {
-    background-color: $color-yiq($color);
+    background-color: $color;
     box-shadow: 0px 0px 0px 4px rgba($color, .5);
-    color: $color;
+    color: color-yiq($color);
+
+    &:before {
+      animation: btn-#{$label} .25s linear 0s 1;
+    }
+  }
+
+  .btn-outline-#{$label} {
+    background-color: transparent;
+    border: 2px solid $color;
+    border-image: linear-gradient(to right, $color, lighten($color, 15%), $color);
+    border-image-slice: 1;
+    border-width: 2px;
+    color: inherit;
+    display: inline-block;
+    font-weight: normal;
+    letter-spacing: 2px;
+    padding: 12px 16px 10px;
+    position: relative;
+    text-align: center;
+    text-transform: uppercase;
+    transition: $transition-base;
+
+    // &:before {
+    //   background-color: transparent;
+    //   box-shadow: 0px 0px 0px 4px rgba($color, 0);
+    //   content: '';
+    //   height: 100%;
+    //   left: 0;
+    //   position: absolute;
+    //   top: 0;
+    //   width: 100%;
+    // }
+
+    i {
+      color: lighten($color, 15%);
+      display: none;
+      margin-right: 8px;
+
+      @include md {
+        display: inline-block;
+      }
+    }
+  }
+
+  a:hover .btn-outline-#{$label},
+  .btn-outline-#{$label}:hover {
+    background-color: transparent;
+    box-shadow: 0px 0px 0px 4px rgba($color, .5);
+
+    &:before {
+      animation: btn-#{$label} .25s linear 0s 1;
+    }
+  }
+
+  @keyframes btn-#{$label} {
+    0% {box-shadow: 0px 0px 0px 4px rgba($color, .5);}
+    50% {box-shadow: 0px 0px 0px 8px rgba($color, .25);}
+    100% {box-shadow: 0px 0px 0px 12px rgba($color, 0);}
   }
 
   .btn-underline-#{$label} {
+    color: $color;
     position: relative;
     transition: $transition-base;
 
@@ -148,36 +209,103 @@ p {
       bottom: 0;
       opacity: 1;
     }
-    p {
-      font-family: 'Helvetica', sans-serif;
-      font-size: 1rem;
-      color: #4E4E4E;
-
-      @include lg {
-        font-size: 1.25rem;
-      }
-    }
   }
 }
 
-@media screen and (max-width: 767px) {
-  h1, .h1 {
-    font-size: 1.75rem;
+input:focus,
+select:focus
+textarea:focus,
+button:focus {
+  outline: none !important;
+}
+
+.rounded {
+  border-radius: .5rem !important;
+}
+
+.shadow {
+  box-shadow: 0px 0px 12px 0px rgba($primary, .25) !important;
+}
+
+.img-block {
+  height: 100%;
+  position: relative;
+
+  .bg-square,
+  .bg-landscape {
+    min-height: 100%;
   }
-  h2, .h2 {
-    font-size: 1.5rem;
+
+  .overlay {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    opacity: .29;
+    background-color: black;
   }
-  h3, .h3 {
-    font-size: 1.3rem;
+}
+
+.dropdown {
+  width: 100%;
+  display: block;
+  
+  @include sm {
+    width: auto;
+    display: inline-block;
   }
-  h4, .h4 {
-    font-size: 1.2rem;
+
+  &:after {
+    position: absolute;
+    font-family:'Font Awesome 5 Pro';
+    content:'\f078';
+    pointer-events: none;
+    right: 16px;
+    top:50%;
+    transform: translateY(-50%);
+    z-index: 5;
   }
-  h5, .h5 {
-    font-size: 1.1rem;
-  }
-  h6, .h6 {
-    font-size: 1rem;
+  select {
+    width: 100%;
+    height: auto !important;
+    -webkit-appearance: none;
+    font-size: 12px;
+    line-height: 14px;
+    letter-spacing: 2.6px;
+    color: black;
+    text-transform: uppercase;
+    border: solid 1px black;
+    border-radius: 0;
+    padding: 14px 48px 12px 27px;
+    transition: all .25s ease;
+    list-style: none;
+
+    li {
+      list-style: none;
+      position: relative;
+      padding-left: 1.2rem;
+      line-height: 1.1;
+      margin-bottom: .75rem;
+
+      @include lg {
+        margin-bottom: .25rem;
+        line-height: 1.5rem;
+      }
+
+      &:before {
+        content: '\f00c';
+        color: $secondary !important;
+        font-family: 'Font Awesome 5 Pro';
+        position: absolute;
+        left: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 1rem;
+        font-size: 0.75rem;
+        line-height: 1;
+      }
+    }
   }
 }
 
