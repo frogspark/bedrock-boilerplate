@@ -8,59 +8,21 @@ if (! isset($content_width)) {
   $content_width = 837;
 }
 
-if (! function_exists('bootstrap_four_widgets_init')):
-  function bootstrap_four_widgets_init(){
-    register_sidebar(
-      array(
-        'name' => __('Footer Column One', 'bootstrap-four'),
-        'id' => 'footer_column_one',
-        'before_widget' => '<aside id="%1$s" class="widget %2$s">',
-        'after_widget' => '</aside>',
-        'before_title' => '<h5>',
-        'after_title' => '</h5>',
-      )
-    );
-    register_sidebar(
-      array(
-        'name' => __('Footer Column Two', 'bootstrap-four'),
-        'id' => 'footer_column_two',
-        'before_widget' => '<aside id="%1$s" class="widget %2$s">',
-        'after_widget' => '</aside>',
-        'before_title' => '<h5>',
-        'after_title' => '</h5>',
-      )
-    );
-    register_sidebar(
-      array(
-        'name' => __('Footer Column Three', 'bootstrap-four'),
-        'id' => 'footer_column_three',
-        'before_widget' => '<aside id="%1$s" class="widget %2$s">',
-        'after_widget' => '</aside>',
-        'before_title' => '<h5>',
-        'after_title' => '</h5>',
-      )
-    );
-    register_sidebar(
-      array(
-        'name' => __('Footer Column Four', 'bootstrap-four'),
-        'id' => 'footer_column_four',
-        'before_widget' => '<aside id="%1$s" class="widget %2$s">',
-        'after_widget' => '</aside>',
-        'before_title' => '<h5>',
-        'after_title' => '</h5>',
-      )
-    );
-    register_sidebar(array(
-      'name' => __('Sidebar', 'bootstrap-four'),
-      'id' => 'sidebar',
-      'before_widget' => '<aside id="%1$s" class="widget %2$s">',
-      'after_widget' => '</aside>',
-      'before_title' => '<h3>',
-      'after_title' => '</h3>',
-    ));
-  }
-endif;
-add_action('widgets_init', 'bootstrap_four_widgets_init');
+// if (! function_exists('bootstrap_four_widgets_init')):
+//   function bootstrap_four_widgets_init(){
+//     register_sidebar(
+//       array(
+//         'name' => __('Footer Column One', 'bootstrap-four'),
+//         'id' => 'footer_column_one',
+//         'before_widget' => '<aside id="%1$s" class="widget %2$s">',
+//         'after_widget' => '</aside>',
+//         'before_title' => '<h5>',
+//         'after_title' => '</h5>',
+//       )
+//     );
+//   }
+// endif;
+// add_action('widgets_init', 'bootstrap_four_widgets_init');
 
 if (! function_exists('bootstrap_four_setup')):
   function bootstrap_four_setup(){
@@ -450,3 +412,11 @@ add_action('do_feed_atom', 'rss_disable_feed', 1);
 */
 
 remove_action('welcome_panel', 'wp_welcome_panel');
+
+/**
+ * Register Custom Navigation Walker
+ */
+function register_navwalker(){
+	require_once get_template_directory() . '/inc/navwalker.php';
+}
+add_action( 'after_setup_theme', 'register_navwalker' );
