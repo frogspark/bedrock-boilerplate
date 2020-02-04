@@ -4,7 +4,7 @@
 1. Run `composer install`
 1. Run `cp .env.example .env`
 
-Edit your .env file with your local database credentials and site information.
+Edit your `.env` file with your local database credentials and site information.
 
 Open `gulpfile.js` and update `projectURL` to point at the URL of your local site (e.g. `http://project-name.test`).
 
