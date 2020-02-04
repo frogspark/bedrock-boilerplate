@@ -1,12 +1,12 @@
 ## Frogspark Bedrock Boilerplate
 
-Run `npm install`
-Run `composer install`
-Run `cp .env.example .env`
+1. Run `npm install`
+1. Run `composer install`
+1. Run `cp .env.example .env`
 
 Edit your .env file with your local database credentials and site information.
 
-Open `gulpfile.babel.js` and update `projectURL` to point at the URL of your local site.
+Open `gulpfile.js` and update `projectURL` to point at the URL of your local site (e.g. `http://project-name.test`).
 
 Run `gulp` to begin development
 
