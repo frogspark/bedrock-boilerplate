@@ -6,6 +6,16 @@
     text-transform: none !important;
 }
 
+input,
+select, 
+textarea,
+button, 
+a {
+    &:focus {
+        outline: none !important;
+    }
+}
+
 h1,
 .h1,
 h2,
@@ -40,10 +50,6 @@ a {
 
     * {
         transition: $transition-base;
-    }
-
-    &:focus {
-        outline: none;
     }
 }
 

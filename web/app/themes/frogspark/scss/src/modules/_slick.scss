@@ -1,0 +1,81 @@
+.slick-list,
+.slick-slide,
+.slick-track {
+  backface-visibility: hidden;
+}
+
+.slick-arrows:focus,
+.slick-dots:focus {
+  outline: none;
+}
+
+.slick-arrow {
+    border: 2px solid $secondary;
+    display: block;
+    height: 40px;
+    width: 40px;
+    position: relative;
+    transition: $transition-base;
+
+    &:before,
+    &:after {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        color: $primary;
+        font-family: 'Font Awesome 5 Pro';
+        transform: translateX(-50%) translateY(-50%);
+        transition: $transition-base;
+    }
+
+    &.slick-prev:before {
+        content: '\f060';
+    }
+
+    &.slick-next:after {
+        content: '\f061';
+    }
+
+    &:hover {
+        background-color: $secondary;
+        cursor: pointer;
+
+        &:before,
+        &:after {
+            color: $quaternary;
+        }
+    }
+}
+
+.slick-dots {
+    display: flex;
+    flex-direction: row;
+    list-style: none;
+    margin-bottom: 0;
+    padding-left: 0;
+
+    li {
+        margin-right: 8px;
+        position: relative;
+
+        &.slick-active button {
+            background-color: $secondary;
+        }
+
+        button {
+            background-color: $primary;
+            border: 0;
+            border-radius: 100vh;
+            font-size: 0;
+            height: 12px;
+            padding: 0;
+            transition: $transition-base;
+            width: 12px;
+
+            &:hover {
+                background-color: $secondary;
+            }
+        }
+    }
+}
+

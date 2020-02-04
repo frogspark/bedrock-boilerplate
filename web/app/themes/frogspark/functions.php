@@ -450,3 +450,7 @@ add_action('do_feed_atom', 'rss_disable_feed', 1);
 */
 
 remove_action('welcome_panel', 'wp_welcome_panel');
+
+function get_navigation() {
+  return get_template_part('inc/_navigation');
+}

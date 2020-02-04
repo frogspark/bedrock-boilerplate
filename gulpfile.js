@@ -1,16 +1,15 @@
-var gulp = require('gulp');
-var sass = require('gulp-sass');
-var concat = require('gulp-concat');
-var sourcemaps = require('gulp-sourcemaps');
-var uglify = require('gulp-uglify');
-var notify = require('gulp-notify');
-var rename = require('gulp-rename');
-var cleanCSS = require('gulp-clean-css');
-var autoprefix = require('gulp-autoprefixer');
-var browserSync = require('browser-sync');
-var plumber = require('gulp-plumber');
+const gulp, {series, src, dest} = require('gulp');
+const sass = require('gulp-sass');
+const concat = require('gulp-concat');
+const sourcemaps = require('gulp-sourcemaps');
+const uglify = require('gulp-uglify');
+const notify = require('gulp-notify');
+const rename = require('gulp-rename');
+const cleanCSS = require('gulp-clean-css');
+const autoprefix = require('gulp-autoprefixer');
+const browserSync = require('browser-sync');
+const plumber = require('gulp-plumber');
 
-const {series} = require('gulp');
 browserSync.create();
 
 const projectURL = 'http://valet.test';
@@ -48,7 +47,7 @@ function sassfn() {
 
 function font() {
   return gulp.src('node_modules/@fortawesome/fontawesome-pro/webfonts/*')
-    .pipe(gulp.dest(`${themeURL}scss/webfonts`));
+         .pipe(gulp.dest(`${themeURL}scss/webfonts`));
 }
 
 function browsersync() {

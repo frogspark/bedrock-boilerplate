@@ -25,6 +25,32 @@
   }
 }
 
+@mixin xxl-max {
+  @media only screen and (max-width: map-get($grid-breakpoints, "xxl")) {
+    @content; 
+  }
+}
+@mixin xl-max {
+  @media only screen and (max-width:  map-get($grid-breakpoints, "xl")) {
+    @content; 
+  }
+}
+@mixin lg-max {
+  @media only screen and (max-width:  map-get($grid-breakpoints, "lg")) {
+    @content; 
+  }
+}
+@mixin md-max {
+  @media only screen and (max-width:  map-get($grid-breakpoints, "md")) {
+    @content; 
+  }
+}
+@mixin sm-max {
+  @media only screen and (max-width:  map-get($grid-breakpoints, "sm")) {
+    @content; 
+  }
+}
+
 /* Cross-browser mixins. */
 @mixin ie {
   _:-ms-input-placeholder, :root {
