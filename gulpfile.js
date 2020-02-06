@@ -1,4 +1,4 @@
-const gulp, {series, src, dest} = require('gulp');
+const gulp, {series, parallel,  src, dest} = require('gulp');
 const sass = require('gulp-sass');
 const concat = require('gulp-concat');
 const sourcemaps = require('gulp-sourcemaps');
@@ -16,13 +16,13 @@ const projectURL = 'http://valet.test';
 const themeURL = 'web/app/themes/frogspark/';
 
 function js() {
-  return gulp.src(`${themeURL}js/src/*.js`)
+  return src(`${themeURL}js/src/*.js`)
     .pipe(concat('bundle.min.js'))
     .pipe(sourcemaps.init())
     .pipe(sourcemaps.write())
     .pipe(uglify())
     .pipe(rename('bundle.min.js'))
-    .pipe(gulp.dest(`${themeURL}js/dist`));
+    .pipe(dest(`${themeURL}js/dist`));
 }
 function sassfn() {
   const onError = (err) => {
@@ -33,7 +33,7 @@ function sassfn() {
     console.log(err.toString());
   };
 
-  return gulp.src(`${themeURL}scss/src/styles.scss`)
+  return src(`${themeURL}scss/src/styles.scss`)
     .pipe(concat('bundle.min.scss'))
     .pipe(sourcemaps.init())
     .pipe(plumber({ errorHandler: onError }))
@@ -41,13 +41,13 @@ function sassfn() {
     .pipe(sourcemaps.write())
     .pipe(cleanCSS())
     .pipe(rename('bundle.min.css'))
-    .pipe(gulp.dest(`${themeURL}scss/dist`))
+    .pipe(dest(`${themeURL}scss/dist`))
     .pipe(browserSync.stream());
 }
 
 function font() {
-  return gulp.src('node_modules/@fortawesome/fontawesome-pro/webfonts/*')
-         .pipe(gulp.dest(`${themeURL}scss/webfonts`));
+  return src('node_modules/@fortawesome/fontawesome-pro/webfonts/*')
+         .pipe(dest(`${themeURL}scss/webfonts`));
 }
 
 function browsersync() {
@@ -63,7 +63,7 @@ function browsersync() {
 }
 
 const development = series(font, sassfn, js, browsersync);
-const production = series(font, sassfn, js);
+const production = parallel(font, sassfn, js);
 
 exports.production = production;
 exports.default = development;
