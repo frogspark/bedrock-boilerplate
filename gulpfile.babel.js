@@ -1,4 +1,5 @@
-const gulp, {series, parallel,  src, dest} = require('gulp');
+const gulp = require('gulp');
+const {series, parallel,  src, dest} = require('gulp');
 const sass = require('gulp-sass');
 const concat = require('gulp-concat');
 const sourcemaps = require('gulp-sourcemaps');
@@ -6,17 +7,18 @@ const uglify = require('gulp-uglify');
 const notify = require('gulp-notify');
 const rename = require('gulp-rename');
 const cleanCSS = require('gulp-clean-css');
-const autoprefix = require('gulp-autoprefixer');
+const babel = require('gulp-babel');
 const browserSync = require('browser-sync');
 const plumber = require('gulp-plumber');
 
 browserSync.create();
 
-const projectURL = 'http://valet.test';
+const projectURL = 'http://wathalls.test';
 const themeURL = 'web/app/themes/frogspark/';
 
 function js() {
   return src(`${themeURL}js/src/*.js`)
+    .pipe(babel())
     .pipe(concat('bundle.min.js'))
     .pipe(sourcemaps.init())
     .pipe(sourcemaps.write())
