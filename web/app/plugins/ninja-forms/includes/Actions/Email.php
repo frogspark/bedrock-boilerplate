@@ -32,7 +32,7 @@ final class NF_Actions_Email extends NF_Abstracts_Action
     {
         parent::__construct();
 
-        $this->_nicename = __( 'Email', 'ninja-forms' );
+        $this->_nicename = esc_html__( 'Email', 'ninja-forms' );
 
         $settings = Ninja_Forms::config( 'ActionEmailSettings' );
 
@@ -180,7 +180,7 @@ final class NF_Actions_Email extends NF_Abstracts_Action
                     $email = $email[ 1 ];
                 }
                 if( ! is_email( $email ) ) {
-                    $errors[ 'invalid_email' ] = sprintf( __( 'Your email action "%s" has an invalid value for the "%s" setting. Please check this setting and try again.', 'ninja-forms'), $action_settings[ 'label' ], $setting );
+                    $errors[ 'invalid_email' ] = sprintf( esc_html__( 'Your email action "%s" has an invalid value for the "%s" setting. Please check this setting and try again.', 'ninja-forms'), $action_settings[ 'label' ], $setting );
                 }
             }
         }
@@ -207,11 +207,24 @@ final class NF_Actions_Email extends NF_Abstracts_Action
     {
         $attachments = array();
 
-        if( 1 == $settings[ 'attach_csv' ] ){
+        if( isset( $settings[ 'attach_csv' ] ) && 1 == $settings[ 'attach_csv' ] ){
             $attachments[] = $this->_create_csv( $data[ 'fields' ] );
         }
 
         if( ! isset( $settings[ 'id' ] ) ) $settings[ 'id' ] = '';
+
+        // Allow admins to attach files from media library
+        if (isset($settings['file_attachment']) && 0 < strlen($settings['file_attachment'])) {
+            $file_path = '';
+            $media_id = attachment_url_to_postid($settings['file_attachment']);
+
+            if($media_id !== 0) {
+                $file_path = get_attached_file($media_id);
+                if (0 < strlen($file_path)) {
+                    $attachments[] = $file_path;
+                }
+            }
+        }
 
         $attachments = apply_filters( 'ninja_forms_action_email_attachments', $attachments, $data, $settings );
 
@@ -303,12 +316,15 @@ final class NF_Actions_Email extends NF_Abstracts_Action
             $label = ( '' != $field[ 'admin_label' ] ) ? $field[ 'admin_label' ] : $field[ 'label' ];
 
             $value = WPN_Helper::stripslashes( $field[ 'value' ] );
-            if ( empty( $value ) ) {
+            if ( empty( $value ) && ! isset( $value ) ) {
                 $value = '';
             }
             if ( is_array( $value ) ) {
                 $value = implode( ',', $value );
             }
+
+            // add filter to add single quote if first character in value is '='
+            $value = apply_filters( 'ninja_forms_subs_export_field_value_' . $field[ 'type' ], $value, $field );
 
             $csv_array[ 0 ][] = $label;
             $csv_array[ 1 ][] = $value;

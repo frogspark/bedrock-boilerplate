@@ -11,7 +11,7 @@ define( ['models/formModel'], function( FormModel ) {
 		comparator: 'title',
 		tmpNum: 1,
         url: function() {
-            return ajaxurl + "?action=nf_forms";
+            return ajaxurl + "?action=nf_forms&security=" + nfAdmin.ajaxNonce;
         },
 
 		initialize: function() {
@@ -29,6 +29,10 @@ define( ['models/formModel'], function( FormModel ) {
 		},
 
         parse: function( response, options ){
+            if (response.data.hasOwnProperty('error')) {
+                alert(response.data.error);
+                return null;
+            }
 		    return response.data;
         },
 
@@ -44,7 +48,7 @@ define( ['models/formModel'], function( FormModel ) {
             messageBox = document.createElement( 'p' );
             title = document.createElement( 'em' );
             buttons = document.createElement( 'div' );
-            confirm = document.createElement( 'div' );
+            confirm = document.createElement( 'button' );
             cancel = document.createElement( 'div' );
 
             container.classList.add( 'message' );
@@ -121,9 +125,10 @@ define( ['models/formModel'], function( FormModel ) {
             } );
 
             var btnConfirm = this.modal.container[0].getElementsByClassName('confirm')[0];
-            btnConfirm.addEventListener('click', function() {
+            btnConfirm.addEventListener('click', function( e ) {
+                e.preventDefault();
                 var deleteInputVal = document.getElementById( 'confirmDeleteFormInput' ).value;
-
+                
                 if( 'DELETE' === deleteInputVal ) {
 	                that.confirmDelete(view);
                 } else {
@@ -159,18 +164,23 @@ define( ['models/formModel'], function( FormModel ) {
             var that = this;
             jQuery.ajax({
                 type: "POST",
-                url: ajaxurl + '?action=nf_forms&clone_id=' + view.model.get( 'id' ),
+                url: ajaxurl + '?action=nf_forms&clone_id=' + view.model.get( 'id' ) + '&security=' + nfAdmin.ajaxNonce,
                 success: function( response ){
                     var response = JSON.parse( response );
-                    var newID = response.data.new_form_id;
-                    var clone = view.model.clone();
-                    clone.set({
-                        id: newID,
-                        title: clone.get( 'title' ) + ' - copy',
-                        created_at: new Date(),
-                    });
-                    clone.initShortcode( newID );
-                    view.model.collection.add( clone );
+
+                    if(response.data.hasOwnProperty('error')) {
+                        alert(response.data.error);
+                    } else {
+                        var newID = response.data.new_form_id;
+                        var clone = view.model.clone();
+                        clone.set({
+                            id: newID,
+                            title: clone.get( 'title' ) + ' - copy',
+                            created_at: new Date(),
+                        });
+                        clone.initShortcode( newID );
+                        view.model.collection.add( clone );
+                    }
                     that.modalClose();
                 }
             });

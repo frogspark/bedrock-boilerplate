@@ -83,7 +83,7 @@ final class NF_Database_Models_Submission
         return intval( $this->_seq_num );
     }
 
-    public function get_sub_date( $format )
+    public function get_sub_date( $format = 'm/d/Y' )
     {
         return date( $format, strtotime( $this->_sub_date ) );
     }
@@ -296,7 +296,7 @@ final class NF_Database_Models_Submission
 
         $field_labels = array(
             '_seq_num' => '#',
-            '_date_submitted' => __( 'Date Submitted', 'ninja-forms' )
+            '_date_submitted' => esc_html__( 'Date Submitted', 'ninja-forms' )
         );
 
         // Legacy Filter from 2.9.*

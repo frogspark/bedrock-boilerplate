@@ -53,8 +53,8 @@ final class NF_Admin_Menus_Settings extends NF_Abstracts_Submenu
         include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
         if ( is_plugin_active( 'contact-form-7/wp-contact-form-7.php' ) ) {
             $notices[ 'cf7' ] = array(
-                'title' => __( 'Contact Form 7 is currently activated.', 'ninja-forms' ),
-                'msg' => sprintf( __( 'Please be aware that there is an issue with Contact Form 7 that breaks reCAPTCHA in other plugins.%sIf you need to use reCAPTCHA on any of your Ninja Forms, you will need to disable Contact Form 7.', 'ninja-forms' ), '<br />' ),
+                'title' => esc_html__( 'Contact Form 7 is currently activated.', 'ninja-forms' ),
+                'msg' => sprintf( esc_html__( 'Please be aware that there is an issue with Contact Form 7 that breaks reCAPTCHA in other plugins.%sIf you need to use reCAPTCHA on any of your Ninja Forms, you will need to disable Contact Form 7.', 'ninja-forms' ), '<br />' ),
                 'int' => 0
             );
         }
@@ -63,7 +63,7 @@ final class NF_Admin_Menus_Settings extends NF_Abstracts_Submenu
 
     public function get_page_title()
     {
-        return __( 'Settings', 'ninja-forms' );
+        return esc_html__( 'Settings', 'ninja-forms' );
     }
 
     public function get_capability()
@@ -74,13 +74,13 @@ final class NF_Admin_Menus_Settings extends NF_Abstracts_Submenu
     public function display()
     {
         $tabs = apply_filters( 'ninja_forms_settings_tabs', array(
-                'settings' => __( 'Settings', 'ninja-forms' ),
-                'licenses' => __( 'Licenses', 'ninja-forms' )
+                'settings' => esc_html__( 'Settings', 'ninja-forms' ),
+                'licenses' => esc_html__( 'Licenses', 'ninja-forms' )
             )
         );
 
         $tab_keys = array_keys( $tabs );
-        $active_tab = ( isset( $_GET[ 'tab' ] ) ) ? $_GET[ 'tab' ] : reset( $tab_keys );
+        $active_tab = ( isset( $_GET[ 'tab' ] ) ) ? WPN_Helper::sanitize_text_field($_GET[ 'tab' ]) : reset( $tab_keys );
 
         wp_enqueue_style( 'nf-admin-settings', Ninja_Forms::$url . 'assets/css/admin-settings.css' );
 
@@ -88,7 +88,7 @@ final class NF_Admin_Menus_Settings extends NF_Abstracts_Submenu
 
         $grouped_settings = $this->get_settings();
 
-        $save_button_text = __( 'Save Settings', 'ninja-forms' );
+        $save_button_text = esc_html__( 'Save Settings', 'ninja-forms' );
 
         $setting_defaults = Ninja_Forms()->get_settings();
 
@@ -129,7 +129,7 @@ final class NF_Admin_Menus_Settings extends NF_Abstracts_Submenu
             $grouped_settings[ 'saved_fields'][] = array(
                 'id' => '',
                 'type' => 'html',
-                'html' => '<a class="js-delete-saved-field button button-secondary" data-id="' . $saved_field_id . '">' . __( 'Delete', 'ninja-forms' ) . '</a>',
+                'html' => '<a class="js-delete-saved-field button button-secondary" data-id="' . $saved_field_id . '">' . esc_html__( 'Delete', 'ninja-forms' ) . '</a>',
                 'label' => $saved_field->get_setting( 'label' ),
 
             );
@@ -154,21 +154,58 @@ final class NF_Admin_Menus_Settings extends NF_Abstracts_Submenu
         wp_enqueue_style( 'nf-combobox', Ninja_Forms::$url . 'assets/css/combobox.css' );
 	    wp_enqueue_style( 'jBox', Ninja_Forms::$url . 'assets/css/jBox.css' );
         wp_register_script( 'ninja_forms_admin_menu_settings', Ninja_Forms::$url . 'assets/js/admin-settings.js', array( 'jquery' ), FALSE, TRUE );
+        
+        /**
+         * This wp_localize_script call should eventually be removed.
+         *
+         * TODO: Remove this function call when we've replaced references to nf_settings in our JS with nfAdmin.
+         */
         wp_localize_script( 'ninja_forms_admin_menu_settings', 'nf_settings', array(
             'ajax_url'      => admin_url( 'admin-ajax.php' ),
             'forms'         => $form_options,
-            'nf_nuke_title' => __( 'Remove ALL Ninja Forms data and uninstall?', 'ninja-forms' ),
+            'nf_nuke_title' => esc_html__( 'Remove ALL Ninja Forms data and uninstall?', 'ninja-forms' ),
             'nonce'         => wp_create_nonce( "ninja_forms_settings_nonce" ),
-            'batch_nonce'   => wp_create_nonce( 'ninja_forms_batch_nonce' ),
+            'batchNonce'   => wp_create_nonce( 'ninja_forms_batch_nonce' ),
             'i18n'          => array(
-                'rollbackConfirm'                  => __( 'Are you sure you want to rollback?', 'ninja-forms' ),
-                'trashExpiredSubsMessage'          => __( 'Are you sure you want to trash all expired submissions?', 'ninja-forms' ),
-                'trashExpiredSubsButtonPrimary'    => __( 'Trash', 'ninja-forms' ),
-                'trashExpiredSubsButtonSecondary'  => __( 'Cancel', 'ninja-forms' ),
+                'downgradeMessage'                 => esc_html__( 'Are you sure you want to downgrade?', 'ninja-forms' ),
+                'downgradeWarningMessage'          => esc_html__( 'You WILL lose any forms or submissions created on this version of Ninja Forms.', 'ninja-forms' ),
+                'downgradeConfirmMessage'          => esc_html__( 'Type ', 'ninja-forms' ) . '<span style="color: red";>' . 'DOWNGRADE' . "</span>" . esc_html__( ' to confirm.', 'ninja-forms' ),
+                'downgradeButtonPrimary'           => esc_html__( 'Downgrade', 'ninja-forms'),
+                'downgradeButtonSecondary'         => esc_html__( 'Cancel', 'ninja-forms' ),
+                'trashExpiredSubsMessage'          => esc_html__( 'Are you sure you want to trash all expired submissions?', 'ninja-forms' ),
+                'trashExpiredSubsButtonPrimary'    => esc_html__( 'Trash', 'ninja-forms' ),
+                'trashExpiredSubsButtonSecondary'  => esc_html__( 'Cancel', 'ninja-forms' ),
+            ),
+            'allow_telemetry' => $allow_tel,
+        ));
+
+        /**
+         * Duplicating the localization above with an nfAdmin variable for consistency.
+         *
+         * Eventually, we should remove all references to nf_settings, which isn't very descriptive or specific with nfAdmin instead.
+         *
+         * TODO: Replace references to nf_settings object in admin JS files with nfAdmin.
+         */
+        wp_localize_script( 'ninja_forms_admin_menu_settings', 'nfAdmin', array(
+            'ajax_url'      => admin_url( 'admin-ajax.php' ),
+            'forms'         => $form_options,
+            'nf_nuke_title' => esc_html__( 'Remove ALL Ninja Forms data and uninstall?', 'ninja-forms' ),
+            'nonce'         => wp_create_nonce( "ninja_forms_settings_nonce" ),
+            'batchNonce'   => wp_create_nonce( 'ninja_forms_batch_nonce' ),
+            'i18n'          => array(
+                'downgradeMessage'                 => esc_html__( 'Are you sure you want to downgrade?', 'ninja-forms' ),
+                'downgradeWarningMessage'          => esc_html__( 'You WILL lose any forms or submissions created on this version of Ninja Forms.', 'ninja-forms' ),
+                'downgradeConfirmMessage'          => esc_html__( 'Type ', 'ninja-forms' ) . '<span style="color: red";>' . 'DOWNGRADE' . "</span>" . esc_html__( ' to confirm.', 'ninja-forms' ),
+                'downgradeButtonPrimary'           => esc_html__( 'Downgrade', 'ninja-forms'),
+                'downgradeButtonSecondary'         => esc_html__( 'Cancel', 'ninja-forms' ),
+                'trashExpiredSubsMessage'          => esc_html__( 'Are you sure you want to trash all expired submissions?', 'ninja-forms' ),
+                'trashExpiredSubsButtonPrimary'    => esc_html__( 'Trash', 'ninja-forms' ),
+                'trashExpiredSubsButtonSecondary'  => esc_html__( 'Cancel', 'ninja-forms' ),
             ),
             'allow_telemetry' => $allow_tel,
         ));
         wp_enqueue_script( 'nf-ninja-modal', Ninja_Forms::$url . 'assets/js/lib/ninjaModal.js' );
+        wp_enqueue_script( 'nf-ninja-batch-processor', Ninja_Forms::$url . 'assets/js/lib/batch-processor.js' );
         wp_enqueue_style( 'nf-font-awesome', Ninja_Forms::$url . 'assets/css/font-awesome.min.css' );
 
 
@@ -184,12 +221,26 @@ final class NF_Admin_Menus_Settings extends NF_Abstracts_Submenu
 
         if( ! isset( $_POST[ $this->_prefix ] ) ) return;
 
-        $settings = $_POST[ 'ninja_forms' ];
+        $settings = WPN_Helper::sanitize_text_field($_POST[ 'ninja_forms' ]);
 
         if( isset( $settings[ 'currency' ] ) ){
             $currency = sanitize_text_field( $settings[ 'currency' ] );
             $currency_symbols = Ninja_Forms::config( 'CurrencySymbol' );
             $settings[ 'currency_symbol' ] = ( isset( $currency_symbols[ $currency ] ) ) ? $currency_symbols[ $currency ] : '';
+        }
+
+        if(isset($settings['builder_dev_mode'])){
+            $builder_dev_mode = sanitize_text_field( $settings['builder_dev_mode'] );
+            $has_builder_dev_mode_changed = ($builder_dev_mode !== Ninja_Forms()->get_setting('builder_dev_mode'));
+            if($builder_dev_mode && $has_builder_dev_mode_changed){
+                Ninja_Forms()->dispatcher()->send( 'builder_dev_mode', $builder_dev_mode );
+            }
+        }
+
+        if(isset($settings['opinionated_styles'])){
+            if('' == $settings['opinionated_styles']){
+                Ninja_Forms()->dispatcher()->send( 'opinionated_styles_disabled', 'disabled' );
+            }
         }
 
         foreach( $settings as $id => $value ){
