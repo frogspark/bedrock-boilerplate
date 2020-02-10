@@ -313,17 +313,31 @@ button:focus {
   }
 }
 
-.slick-list,
-.slick-slide,
-.slick-track {
-  backface-visibility: hidden;
-}
+.slick-slider {
+  position: relative;
 
-.slick-arrows:focus,
-.slick-dots:focus {
-  outline: none;
-}
+  .slick-arrow {
+    position: relative;
 
+    &:focus {
+      outline: none;
+    }
+  }
+
+  .slick-dots {
+    position: relative;
+
+    &:focus {
+      outline: none;
+    }
+  }
+
+  .slick-list,
+  .slick-slide,
+  .slick-track {
+    backface-visibility: hidden;
+  }
+}
 
 .pagination {
   display: flex;
@@ -370,6 +384,7 @@ button:focus {
   }
 
   .btn-underline-#{$label} {
+    color: $color;
     position: relative;
     transition: $transition-base;
 
@@ -403,21 +418,21 @@ button:focus {
   }
 }
 
-.logo img {
-  height: auto;
-  width: 64px;
-
-  @include lg {
-    width: 128px;
-  }
-}
-
 header {
   border-bottom: 1px solid rgba($primary, .25);
   position: sticky;
   top: 0;
   transition: $transition-base;
   z-index: 9;
+
+  .logo img {
+    height: auto;
+    width: 64px;
+  
+    @include lg {
+      width: 128px;
+    }
+  }
 
   #burger {
     background-color: transparent;
