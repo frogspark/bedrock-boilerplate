@@ -501,13 +501,41 @@ header {
   
       li {
         opacity: 1;
-        transition: all .25s ease .65s;
+        transition: all .25s ease .5s;
       }
     }
   
     li {
       opacity: 0;
     }
+  }
+}
+
+@include edge {
+  .nf-form-cont {
+    width: 100%;
+
+    nf-fields-wrap nf-field {
+      flex: none !important;
+      padding: 0 !important;
+      width: 100% !important;
+    }
+  }
+}
+
+@include ie {
+  .nf-form-cont {
+    width: 100%;
+
+    nf-fields-wrap nf-field {
+      flex: none !important;
+      padding: 0 !important;
+      width: 100% !important;
+    }
+  }
+
+  select::-ms-expand {
+    display: none;
   }
 }
 

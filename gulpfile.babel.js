@@ -20,7 +20,7 @@ const autoprefixerOptions = {
 };
 
 const ENVIRONMENT = process.env.NODE_ENV || 'production';
-const projectURL = 'http://';
+const projectURL = 'http://sitename.test';
 const themeURL = 'web/app/themes/frogspark/';
 
 gulp.task('js', () => {

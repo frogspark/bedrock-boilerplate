@@ -104,7 +104,7 @@
             "name": "vat_number",
             "type": "text",
             "instructions": "The VAT number which will be used site-wide (if applicable).",
-            "required": 0,
+            "required": 1,
             "conditional_logic": 0,
             "wrapper": {
                 "width": "50",
@@ -135,6 +135,65 @@
             "prepend": "",
             "append": "",
             "maxlength": ""
+        },
+        {
+            "key": "field_5e452ceaa0cd3",
+            "label": "Social media",
+            "name": "social_media",
+            "type": "repeater",
+            "instructions": "The social media which will be used site-wide.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "collapsed": "",
+            "min": 0,
+            "max": 0,
+            "layout": "table",
+            "button_label": "Add social media",
+            "sub_fields": [
+                {
+                    "key": "field_5e452cfaa0cd4",
+                    "label": "Platform",
+                    "name": "social_media_platform",
+                    "type": "select",
+                    "instructions": "facebook-f : Facebook\r\ntwitter : Twitter\r\nlinkedin-in : LinkedIn\r\nyoutube : YouTube",
+                    "required": 1,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "choices": [],
+                    "default_value": [],
+                    "allow_null": 0,
+                    "multiple": 0,
+                    "ui": 0,
+                    "return_format": "value",
+                    "ajax": 0,
+                    "placeholder": ""
+                },
+                {
+                    "key": "field_5e452d2ea0cd5",
+                    "label": "URL",
+                    "name": "social_media_url",
+                    "type": "url",
+                    "instructions": "The URL which will be used for this section.",
+                    "required": 1,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "placeholder": ""
+                }
+            ]
         },
         {
             "key": "field_5c7d3b6a9ea5a",
@@ -187,5 +246,5 @@
     ],
     "active": 1,
     "description": "The fields which will be used site-wide.",
-    "modified": 1560935410
+    "modified": 1581591884
 }

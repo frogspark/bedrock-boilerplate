@@ -233,51 +233,51 @@ add_filter('upload_mimes', 'cc_mime_types');
 * Print multi-level menu.
 */
 
-function print_multi_level_menu($menu, $parent_item_class = 'parent-item'){
+function print_menu($menu, $parent_item_class = 'parent-item'){
   reset($menu);
   $submenu = false;
   $parent = null;
   echo '<ul class="nav">';
-  foreach ($menu as $current){
+  foreach ($menu as $current):
     $anchor_class = 'nav-link';
-    if ($current->menu_item_parent == 0){
-      if ($parent != null) {
+    if ($current->menu_item_parent == 0):
+      if ($parent != null):
         echo '</li>';
-      }
+      endif;
       $parent = $current;
-      if ($submenu == true){
+      if ($submenu == true):
         $submenu = false;
         echo '</ul></div>';
-      }
-    }
+      endif;
+    endif;
     $next = next($menu);
-    if ($current->menu_item_parent == $parent->ID){
-      if (!$submenu){
+    if ($current->menu_item_parent == $parent->ID):
+      if (!$submenu):
         $submenu = true;
         echo '<div class="submenu">';
         echo '<ul class="flex-column nav">';
-      }
-    } else {
-      if ($next && $next->menu_item_parent != 0) {
+      endif;
+    else:
+      if ($next && $next->menu_item_parent != 0):
         $anchor_class = 'nav-link ';
         $anchor_class .= $parent_item_class;
-      }
-    }
+      endif;
+    endif;
     echo '<li class="nav-item">';
-    echo '<a href="'.$current->url.'" class="'.$anchor_class.'">';
+    echo '<a class="'.$anchor_class.'" href="'.$current->url.'">';
     echo $current->title;
     echo '</a>';
-    if ($current->menu_item_parent == $parent->ID) {
+    if ($current->menu_item_parent == $parent->ID):
       echo '</li>';
-    }
-    if (!$next){
-      if ($current->menu_item_parent != 0) {
+    endif;
+    if (!$next):
+      if ($current->menu_item_parent != 0):
         echo '</ul></div>';
-      } else {
+      else:
         echo '</li>';
-      }
-    }
-  }
+      endif;
+    endif;
+  endforeach;
   echo '</ul>';
 }
 
