@@ -1,3 +1,5 @@
+@import 'modules/variables';
+
 // Node modules
 @import 'node_modules/bootstrap/scss/bootstrap.scss';
 @import 'node_modules/aos/src/sass/aos.scss';
@@ -10,7 +12,6 @@
 
 @import 'fonts';
 @import 'modules/mixins';
-@import 'modules/variables';
 @import 'modules/typography';
 @import 'modules/slick';
 @import 'modules/ninja-forms';
