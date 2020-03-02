@@ -22,8 +22,8 @@ body {
   position: absolute;
   transition: transform 1000ms ease-in-out;
   width: 100%;
-  -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
 
   > main {
     flex: 1 1 auto;
@@ -31,7 +31,7 @@ body {
 }
 
 ::selection {
-  background-color: rgba(lighten($secondary, 10%), 0.5);
+  background-color: rgba(lighten($secondary, 10%), .5);
   color: $white;
 }
 
@@ -40,10 +40,10 @@ p:empty {
 }
 
 a {
-  transition: $transition-base;
+  transition: $transition;
 
   &:focus {
-    outline: none;
+    outline: none !important;
   }
 }
 
@@ -105,8 +105,8 @@ a {
         > li {
           counter-increment: counter;
           margin-bottom: 4px;
-          position: relative;
           padding-left: 28px;
+          position: relative;
 
           &:before {
             color: $secondary;
@@ -121,10 +121,14 @@ a {
       }
     }
   }
+
+  &.alt {
+    color: color-yiq($primary);
+  }
 }
 
 input:focus,
-select:focus
+select:focus,
 textarea:focus,
 button:focus {
   outline: none !important;
@@ -136,6 +140,39 @@ button:focus {
 
 .shadow {
   box-shadow: 0px 0px 12px 0px rgba($primary, .25) !important;
+}
+
+.bg-grow {
+  overflow: hidden;
+  position: relative;
+
+  &:before {
+    background-color: rgba($primary, 0);
+    content: '';
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    transition: $transition;
+    width: 100%;
+    z-index: 1;
+  }
+}
+
+a:hover .bg-grow {
+  position: relative;
+
+  @include lg {
+    position: relative;
+
+    &:before {
+      background-color: rgba($primary, .5);
+    }
+
+    > div {
+      transform: scale(1.05);
+    }
+  }
 }
 
 .nf-form-wrap {
@@ -156,10 +193,10 @@ button:focus {
   .nf-form-content {
     max-width: 100%;
     padding: 0;
-  }
 
-  .nf-form-content .list-select-wrap > div div:after {
-    display: none;
+    .list-select-wrap > div div:after {
+      display: none;
+    }
   }
 
   .nf-pass.field-wrap .nf-field-element:after,
@@ -192,7 +229,7 @@ button:focus {
         color: $primary;
         height: auto;
         padding: 16px;
-        transition: $transition-base;
+        transition: $transition;
         width: 100%;
         -moz-appearance: none;
         -webkit-appearance: none;
@@ -208,7 +245,7 @@ button:focus {
 
         &::placeholder {
           color: $primary;
-          transition: $transition-base;
+          transition: $transition;
         }
       }
 
@@ -243,7 +280,7 @@ button:focus {
         color: $primary;
         height: auto !important;
         padding: 16px;
-        transition: $transition-base;
+        transition: $transition;
         width: 100%;
         -moz-appearance: none;
         -webkit-appearance: none;
@@ -277,7 +314,9 @@ button:focus {
         min-width: 128px;
         padding: 16px;
         text-align: center;
-        transition: $transition-base;
+        transition: $transition;
+        -moz-appearance: none !important;
+        -webkit-appearance: none !important;
 
         &:focus {
           outline: none;
@@ -352,7 +391,7 @@ button:focus {
     justify-content: center;
     margin-bottom: 32px;
     margin-left: 8px;
-    transition: $transition-base;
+    transition: $transition;
   }
 
   a {
@@ -369,11 +408,11 @@ button:focus {
   .btn-#{$label} {
     background-color: $color;
     border: 2px solid $color;
-    border-radius: .5rem;
+    border-radius: 0;
     color: color-yiq($color);
     font-weight: bold;
     text-align: center;
-    transition: $transition-base;
+    transition: $transition;
   }
 
   a:hover .btn-#{$label},
@@ -386,7 +425,7 @@ button:focus {
   .btn-underline-#{$label} {
     color: $color;
     position: relative;
-    transition: $transition-base;
+    transition: $transition;
 
     &.active:before {
       bottom: 0;
@@ -402,7 +441,7 @@ button:focus {
       opacity: 0;
       pointer-events: none;
       position: absolute;
-      transition: $transition-base;
+      transition: $transition;
       width: 100%;
     }
   }
@@ -418,11 +457,11 @@ button:focus {
   }
 }
 
-header {
+#header {
   border-bottom: 1px solid rgba($primary, .25);
   position: sticky;
   top: 0;
-  transition: $transition-base;
+  transition: $transition;
   z-index: 9;
 
   .logo img {
@@ -453,7 +492,7 @@ header {
       height: 2px;
       margin-left: 16px;
       position: relative;
-      transition: $transition-base;
+      transition: $transition;
       width: 24px;
   
       &:before, &:after {
@@ -462,7 +501,7 @@ header {
         height: 2px;
         left: 0;
         position: absolute;
-        transition: $transition-base;
+        transition: $transition;
         width: 24px;
       }
   
@@ -491,7 +530,7 @@ header {
     pointer-events: none;
     position: fixed;
     top: 0;
-    transition: $transition-base;
+    transition: $transition;
     width: 100%;
     z-index: 9;
   
@@ -501,7 +540,7 @@ header {
   
       li {
         opacity: 1;
-        transition: all .25s ease .5s;
+        transition: all .25s ease .35s;
       }
     }
   

@@ -1,250 +1,255 @@
 {
-    "key": "group_5c7d3b18ef92c",
-    "title": "Options",
-    "fields": [
-        {
-            "key": "field_5c7d3b2c9ea56",
-            "label": "General information",
-            "name": "",
-            "type": "tab",
-            "instructions": "",
-            "required": 0,
-            "conditional_logic": 0,
-            "wrapper": {
-                "width": "",
-                "class": "",
-                "id": ""
-            },
-            "placement": "top",
-            "endpoint": 0
-        },
-        {
-            "key": "field_5c7d3b3b9ea57",
-            "label": "Logo",
-            "name": "logo",
-            "type": "image",
-            "instructions": "The logo which will be used site-wide.",
-            "required": 1,
-            "conditional_logic": 0,
-            "wrapper": {
-                "width": "",
-                "class": "",
-                "id": ""
-            },
-            "return_format": "array",
-            "preview_size": "thumbnail",
-            "library": "all",
-            "min_width": "",
-            "min_height": "",
-            "min_size": "",
-            "max_width": "",
-            "max_height": "",
-            "max_size": "",
-            "mime_types": "svg"
-        },
-        {
-            "key": "field_5c7d3b449ea58",
-            "label": "Phone number",
-            "name": "phone_number",
-            "type": "text",
-            "instructions": "The phone number which will be used site-wide.",
-            "required": 1,
-            "conditional_logic": 0,
-            "wrapper": {
-                "width": "50",
-                "class": "",
-                "id": ""
-            },
-            "default_value": "",
-            "placeholder": "",
-            "prepend": "",
-            "append": "",
-            "maxlength": ""
-        },
-        {
-            "key": "field_5c7d3b5f9ea59",
-            "label": "Email address",
-            "name": "email_address",
-            "type": "email",
-            "instructions": "The email address which will be used site-wide.",
-            "required": 1,
-            "conditional_logic": 0,
-            "wrapper": {
-                "width": "50",
-                "class": "",
-                "id": ""
-            },
-            "default_value": "",
-            "placeholder": "",
-            "prepend": "",
-            "append": ""
-        },
-        {
-            "key": "field_5cd2bc493ee79",
-            "label": "Company number",
-            "name": "company_number",
-            "type": "text",
-            "instructions": "The company number which will be used site-wide.",
-            "required": 1,
-            "conditional_logic": 0,
-            "wrapper": {
-                "width": "50",
-                "class": "",
-                "id": ""
-            },
-            "default_value": "",
-            "placeholder": "",
-            "prepend": "",
-            "append": "",
-            "maxlength": ""
-        },
-        {
-            "key": "field_5cd2bcb43ee7a",
-            "label": "VAT number",
-            "name": "vat_number",
-            "type": "text",
-            "instructions": "The VAT number which will be used site-wide (if applicable).",
-            "required": 1,
-            "conditional_logic": 0,
-            "wrapper": {
-                "width": "50",
-                "class": "",
-                "id": ""
-            },
-            "default_value": "",
-            "placeholder": "",
-            "prepend": "",
-            "append": "",
-            "maxlength": ""
-        },
-        {
-            "key": "field_5d09fb341c51f",
-            "label": "Google Analytics ID",
-            "name": "google_analytics_id",
-            "type": "text",
-            "instructions": "The Google Analytics ID which will be used site-wide for tracking.",
-            "required": 0,
-            "conditional_logic": 0,
-            "wrapper": {
-                "width": "",
-                "class": "",
-                "id": ""
-            },
-            "default_value": "",
-            "placeholder": "",
-            "prepend": "",
-            "append": "",
-            "maxlength": ""
-        },
-        {
-            "key": "field_5e452ceaa0cd3",
-            "label": "Social media",
-            "name": "social_media",
-            "type": "repeater",
-            "instructions": "The social media which will be used site-wide.",
-            "required": 0,
-            "conditional_logic": 0,
-            "wrapper": {
-                "width": "",
-                "class": "",
-                "id": ""
-            },
-            "collapsed": "",
-            "min": 0,
-            "max": 0,
-            "layout": "table",
-            "button_label": "Add social media",
-            "sub_fields": [
-                {
-                    "key": "field_5e452cfaa0cd4",
-                    "label": "Platform",
-                    "name": "social_media_platform",
-                    "type": "select",
-                    "instructions": "facebook-f : Facebook\r\ntwitter : Twitter\r\nlinkedin-in : LinkedIn\r\nyoutube : YouTube",
-                    "required": 1,
-                    "conditional_logic": 0,
-                    "wrapper": {
-                        "width": "",
-                        "class": "",
-                        "id": ""
-                    },
-                    "choices": [],
-                    "default_value": [],
-                    "allow_null": 0,
-                    "multiple": 0,
-                    "ui": 0,
-                    "return_format": "value",
-                    "ajax": 0,
-                    "placeholder": ""
-                },
-                {
-                    "key": "field_5e452d2ea0cd5",
-                    "label": "URL",
-                    "name": "social_media_url",
-                    "type": "url",
-                    "instructions": "The URL which will be used for this section.",
-                    "required": 1,
-                    "conditional_logic": 0,
-                    "wrapper": {
-                        "width": "",
-                        "class": "",
-                        "id": ""
-                    },
-                    "default_value": "",
-                    "placeholder": ""
-                }
-            ]
-        },
-        {
-            "key": "field_5c7d3b6a9ea5a",
-            "label": "Location",
-            "name": "location",
-            "type": "google_map",
-            "instructions": "The address which will be used site-wide.",
-            "required": 1,
-            "conditional_logic": 0,
-            "wrapper": {
-                "width": "",
-                "class": "",
-                "id": ""
-            },
-            "center_lat": "",
-            "center_lng": "",
-            "zoom": "",
-            "height": ""
-        }
-    ],
-    "location": [
-        [
-            {
-                "param": "options_page",
-                "operator": "==",
-                "value": "acf-options"
-            }
-        ]
-    ],
-    "menu_order": 0,
-    "position": "normal",
-    "style": "default",
-    "label_placement": "top",
-    "instruction_placement": "label",
-    "hide_on_screen": [
-        "permalink",
-        "the_content",
-        "excerpt",
-        "discussion",
-        "comments",
-        "revisions",
-        "slug",
-        "author",
-        "format",
-        "page_attributes",
-        "featured_image",
-        "categories",
-        "tags",
-        "send-trackbacks"
-    ],
-    "active": 1,
-    "description": "The fields which will be used site-wide.",
-    "modified": 1581591884
+  "key": "group_5c7d3b18ef92c",
+  "title": "Options",
+  "fields": [
+      {
+          "key": "field_5c7d3b2c9ea56",
+          "label": "General information",
+          "name": "",
+          "type": "tab",
+          "instructions": "",
+          "required": 0,
+          "conditional_logic": 0,
+          "wrapper": {
+              "width": "",
+              "class": "",
+              "id": ""
+          },
+          "placement": "top",
+          "endpoint": 0
+      },
+      {
+          "key": "field_5c7d3b3b9ea57",
+          "label": "Logo",
+          "name": "logo",
+          "type": "image",
+          "instructions": "The logo which will be used site-wide.",
+          "required": 1,
+          "conditional_logic": 0,
+          "wrapper": {
+              "width": "",
+              "class": "",
+              "id": ""
+          },
+          "return_format": "array",
+          "preview_size": "thumbnail",
+          "library": "all",
+          "min_width": "",
+          "min_height": "",
+          "min_size": "",
+          "max_width": "",
+          "max_height": "",
+          "max_size": "",
+          "mime_types": "svg"
+      },
+      {
+          "key": "field_5c7d3b449ea58",
+          "label": "Phone number",
+          "name": "phone_number",
+          "type": "text",
+          "instructions": "The phone number which will be used site-wide.",
+          "required": 1,
+          "conditional_logic": 0,
+          "wrapper": {
+              "width": "50",
+              "class": "",
+              "id": ""
+          },
+          "default_value": "",
+          "placeholder": "",
+          "prepend": "",
+          "append": "",
+          "maxlength": ""
+      },
+      {
+          "key": "field_5c7d3b5f9ea59",
+          "label": "Email address",
+          "name": "email_address",
+          "type": "email",
+          "instructions": "The email address which will be used site-wide.",
+          "required": 1,
+          "conditional_logic": 0,
+          "wrapper": {
+              "width": "50",
+              "class": "",
+              "id": ""
+          },
+          "default_value": "",
+          "placeholder": "",
+          "prepend": "",
+          "append": ""
+      },
+      {
+          "key": "field_5cd2bc493ee79",
+          "label": "Company number",
+          "name": "company_number",
+          "type": "text",
+          "instructions": "The company number which will be used site-wide.",
+          "required": 1,
+          "conditional_logic": 0,
+          "wrapper": {
+              "width": "50",
+              "class": "",
+              "id": ""
+          },
+          "default_value": "",
+          "placeholder": "",
+          "prepend": "",
+          "append": "",
+          "maxlength": ""
+      },
+      {
+          "key": "field_5cd2bcb43ee7a",
+          "label": "VAT number",
+          "name": "vat_number",
+          "type": "text",
+          "instructions": "The VAT number which will be used site-wide (if applicable).",
+          "required": 1,
+          "conditional_logic": 0,
+          "wrapper": {
+              "width": "50",
+              "class": "",
+              "id": ""
+          },
+          "default_value": "",
+          "placeholder": "",
+          "prepend": "",
+          "append": "",
+          "maxlength": ""
+      },
+      {
+          "key": "field_5d09fb341c51f",
+          "label": "Google Analytics ID",
+          "name": "google_analytics_id",
+          "type": "text",
+          "instructions": "The Google Analytics ID which will be used site-wide for tracking.",
+          "required": 0,
+          "conditional_logic": 0,
+          "wrapper": {
+              "width": "",
+              "class": "",
+              "id": ""
+          },
+          "default_value": "",
+          "placeholder": "",
+          "prepend": "",
+          "append": "",
+          "maxlength": ""
+      },
+      {
+          "key": "field_5e452ceaa0cd3",
+          "label": "Social media",
+          "name": "social_media",
+          "type": "repeater",
+          "instructions": "The social media which will be used site-wide.",
+          "required": 0,
+          "conditional_logic": 0,
+          "wrapper": {
+              "width": "",
+              "class": "",
+              "id": ""
+          },
+          "collapsed": "",
+          "min": 0,
+          "max": 0,
+          "layout": "table",
+          "button_label": "Add social media",
+          "sub_fields": [
+              {
+                  "key": "field_5e452cfaa0cd4",
+                  "label": "Platform",
+                  "name": "social_media_platform",
+                  "type": "select",
+                  "instructions": "",
+                  "required": 1,
+                  "conditional_logic": 0,
+                  "wrapper": {
+                      "width": "",
+                      "class": "",
+                      "id": ""
+                  },
+                  "choices": {
+                      "facebook-f": "Facebook",
+                      "twitter": "Twitter",
+                      "linkedin-in": "LinkedIn",
+                      "youtube": "YouTube"
+                  },
+                  "default_value": [],
+                  "allow_null": 0,
+                  "multiple": 0,
+                  "ui": 0,
+                  "return_format": "value",
+                  "ajax": 0,
+                  "placeholder": ""
+              },
+              {
+                  "key": "field_5e452d2ea0cd5",
+                  "label": "URL",
+                  "name": "social_media_url",
+                  "type": "url",
+                  "instructions": "The URL which will be used for this section.",
+                  "required": 1,
+                  "conditional_logic": 0,
+                  "wrapper": {
+                      "width": "",
+                      "class": "",
+                      "id": ""
+                  },
+                  "default_value": "",
+                  "placeholder": ""
+              }
+          ]
+      },
+      {
+          "key": "field_5c7d3b6a9ea5a",
+          "label": "Location",
+          "name": "location",
+          "type": "google_map",
+          "instructions": "The address which will be used site-wide.",
+          "required": 1,
+          "conditional_logic": 0,
+          "wrapper": {
+              "width": "",
+              "class": "",
+              "id": ""
+          },
+          "center_lat": "",
+          "center_lng": "",
+          "zoom": "",
+          "height": ""
+      }
+  ],
+  "location": [
+      [
+          {
+              "param": "options_page",
+              "operator": "==",
+              "value": "acf-options"
+          }
+      ]
+  ],
+  "menu_order": 0,
+  "position": "normal",
+  "style": "default",
+  "label_placement": "top",
+  "instruction_placement": "label",
+  "hide_on_screen": [
+      "permalink",
+      "the_content",
+      "excerpt",
+      "discussion",
+      "comments",
+      "revisions",
+      "slug",
+      "author",
+      "format",
+      "page_attributes",
+      "featured_image",
+      "categories",
+      "tags",
+      "send-trackbacks"
+  ],
+  "active": 1,
+  "description": "The fields which will be used site-wide.",
+  "modified": 1582557446
 }

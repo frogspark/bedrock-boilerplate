@@ -7,7 +7,7 @@
   <meta name="HandheldFriendly" content="true" />
   <link rel="pingback" href="<?php bloginfo('pingback_url'); ?>" />
   <?php wp_head(); ?>
-
+  
   <link rel="stylesheet" href="/app/themes/frogspark/scss/dist/bundle.min.css?v=<?php echo time(); ?>" type="text/css" media="all" />
   <script src="/app/themes/frogspark/js/dist/bundle.min.js?v=<?php echo time(); ?>"></script>
 
@@ -34,7 +34,6 @@
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
-
     gtag('config', '<?php if (get_field('google_analytics_id', 'option')): the_field('google_analytics_id', 'option'); endif; ?>');
   </script>
 

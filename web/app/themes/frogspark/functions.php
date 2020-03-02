@@ -165,7 +165,7 @@ function bootstrap_four_get_posts_pagination($args = ''){
   global $wp_query;
   $pagination = '';
 
-  if($GLOBALS['wp_query']->max_num_pages > 1):
+  if ($GLOBALS['wp_query']->max_num_pages > 1):
     $defaults = array(
       'total' => isset($wp_query->max_num_pages) ? $wp_query->max_num_pages : 1,
       'current' => get_query_var('paged') ? intval(get_query_var('paged')) : 1,
@@ -175,11 +175,12 @@ function bootstrap_four_get_posts_pagination($args = ''){
     );
     $params = wp_parse_args($args, $defaults);
     $paginate = paginate_links($params);
-    if($paginate):
+    if ($paginate):
       $pagination .= "<ul class='pagination'>";
       foreach ($paginate as $page):
         if (strpos($page, 'current')):
-          $pagination .= "<li class='active'>$page</li>"; else :
+          $pagination .= "<li class='active'>$page</li>"; 
+        else:
           $pagination .= "<li>$page</li>";
         endif;
       endforeach;
@@ -290,7 +291,7 @@ function add_admin_menu_separator($position){
   $menu[$position] = array(
     0	=> '',
     1	=> 'read',
-    2	=> 'separator' . $position,
+    2	=> 'separator'.$position,
     3	=> '',
     4	=> 'wp-menu-separator'
   );
@@ -335,6 +336,7 @@ add_filter('wpseo_metabox_prio', function(){
 /*
 * Remove the comments.
 */ 
+
 function remove_all(){
   remove_menu_page('edit-comments.php');
 }
@@ -437,7 +439,7 @@ add_filter('admin_footer_text', 'remove_footer_admin');
 */
 
 function rss_disable_feed() {
-  wp_die( __('No RSS feed is available. Please visit our <a href="'. get_bloginfo('url') .'">homepage</a>') );
+  wp_die(__('No RSS feed is available. Please visit our <a href="'. get_bloginfo('url') .'">homepage</a>'));
 }   
 add_action('do_feed', 'rss_disable_feed', 1);
 add_action('do_feed_rdf', 'rss_disable_feed', 1);
@@ -450,3 +452,22 @@ add_action('do_feed_atom', 'rss_disable_feed', 1);
 */
 
 remove_action('welcome_panel', 'wp_welcome_panel');
+
+/*
+* Adds a custom logo to the login page.
+*/
+
+function custom_login_logo() {
+  echo '<style type="text/css">
+    h1 a { 
+      background-image: url('.get_field('logo', 'option')['url'].') !important;
+      background-position: center !important;
+      background-repeat: no-repeat !important;
+      background-size: contain !important;
+      height: 0 !important;
+      padding-bottom: 25% !important;
+      width: 100% !important;
+    }
+  </style>';
+}
+add_action('login_head', 'custom_login_logo');

@@ -1,4 +1,4 @@
-<header>
+<header id="header">
   <div class="container">
     <div class="row">
       <div class="align-items-center col-6 col-lg-auto d-flex flex-row">
