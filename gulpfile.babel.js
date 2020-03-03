@@ -17,7 +17,7 @@ const projectURL = 'http://blank.test';
 const themeURL = 'web/app/themes/frogspark/';
 
 function js() {
-  return src(`${themeURL}js/src/*.js`)
+  return src(`${themeURL}js/src/Global.js`)
     .pipe(browserify({
       insertGlobals: true,
     }))

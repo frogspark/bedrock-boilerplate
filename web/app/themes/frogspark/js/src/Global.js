@@ -1,10 +1,16 @@
 import $ from 'jquery';
-window.jQuery = $;
+import AOS from 'aos';
+
 require('popper.js');
 require('bootstrap');
-var _ = require('lodash');
-import slick from 'slick-carousel';
-import AOS from 'aos';
+require('lodash');
+
+require('./modules/nav');
+require('./modules/containers');
+require('./modules/maps');
+require('./modules/slick-sliders');
+
+window.jQuery = $;
 
 (function($) {
   $.fn.isInViewport = function() {
@@ -17,104 +23,7 @@ import AOS from 'aos';
 });
 
 $(document).ready(function(){
-  // Burger menu.
-  function openMenu(open) { $('#burger').toggleClass('open', open); $('#navigation-mobile ul').toggleClass('open', open); }
-  var open = false;
-  $('#burger').click(function() { open = !open; openMenu(open); });
-
-  // Active class.
-  $('header .nav [href]').each(function() { if (this.href == window.location.href) { $(this).addClass('active'); } });
-
-  // Container fix.
-  function containerFix() {
-    if($('.container-fix').length) {
-      var windowWidth = $(window).width();
-      var containerWidth = ($('.container').width() + 32);
-      var padding = ((windowWidth - containerWidth) / 2) + 16;
-      if (windowWidth >= 992) {
-        $('.container-fix').each(function(){
-          if ($(this).hasClass('odd')) {
-            $(this).css('padding-right', padding + 'px');
-          } else if ($(this).hasClass('even')) {
-            $(this).css('padding-left', padding + 'px');
-          }
-        });
-      } else if (windowWidth >= 576 && windowWidth <= 991) {
-        $('.container-fix').each(function(){
-          $(this).css('padding-left', padding + 'px');
-          $(this).css('padding-right', padding + 'px');
-        });
-      } else {
-        $('.container-fix').each(function(){
-          $(this).css('padding-left', '16px');
-          $(this).css('padding-right', '16px');
-        });
-      }
-    } 
-  }
-  containerFix();
-  $(window).on('resize', function(){ containerFix(); });
-
   // AOS.
   AOS.init();
+  
 });
-
-// Google Maps.
-(function($) {
-  function new_map($el) {
-    let $markers = $el.find('.marker');
-    let args = {
-      center: new google.maps.LatLng(0, 0),
-      mapTypeId: google.maps.MapTypeId.ROADMAP,
-      styles: [{"featureType":"administrative.land_parcel","elementType":"labels","stylers":[{"visibility":"off"}]},{"featureType":"poi","elementType":"labels.text","stylers":[{"visibility":"off"}]},{"featureType":"poi.business","stylers":[{"visibility":"off"}]},{"featureType":"road","elementType":"labels.icon","stylers":[{"visibility":"off"}]},{"featureType":"road.local","elementType":"labels","stylers":[{"visibility":"off"}]},{"featureType":"transit","stylers":[{"visibility":"off"}]}],
-      zoom: 16,
-    };
-    let map = new google.maps.Map($el[0], args);
-    map.markers = [];
-    $markers.each(function(){
-      add_marker($(this), map);
-    });
-    center_map(map);
-    return map;
-  }
-
-  function add_marker($marker, map) {
-    let latlng = new google.maps.LatLng($marker.attr('data-lat'), $marker.attr('data-lng'));
-    let icon = {url: ''+$marker.attr('data-icon')+'', scaledSize: new google.maps.Size(48, 48)};
-    let marker = new google.maps.Marker({
-      icon: icon,
-      map: map,
-      position: latlng,
-    });
-    map.markers.push(marker);
-    if($marker.html()){
-      let infowindow = new google.maps.InfoWindow({
-        content: $marker.html()
-      });
-      google.maps.event.addListener(marker, 'click', function() {
-        infowindow.open(map, marker);
-      });
-    }
-  }
-
-  function center_map(map) {
-    let bounds = new google.maps.LatLngBounds();
-    $.each( map.markers, function(i, marker){
-      let latlng = new google.maps.LatLng(marker.position.lat(), marker.position.lng());
-      bounds.extend(latlng);
-    });
-    if( map.markers.length == 1 ) {
-      map.setCenter(bounds.getCenter());
-      map.setZoom(16);
-    } else {
-      map.fitBounds(bounds);
-    }
-  }
-
-  var map = null;
-  $(document).ready(function(){
-    $('.map').each(function(){
-      map = new_map($(this));
-    });
-  });
-})($);s
