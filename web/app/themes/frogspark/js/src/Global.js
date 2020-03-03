@@ -1,4 +1,5 @@
 import $ from 'jquery';
+window.jQuery = $;
 import AOS from 'aos';
 
 require('popper.js');
@@ -10,7 +11,6 @@ require('./modules/containers');
 require('./modules/maps');
 require('./modules/slick-sliders');
 
-window.jQuery = $;
 
 (function($) {
   $.fn.isInViewport = function() {
