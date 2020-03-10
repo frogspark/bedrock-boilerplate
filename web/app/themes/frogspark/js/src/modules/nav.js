@@ -1,7 +1,11 @@
 $(document).load(function () {
-  // Burger menu.
   var open = false;
 
+  /**
+   * @description handles opening and closing of the mobile menu on the site
+   * 
+   * @param {*} open flag indicating whether or not the menu is in an open state
+   */
   function openMenu(open) {
     $('#burger').toggleClass('open', open);
     $('#navigation-mobile ul').toggleClass('open', open);

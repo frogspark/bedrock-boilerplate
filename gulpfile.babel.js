@@ -1,5 +1,4 @@
-const gulp = require('gulp');
-const {series, parallel, src, dest } = require('gulp');
+const {series, parallel, src, dest, watch} = require('gulp');
 const sass = require('gulp-sass');
 const concat = require('gulp-concat');
 const sourcemaps = require('gulp-sourcemaps');
@@ -59,11 +58,11 @@ function browsersync() {
     proxy: projectURL,
   });
 
-  gulp.watch(`${themeURL}scss/src/**/*.scss`, sassfn);
-  gulp.watch(`${themeURL}**/*.php`).on('change', browserSync.reload);
-  gulp.watch(`${themeURL}js/src/*.js`, js);
-  gulp.watch(`${themeURL}**/*.php`).on('change', browserSync.reload);
-  gulp.watch(`${themeURL}**/*.js`).on('change', browserSync.reload);
+  watch(`${themeURL}scss/src/**/*.scss`, sassfn);
+  watch(`${themeURL}**/*.php`).on('change', browserSync.reload);
+  watch(`${themeURL}js/src/*.js`, js);
+  watch(`${themeURL}**/*.php`).on('change', browserSync.reload);
+  watch(`${themeURL}**/*.js`).on('change', browserSync.reload);
 }
 
 const development = series(font, sassfn, js, browsersync);

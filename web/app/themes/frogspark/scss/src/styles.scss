@@ -187,7 +187,7 @@ body {
 }
 
 .img-block {
-  height: 100%;
+  width: 100%;
   position: relative;
 
   .bg-square,
@@ -203,5 +203,13 @@ body {
     width: 100%;
     opacity: .29;
     background-color: black;
+  }
+
+  .content {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    
   }
 }

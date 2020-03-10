@@ -11,7 +11,6 @@ require('./modules/containers');
 require('./modules/maps');
 require('./modules/slick-sliders');
 
-
 (function($) {
   $.fn.isInViewport = function() {
     let elementTop = $(this).offset().top;
@@ -25,5 +24,4 @@ require('./modules/slick-sliders');
 $(document).ready(function(){
   // AOS.
   AOS.init();
-  
 });
