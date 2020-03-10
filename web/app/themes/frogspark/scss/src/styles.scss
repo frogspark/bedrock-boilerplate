@@ -32,7 +32,7 @@ body {
 
 ::selection {
   background-color: rgba(lighten($secondary, 10%), .5);
-  color: $white;
+  color: #FFFFFF;
 }
 
 p:empty {
@@ -65,7 +65,7 @@ a {
 
       &:before {
         color: $secondary;
-        content: '\f00c';
+        content: '\f178';
         font-family: 'Font Awesome 5 Pro';
         left: 0;
         position: absolute;
@@ -262,7 +262,7 @@ a:hover .bg-grow {
       }
   
       &:after {
-        color: $secondary;
+        color: $primary;
         content: '\f078';
         font-family: 'Font Awesome 5 Pro';
         font-weight: bold;
@@ -464,10 +464,42 @@ a:hover .bg-grow {
   }
 
   .slick-dots {
+    display: flex;
+    flex-direction: row;
+    list-style: none;
+    margin-bottom: 0;
+    padding-left: 0;
     position: relative;
 
-    &:focus {
-      outline: none;
+    li {
+      height: 12px;
+      line-height: 0;
+      margin-right: 8px;
+
+      &.slick-active button {
+        opacity: 1;
+      }
+
+      button {
+        background-color: $primary;
+        border: 0;
+        border-radius: 100%;
+        cursor: pointer;
+        font-size: 0;
+        height: 12px;
+        opacity: .5;
+        padding: 0;
+        transition: $transition-base;
+        width: 12px;
+
+        &:hover {
+          opacity: 1;
+        }
+      }
+
+      &:focus {
+        outline: none;
+      }
     }
   }
 
