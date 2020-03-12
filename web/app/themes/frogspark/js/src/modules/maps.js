@@ -1,3 +1,6 @@
+import $ from 'jquery';
+window.jQuery = $;
+
 // Google Maps.
 (function ($) {
   /**

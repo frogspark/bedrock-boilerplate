@@ -1,3 +1,5 @@
+import $ from 'jquery';
+
 $(document).load(function () {
   var open = false;
 

@@ -22,7 +22,7 @@
     "npm": "^5.4.2"
   },
   "scripts": {
-    "start": "gulp development",
+    "start": "gulp",
     "sassLint": "sass-lint -c .scss-lint.yml './web/wp/app/themes/frogspark/scss/src/*.scss' -v -q",
     "eslint": "eslint -c .eslintrc.js './web/wp/app/themes/frogspark/js/src/*.js'"
   },

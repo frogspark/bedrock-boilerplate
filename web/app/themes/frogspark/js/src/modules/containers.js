@@ -1,3 +1,5 @@
+import $ from 'jquery';
+
 $(document).load(function () {
   /**
    * @description function for fixing floating elements or page width elements with 

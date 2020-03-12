@@ -1,5 +1,7 @@
 
-import 'slick-carousel';
+import $ from 'jquery';
+window.jQuery = $;
+import slick from 'slick-carousel';
 
 $(document).load(function() {
   /**
