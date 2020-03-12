@@ -23,8 +23,7 @@ function js() {
     .pipe(concat('bundle.min.js'))
     .pipe(sourcemaps.init())
     .pipe(sourcemaps.write())
-    // .pipe(uglify())
-    // .pipe(rename('bundle.min.js'))
+    .pipe(uglify())
     .pipe(dest(`${themeURL}js/dist`));
 }
 function sassfn() {
