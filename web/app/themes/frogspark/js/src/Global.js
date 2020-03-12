@@ -1,15 +1,14 @@
 import $ from 'jquery';
 window.jQuery = $;
 import AOS from 'aos';
+import 'popper.js';
+import 'bootstrap';
+import _ from 'lodash';
 
-require('popper.js');
-require('bootstrap');
-require('lodash');
-
-require('./modules/nav');
-require('./modules/containers');
-require('./modules/maps');
-require('./modules/slick-sliders');
+import * as nav from './modules/nav';
+// import * as containers from './modules/containers';
+import * as maps from './modules/maps';
+import * as slicks from './modules/slick-sliders';
 
 (function($) {
   $.fn.isInViewport = function() {
@@ -22,6 +21,10 @@ require('./modules/slick-sliders');
 });
 
 $(document).ready(function(){
+  nav.listeners();
+  maps.runMaps();
+  slicks.sliders();
+  
   // AOS.
   AOS.init();
 });

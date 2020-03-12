@@ -186,12 +186,11 @@ body {
   box-shadow: 0px 0px 12px 0px rgba($primary, .25) !important;
 }
 
-.img-block {
+.img-block, .img-grow {
   width: 100%;
   position: relative;
 
-  .bg-square,
-  .bg-landscape {
+  [class*='bg-'] {
     min-height: 100%;
   }
 
@@ -211,5 +210,20 @@ body {
     top: 0;
     height: 100%;
     
+  }
+}
+
+.img-grow {
+  overflow: hidden;
+   
+  [class*='bg-'] {
+    transition: $transition-base;
+  }
+
+  &:hover {
+    [class*='bg-'] {
+      transform: scale(1.1);
+      transition: $transition-base;
+    }
   }
 }
