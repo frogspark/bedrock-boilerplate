@@ -1,17 +1,18 @@
 import $ from 'jquery';
+window.jQuery = $;
 
-$(document).load(function () {
-  var open = false;
+/**
+ * @description handles opening and closing of the mobile menu on the site
+ * 
+ * @param {*} open flag indicating whether or not the menu is in an open state
+ */
+var open = false;
+let openMenu = (open) => {
+  $('#burger').toggleClass('open', open);
+  $('#navigation-mobile ul').toggleClass('open', open);
+}
 
-  /**
-   * @description handles opening and closing of the mobile menu on the site
-   * 
-   * @param {*} open flag indicating whether or not the menu is in an open state
-   */
-  function openMenu(open) {
-    $('#burger').toggleClass('open', open);
-    $('#navigation-mobile ul').toggleClass('open', open);
-  }
+let listeners = () => {
   $('#burger').click(function () {
     open = !open;
     openMenu(open);
@@ -23,4 +24,6 @@ $(document).load(function () {
       $(this).addClass('active');
     }
   });
-});
+}
+
+exports.listeners = listeners;

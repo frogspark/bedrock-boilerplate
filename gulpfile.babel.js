@@ -1,4 +1,5 @@
 const {series, parallel, src, dest, watch} = require('gulp');
+const babel = require('gulp-babel');
 const sass = require('gulp-sass');
 const concat = require('gulp-concat');
 const sourcemaps = require('gulp-sourcemaps');
@@ -6,7 +7,7 @@ const uglify = require('gulp-uglify');
 const notify = require('gulp-notify');
 const rename = require('gulp-rename');
 const cleanCSS = require('gulp-clean-css');
-const browserify = require('gulp-browserify');
+const browserify = require('gulp-bro');
 const browserSync = require('browser-sync');
 const plumber = require('gulp-plumber');
 
@@ -17,9 +18,10 @@ const themeURL = 'web/app/themes/frogspark/';
 
 function js() {
   return src(`${themeURL}js/src/Global.js`)
-    .pipe(browserify({
-      insertGlobals: true,
-    }))
+    .pipe(babel())
+    // .pipe(browserify({
+    //   insertGlobals: true,
+    // }))
     .pipe(concat('bundle.min.js'))
     .pipe(sourcemaps.init())
     .pipe(sourcemaps.write())

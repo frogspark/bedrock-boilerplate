@@ -1,4 +1,5 @@
 import $ from 'jquery';
+window.jQuery = $;
 
 $(document).load(function () {
   /**
