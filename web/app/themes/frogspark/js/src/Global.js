@@ -25,3 +25,7 @@ $(document).ready(function(){
   // AOS.
   AOS.init();
 });
+
+let x = () => {
+  console.log('hello world')
+}
