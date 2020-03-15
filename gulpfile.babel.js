@@ -7,7 +7,6 @@ const uglify = require('gulp-uglify');
 const notify = require('gulp-notify');
 const rename = require('gulp-rename');
 const cleanCSS = require('gulp-clean-css');
-const browserify = require('gulp-bro');
 const browserSync = require('browser-sync');
 const plumber = require('gulp-plumber');
 
