@@ -24,11 +24,8 @@ $(document).ready(function(){
   nav.listeners();
   maps.runMaps();
   slicks.sliders();
+  // slicks.autoGenerateSliders();
   
   // AOS.
   AOS.init();
 });
-
-let x = () => {
-  console.log('hello world')
-}

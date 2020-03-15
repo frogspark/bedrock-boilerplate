@@ -7,7 +7,7 @@ window.jQuery = $;
  * @param {*} open flag indicating whether or not the menu is in an open state
  */
 var open = false;
-let openMenu = (open) => {
+let toggleMenu = (open) => {
   $('#burger').toggleClass('open', open);
   $('#navigation-mobile ul').toggleClass('open', open);
 }
@@ -15,7 +15,7 @@ let openMenu = (open) => {
 let listeners = () => {
   $('#burger').click(function () {
     open = !open;
-    openMenu(open);
+    toggleMenu(open);
   });
 
   // Active class.

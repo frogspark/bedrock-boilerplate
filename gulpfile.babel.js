@@ -17,17 +17,26 @@ const projectURL = 'http://blank.test';
 const themeURL = 'web/app/themes/frogspark/';
 
 function js() {
+  const onError = (err) => {
+    notify({
+      title: "Gulp JavaScript Error",
+      message: "JavaScript compilation task failed, check the console!"
+    }).write(err);
+    console.log(err.toString());
+  };
+
+  browserSync.notify('Compiling JavaScript');
+
   return src(`${themeURL}js/src/Global.js`)
     .pipe(babel())
-    // .pipe(browserify({
-    //   insertGlobals: true,
-    // }))
     .pipe(concat('bundle.min.js'))
     .pipe(sourcemaps.init())
+    .pipe(plumber({ errorHandler: onError }))
     .pipe(sourcemaps.write())
     .pipe(uglify())
     .pipe(dest(`${themeURL}js/dist`));
 }
+
 function sassfn() {
   const onError = (err) => {
     notify({
@@ -36,6 +45,8 @@ function sassfn() {
     }).write(err);
     console.log(err.toString());
   };
+
+  browserSync.notify('Compiling SCSS');
 
   return src(`${themeURL}scss/src/styles.scss`)
     .pipe(concat('bundle.min.scss'))
@@ -60,10 +71,8 @@ function browsersync() {
   });
 
   watch(`${themeURL}scss/src/**/*.scss`, sassfn);
-  watch(`${themeURL}**/*.php`).on('change', browserSync.reload);
   watch(`${themeURL}js/src/*.js`, js);
   watch(`${themeURL}**/*.php`).on('change', browserSync.reload);
-  watch(`${themeURL}**/*.js`).on('change', browserSync.reload);
 }
 
 const development = series(font, sassfn, js, browsersync);
