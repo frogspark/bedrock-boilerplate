@@ -9,10 +9,14 @@ const rename = require('gulp-rename');
 const cleanCSS = require('gulp-clean-css');
 const browserSync = require('browser-sync');
 const plumber = require('gulp-plumber');
+const source = require('vinyl-source-stream');
+const buffer = require('vinyl-buffer');
+const babelify = require('babelify');
+const browserify = require('browserify');
 
 browserSync.create();
 
-const projectURL = 'http://blank.test';
+const projectURL = 'http://base.test';
 const themeURL = 'web/app/themes/frogspark/';
 
 function js() {
@@ -24,16 +28,32 @@ function js() {
     console.log(err.toString());
   };
 
-  browserSync.notify('Compiling JavaScript');
-
-  return src(`${themeURL}js/src/Global.js`)
-    .pipe(babel())
+  const bundler = browserify({
+    entriesL: `${themeURL}js/src/Global.js`, 
+    debug: true, 
+    insertGlobals: true, 
+  }).transform(babelify.configure({ presets: ['@babel/preset-env'] }));
+  
+  // return bundler.bundle()
+  //   .pipe(src(`${themeURL}js/src/Global.js`))
+  //   .pipe(concat('bundle.min.js'))
+  //   .pipe(sourcemaps.init())
+  //   .pipe(plumber({ errorHandler: onError }))
+  //   .pipe(sourcemaps.write())
+  //   .pipe(uglify())
+  //   .pipe(dest(`${themeURL}js/dist`));
+  return bundler.bundle()
+    .pipe(source(`app.js`))
+    .pipe(buffer())
+    .pipe(src(`${themeURL}js/src/Global.js`))
+    .pipe(src(`${themeURL}js/src/modules/`))
     .pipe(concat('bundle.min.js'))
-    .pipe(sourcemaps.init())
-    .pipe(plumber({ errorHandler: onError }))
+    .pipe(babel())
+    .pipe(sourcemaps.init({loadMaps: true}))
+      .pipe(uglify())
+      .pipe(plumber({ errorHandler : onError }))
     .pipe(sourcemaps.write())
-    .pipe(uglify())
-    .pipe(dest(`${themeURL}js/dist`));
+    .pipe(dest(`${themeURL}js/dist/`));
 }
 
 function sassfn() {
