@@ -6,24 +6,34 @@ var uglify = require('gulp-uglify');
 var notify = require('gulp-notify');
 var rename = require('gulp-rename');
 var cleanCSS = require('gulp-clean-css');
+var babel = require('gulp-babel');
+var gulpif = require('gulp-if');
+var browserify = require('gulp-browserify');
 var autoprefix = require('gulp-autoprefixer');
 var browserSync = require('browser-sync');
 var plumber = require('gulp-plumber');
 
 browserSync.create();
 
-const projectURL = 'http://valet.test';
+const ENVIRONMENT = 'production';
+
+const projectURL = 'http://site.test';
 const themeURL = 'web/app/themes/frogspark/';
 
 gulp.task('js', () => {
   return gulp.src(`${themeURL}js/src/*.js`)
+    .pipe(browserify({
+      insertGlobals: true,
+    }))
     .pipe(concat('bundle.min.js'))
-    .pipe(sourcemaps.init())
-    .pipe(sourcemaps.write())
-    .pipe(uglify())
+    .pipe(gulpif(ENVIRONMENT, sourcemaps.init()))
+    .pipe(babel())
+    .pipe(gulpif(ENVIRONMENT, sourcemaps.write()))
+    .pipe(gulpif(!ENVIRONMENT, uglify()))
     .pipe(rename('bundle.min.js'))
     .pipe(gulp.dest(`${themeURL}js/dist`));
 });
+
 
 gulp.task('sass', () => {
   const onError = (err) => {

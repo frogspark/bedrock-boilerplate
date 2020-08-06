@@ -1,18 +1,38 @@
-import $ from 'jquery';
+var $ = require("jquery");
 window.jQuery = $;
-require('bootstrap');
-var _ = require('lodash');
-import slick from 'slick-carousel';
-import AOS from 'aos';
+require("bootstrap");
+var _ = require("lodash");
+var slick = require("slick-carousel");
+var AOS = require("aos");
+var magnific = require('magnific-popup');
+var hamburger = require('hamburgers');
 
-$(document).ready(function(){
-  // Burger menu.
-  function openMenu(open) { $('#burger').toggleClass('open', open); $('#navigation-mobile ul').toggleClass('open', open); }
-  var open = false;
-  $('#burger').click(function() { open = !open; openMenu(open); });
+$(document).ready(function() {
 
-  // Active class.
-  $('header .nav [href]').each(function() { if (this.href == window.location.href) { $(this).addClass('active'); } });
+	// $(window).scroll(function () {
+	// 	var scroll = $(window).scrollTop();
+
+	// 	if (scroll >= 50) {
+  //     $(".navbar-custom.main-nav").addClass("scroll");
+  //     $(".floating-btn").addClass("active");
+	// 	} else {
+  //     $(".navbar-custom.main-nav").removeClass("scroll");
+  //     $(".floating-btn").removeClass("active");
+	// 	}
+	// });
+
+  // $('.popup-youtube, .popup-vimeo, .popup-gmaps').magnificPopup({
+  //   // disableOn: 700,
+  //   type: 'iframe',
+  //   mainClass: 'mfp-fade',
+  //   removalDelay: 160,
+  //   preloader: false,
+  //   fixedContentPos: false,
+  // });
+
+  // $(".service-block").click(function(){
+  //   $('#popup').addClass("active");
+  // });
 
   // $('.responsive').slick({
   //   dots: true,
