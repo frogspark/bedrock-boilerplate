@@ -12,16 +12,29 @@
 
 @import 'fonts';
 @import 'modules/mixins';
-@import 'modules/typography';
-@import 'modules/slick';
-@import 'modules/ninja-forms';
-@import 'modules/navigation';
 
+/*
+    SEARCH TERMS
+    Use the following search terms to find specific areas of styling within the file
+    Add any new relevant sections into this search section to aid future developers find styling for elements more easily
+
+    1. base html
+    2. pseudo element
+    3. theme colour button
+    4. utility 
+    5. image utility
+    6. forms and pagination
+    7. navigation
+    8. slick slider
+    9. typography
+
+*/
+
+// base html element styling
 html {
   height: 100%;
   overflow-x: hidden;
 }
-
 body {
   display: flex;
   flex-direction: column;
@@ -37,11 +50,15 @@ body {
   }
 }
 
+
+// pseudo element styling 
 ::selection {
   background-color: rgba(lighten($secondary, 10%), 0.5);
   color: $white;
 }
 
+
+// theme colour button styling
 @each $label, $color in $theme-colors {
   .btn-#{$label} {
     background-color: $color;
@@ -178,14 +195,17 @@ body {
   }
 }
 
+
+// utility classes
 .rounded {
   border-radius: .5rem !important;
 }
-
 .shadow {
   box-shadow: 0px 0px 12px 0px rgba($primary, .25) !important;
 }
 
+
+// image utility styling
 .img-block, .img-grow {
   width: 100%;
   position: relative;
@@ -212,7 +232,6 @@ body {
     
   }
 }
-
 .img-grow {
   overflow: hidden;
    
@@ -227,3 +246,602 @@ body {
     }
   }
 }
+
+
+// forms and pagination styling
+.pagination {
+  display: flex;
+  flex-direction: row;
+
+  span,
+  a {
+    align-items: center;
+    color: $primary;
+    display: flex;
+    flex-direction: row;
+    font-weight: bold;
+    justify-content: center;
+    margin-bottom: 32px;
+    margin-left: 8px;
+    transition: $transition-base;
+  }
+
+  a {
+    opacity: .5;
+
+    &:hover {
+      color: $primary;
+      opacity: 1;
+    }
+  }
+}
+.dropdown {
+  width: 100%;
+  display: block;
+
+  @include sm {
+    width: auto;
+    display: inline-block;
+  }
+
+  &:after {
+    position: absolute;
+    font-family: 'Font Awesome 5 Pro';
+    content: '\f078';
+    pointer-events: none;
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 5;
+  }
+
+  select {
+    width: 100%;
+    height: auto !important;
+    -webkit-appearance: none;
+    font-size: 12px;
+    line-height: 14px;
+    letter-spacing: 2.6px;
+    color: black;
+    text-transform: uppercase;
+    border: solid 1px black;
+    border-radius: 0;
+    padding: 14px 48px 12px 27px;
+    transition: all .25s ease;
+    list-style: none;
+
+    li {
+      list-style: none;
+      position: relative;
+      padding-left: 1.2rem;
+      line-height: 1.1;
+      margin-bottom: .75rem;
+
+      @include lg {
+        margin-bottom: .25rem;
+        line-height: 1.5rem;
+      }
+
+      &:before {
+        content: '\f00c';
+        color: $secondary !important;
+        font-family: 'Font Awesome 5 Pro';
+        position: absolute;
+        left: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 1rem;
+        font-size: 0.75rem;
+        line-height: 1;
+      }
+    }
+  }
+}
+.nf-form-wrap {
+  position: relative;
+
+  .nf-error-msg {
+      color: $primary;
+  }
+
+  .nf-error-required-error {
+      display: none;
+  }
+
+  .nf-before-form-content {
+      display: none;
+  }
+
+  .nf-form-content {
+      max-width: 100%;
+      padding: 0;
+  }
+
+  .nf-form-content .list-select-wrap>div div:after {
+      display: none;
+  }
+
+  .nf-pass.field-wrap .nf-field-element:after,
+  .nf-error.field-wrap .nf-field-element:after {
+      display: none;
+  }
+
+  .nf-pass .ninja-forms-field,
+  .nf-error .ninja-forms-field {
+      border-color: $primary !important;
+  }
+
+  nf-fields-wrap {
+      display: block;
+      flex-direction: row;
+      flex-wrap: wrap;
+
+      .nf-field-container {
+          margin-bottom: 8px;
+
+          @include md {
+              margin-bottom: 24px;
+          }
+
+          input:not([type="button"]),
+          textarea {
+              background-color: color-yiq($primary);
+              border: 1px solid $primary;
+              border-radius: 0;
+              color: $primary;
+              height: auto;
+              padding: 16px;
+              transition: $transition-base;
+              width: 100%;
+              -moz-appearance: none;
+              -webkit-appearance: none;
+
+              &:focus {
+                  box-shadow: 0px 0px 0px 4px rgba($primary, .5);
+                  outline: none;
+
+                  &::placeholder {
+                      opacity: .5;
+                  }
+              }
+
+              &::placeholder {
+                  color: $primary;
+                  transition: $transition-base;
+              }
+          }
+
+          textarea {
+              height: 128px;
+          }
+      }
+
+      .list-wrap .nf-field-element {
+          position: relative;
+
+          >div {
+              display: none;
+          }
+
+          &:after {
+              color: $secondary;
+              content: '\f078';
+              font-family: 'Font Awesome 5 Pro';
+              font-weight: bold;
+              position: absolute;
+              right: 16px;
+              top: 50%;
+              transform: translateY(-50%);
+              z-index: 5;
+          }
+
+          select {
+              background-color: color-yiq($primary);
+              border: 1px solid $primary;
+              border-radius: 0;
+              color: $primary;
+              height: auto !important;
+              padding: 16px;
+              transition: $transition-base;
+              width: 100%;
+              -moz-appearance: none;
+              -webkit-appearance: none;
+
+              &:focus {
+                  box-shadow: 0px 0px 0px 4px rgba($primary, .5);
+                  outline: none;
+              }
+          }
+      }
+
+      .textarea-container {
+          margin-bottom: 0;
+
+          @include md {
+              margin-bottom: 16px;
+          }
+      }
+
+      .submit-container {
+          margin-bottom: 0;
+          text-align: right;
+
+          input {
+              background-color: $primary;
+              border-radius: 100vh;
+              color: color-yiq($primary);
+              display: inline-block;
+              height: auto;
+              max-width: 100%;
+              min-width: 128px;
+              padding: 16px;
+              text-align: center;
+              transition: $transition-base;
+
+              &:focus {
+                  outline: none;
+              }
+
+              &:hover {
+                  background-color: $primary;
+                  box-shadow: 0px 0px 0px 4px rgba($primary, .5);
+                  color: color-yiq($primary);
+              }
+          }
+      }
+
+      @include lg {
+          display: flex;
+
+          nf-field {
+              flex: 100%;
+
+              &:nth-child(-n+4) {
+                  flex: 50%;
+
+                  &:nth-child(odd) {
+                      padding-right: 12px;
+                  }
+
+                  &:nth-child(even) {
+                      padding-left: 12px;
+                  }
+              }
+          }
+      }
+  }
+}
+
+
+// navigation styling
+.logo img {
+  height: auto;
+  width: 64px;
+
+  @include lg {
+      width: 128px;
+  }
+}
+header {
+  border-bottom: 1px solid rgba($primary, .25);
+  position: sticky;
+  top: 0;
+  transition: $transition-base;
+  z-index: 9;
+
+  #burger {
+      background-color: transparent;
+      border: none;
+      position: relative;
+      z-index: 10;
+
+      &:focus {
+          outline: none;
+      }
+
+      span:not(.burger) {
+          color: $primary;
+      }
+
+      .burger {
+          background-color: $primary;
+          height: 2px;
+          margin-left: 16px;
+          position: relative;
+          transition: $transition-base;
+          width: 24px;
+
+          &:before,
+          &:after {
+              background-color: $primary;
+              content: '';
+              height: 2px;
+              left: 0;
+              position: absolute;
+              transition: $transition-base;
+              width: 24px;
+          }
+
+          &:before {
+              top: -8px;
+          }
+
+          &:after {
+              top: 8px;
+          }
+      }
+
+      &.open .burger:before,
+      &.open .burger:after {
+          top: 0;
+      }
+  }
+
+  #navigation-mobile ul {
+      align-items: center;
+      background-color: $primary;
+      flex-direction: column;
+      height: 0;
+      justify-content: center;
+      left: 0;
+      pointer-events: none;
+      position: fixed;
+      top: 0;
+      transition: $transition-base;
+      width: 100%;
+      z-index: 9;
+
+      &.open {
+          height: 100vh;
+          pointer-events: all;
+
+          li {
+              opacity: 1;
+              transition: all .25s ease .65s;
+          }
+      }
+
+      li {
+          opacity: 0;
+      }
+  }
+}
+
+
+// slick slider styling
+.slick-list,
+.slick-slide,
+.slick-track {
+  backface-visibility: hidden;
+}
+.slick-arrows:focus,
+.slick-dots:focus {
+  outline: none;
+}
+.slick-arrow {
+    border: 2px solid $secondary;
+    display: block;
+    height: 40px;
+    width: 40px;
+    position: relative;
+    transition: $transition-base;
+
+    &:before,
+    &:after {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        color: $primary;
+        font-family: 'Font Awesome 5 Pro';
+        transform: translateX(-50%) translateY(-50%);
+        transition: $transition-base;
+    }
+
+    &.slick-prev:before {
+        content: '\f060';
+    }
+
+    &.slick-next:after {
+        content: '\f061';
+    }
+
+    &:hover {
+        background-color: $secondary;
+        cursor: pointer;
+
+        &:before,
+        &:after {
+            color: $quaternary;
+        }
+    }
+}
+.slick-dots {
+    display: flex;
+    flex-direction: row;
+    list-style: none;
+    margin-bottom: 0;
+    padding-left: 0;
+
+    li {
+        margin-right: 8px;
+        position: relative;
+
+        &.slick-active button {
+            background-color: $secondary;
+        }
+
+        button {
+            background-color: $primary;
+            border: 0;
+            border-radius: 100vh;
+            font-size: 0;
+            height: 12px;
+            padding: 0;
+            transition: $transition-base;
+            width: 12px;
+
+            &:hover {
+                background-color: $secondary;
+            }
+        }
+    }
+}
+
+
+// typography
+.alt-heading {
+  font-family: $font-family-sans-serif;
+}
+.no-transform {
+  text-transform: none !important;
+}
+input,
+select, 
+textarea,
+button, 
+a {
+  &:focus {
+      outline: none !important;
+  }
+}
+h1,
+.h1,
+h2,
+.h2,
+h3,
+.h3,
+h4,
+.h4,
+h5,
+.h5,
+h6,
+.h6 {
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+h4,
+.h4,
+h5,
+.h5,
+h6,
+.h6 {
+  letter-spacing: 2px;
+}
+p:empty {
+  display: none;
+}
+a {
+  transition: $transition-base;
+
+  * {
+      transition: $transition-base;
+  }
+}
+@media screen and (max-width: 767px) {
+
+  h1,
+  .h1 {
+      font-size: 1.75rem;
+  }
+
+  h2,
+  .h2 {
+      font-size: 1.5rem;
+  }
+
+  h3,
+  .h3 {
+      font-size: 1.3rem;
+  }
+
+  h4,
+  .h4 {
+      font-size: 1.2rem;
+  }
+
+  h5,
+  .h5 {
+      font-size: 1.1rem;
+  }
+
+  h6,
+  .h6 {
+      font-size: 1rem;
+  }
+}
+.wysiwyg {
+  position: relative;
+
+  >*:last-child() {
+      margin-bottom: 0;
+  }
+
+  ul {
+      list-style: none;
+      padding-left: 0;
+
+      li {
+          margin-bottom: 8px;
+          padding-left: 32px;
+          position: relative;
+
+          &:before {
+              color: $secondary;
+              content: '\f00c';
+              font-family: 'Font Awesome 5 Pro';
+              left: 0;
+              position: absolute;
+          }
+
+          &:last-of-type {
+              margin-bottom: 0;
+          }
+      }
+  }
+
+  >ol {
+      list-style: none;
+      padding-left: 0;
+
+      >li {
+          counter-increment: count;
+          margin-bottom: 4px;
+          position: relative;
+          padding-left: 28px;
+
+          &:before {
+              color: $secondary;
+              content: counter(count) '.';
+              font-weight: bold;
+              left: 0;
+              position: absolute;
+              top: 0;
+              width: 24px;
+          }
+
+          ol {
+              list-style: none;
+              margin: 8px 0 12px;
+              padding-left: 0;
+
+              >li {
+                  counter-increment: counter;
+                  margin-bottom: 4px;
+                  position: relative;
+                  padding-left: 28px;
+
+                  &:before {
+                      color: $secondary;
+                      content: counter(counter) '.';
+                      font-weight: bold;
+                      left: 0;
+                      position: absolute;
+                      top: 0;
+                      width: 24px;
+                  }
+              }
+          }
+      }
+  }
+}
+
