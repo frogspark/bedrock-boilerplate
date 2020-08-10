@@ -456,9 +456,16 @@ add_action('do_feed_atom', 'rss_disable_feed', 1);
 /*
 * Removes the "Welcome" panel.
 */
-
 remove_action('welcome_panel', 'wp_welcome_panel');
 
 function get_navigation() {
   return get_template_part('inc/_navigation');
+}
+
+function get_hero() {
+  return get_template_part('inc/_hero');
+}
+
+function load_map_script() {
+  return get_template_part('inc/_map-script');
 }

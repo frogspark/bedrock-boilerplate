@@ -219,6 +219,7 @@ body {
 
   [class*='bg-'] {
     min-height: 100%;
+    transition: $transition-base;
   }
 
   .overlay {
@@ -241,11 +242,7 @@ body {
 }
 .img-grow {
   overflow: hidden;
-   
-  [class*='bg-'] {
-    transition: $transition-base;
-  }
-
+ 
   &:hover {
     [class*='bg-'] {
       transform: scale(1.1);
@@ -537,80 +534,80 @@ body {
   z-index: 9;
 
   #burger {
-      background-color: transparent;
-      border: none;
+    background-color: transparent;
+    border: none;
+    position: relative;
+    z-index: 10;
+
+    &:focus {
+      outline: none;
+    }
+
+    span:not(.burger) {
+      color: $primary;
+    }
+
+    .burger {
+      background-color: $primary;
+      height: 2px;
+      margin-left: 16px;
       position: relative;
-      z-index: 10;
+      transition: $transition-base;
+      width: 24px;
 
-      &:focus {
-          outline: none;
+      &:before,
+      &:after {
+        background-color: $primary;
+        content: '';
+        height: 2px;
+        left: 0;
+        position: absolute;
+        transition: $transition-base;
+        width: 24px;
       }
 
-      span:not(.burger) {
-          color: $primary;
+      &:before {
+        top: -8px;
       }
 
-      .burger {
-          background-color: $primary;
-          height: 2px;
-          margin-left: 16px;
-          position: relative;
-          transition: $transition-base;
-          width: 24px;
-
-          &:before,
-          &:after {
-              background-color: $primary;
-              content: '';
-              height: 2px;
-              left: 0;
-              position: absolute;
-              transition: $transition-base;
-              width: 24px;
-          }
-
-          &:before {
-              top: -8px;
-          }
-
-          &:after {
-              top: 8px;
-          }
+      &:after {
+        top: 8px;
       }
+    }
 
-      &.open .burger:before,
-      &.open .burger:after {
-          top: 0;
-      }
+    &.open .burger:before,
+    &.open .burger:after {
+      top: 0;
+    }
   }
 
   #navigation-mobile ul {
-      align-items: center;
-      background-color: $primary;
-      flex-direction: column;
-      height: 0;
-      justify-content: center;
-      left: 0;
-      pointer-events: none;
-      position: fixed;
-      top: 0;
-      transition: $transition-base;
-      width: 100%;
-      z-index: 9;
+    align-items: center;
+    background-color: $primary;
+    flex-direction: column;
+    height: 0;
+    justify-content: center;
+    left: 0;
+    pointer-events: none;
+    position: fixed;
+    top: 0;
+    transition: $transition-base;
+    width: 100%;
+    z-index: 9;
 
-      &.open {
-          height: 100vh;
-          pointer-events: all;
-
-          li {
-              opacity: 1;
-              transition: all .25s ease .65s;
-          }
-      }
+    &.open {
+      height: 100vh;
+      pointer-events: all;
 
       li {
-          opacity: 0;
+        opacity: 1;
+        transition: all .25s ease .65s;
       }
+    }
+
+    li {
+      opacity: 0;
+    }
   }
 }
 
