@@ -34,19 +34,10 @@ function js() {
     insertGlobals: true, 
   }).transform(babelify.configure({ presets: ['@babel/preset-env'] }));
   
-  // return bundler.bundle()
-  //   .pipe(src(`${themeURL}js/src/Global.js`))
-  //   .pipe(concat('bundle.min.js'))
-  //   .pipe(sourcemaps.init())
-  //   .pipe(plumber({ errorHandler: onError }))
-  //   .pipe(sourcemaps.write())
-  //   .pipe(uglify())
-  //   .pipe(dest(`${themeURL}js/dist`));
   return bundler.bundle()
     .pipe(source(`app.js`))
     .pipe(buffer())
     .pipe(src(`${themeURL}js/src/Global.js`))
-    .pipe(src(`${themeURL}js/src/modules/`))
     .pipe(concat('bundle.min.js'))
     .pipe(babel())
     .pipe(sourcemaps.init({loadMaps: true}))
