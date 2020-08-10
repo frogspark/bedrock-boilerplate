@@ -6,6 +6,11 @@ import 'bootstrap';
 import _ from 'lodash';
 import slick from 'slick-carousel';
 
+/**
+ * @description new prototype function for checking if an element is within the viewport
+ * 
+ * @param {*} $ jQuery object for the window
+ */
 (function ($) {
   $.fn.isInViewport = function () {
     let elementTop = $(this).offset().top;
@@ -38,8 +43,7 @@ $(document).ready(function () {
 });
 
 /**
- * @description function for fixing floating elements or page width elements with 
- * content to the conventional container sizes
+ * @description function for fixing floating elements or page width elements with content to the conventional container sizes
  */
 let containerFix = () => {
   if ($('.container-fix').length) {
@@ -68,6 +72,9 @@ let containerFix = () => {
   }
 }
 
+/**
+ * @description initialise the slick sliders for the page
+ */
 let sliders = () => {
   // generic slider example
   // go to - https://kenwheeler.github.io/slick/ - for documentation
@@ -203,6 +210,9 @@ let newMap = ($el) => {
   return map;
 }
 
+/**
+ * @description convenience function for running all code required to generate a single (or multiple) maps on a page
+ */
 let runMaps = () => {
   $('.map').each(() => {
     newMap($(this));
