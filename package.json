@@ -43,7 +43,9 @@
     "babelify": "^10.0.0",
     "browser-sync": "^2.26.12",
     "browserify": "^16.5.2",
+    "globby": "^11.0.1",
     "gulp": "^4.0.2",
+    "gulplog": "^1.0.0",
     "gulp-babel": "^8.0.0",
     "gulp-bro": "^2.0.0",
     "gulp-clean-css": "^4.3.0",
@@ -54,6 +56,7 @@
     "gulp-sass": "^3.1.0",
     "gulp-sourcemaps": "^2.6.1",
     "gulp-uglify": "^3.0.0",
+    "through2": "^4.0.2",
     "vinyl-buffer": "^1.0.1",
     "vinyl-source-stream": "^2.0.0"
   }
