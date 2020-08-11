@@ -16,7 +16,7 @@ const browserify = require('browserify');
 
 browserSync.create();
 
-const projectURL = 'http://base.test';
+const projectURL = 'http://calumboilerplate.test';
 const themeURL = 'web/app/themes/frogspark/';
 
 function js() {
@@ -29,15 +29,14 @@ function js() {
   };
 
   const bundler = browserify({
-    entriesL: `${themeURL}js/src/Global.js`, 
+    entries: `${themeURL}js/src/Global.js`, 
     debug: true, 
     insertGlobals: true, 
   }).transform(babelify.configure({ presets: ['@babel/preset-env'] }));
   
   return bundler.bundle()
-    .pipe(source(`app.js`))
+    .pipe(source(`${themeURL}js/src/Global.js`))
     .pipe(buffer())
-    .pipe(src(`${themeURL}js/src/Global.js`))
     .pipe(concat('bundle.min.js'))
     .pipe(babel())
     .pipe(sourcemaps.init({loadMaps: true}))
