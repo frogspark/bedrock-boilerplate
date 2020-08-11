@@ -20,7 +20,7 @@ const log = require('gulplog');
 
 browserSync.create();
 
-const projectURL = 'http://calumboilerplate.test';
+const projectURL = 'http://bedrock-boilerplate.test';
 const themeURL = 'web/app/themes/frogspark/';
 
 let javascript = () => {
