@@ -62,3 +62,32 @@
     @content;
   }
 }
+
+/* General Mixins*/
+@mixin pseudo($display: block, $pos: 'absolute', $content: '') {
+  display: $display;
+  content: $content;
+  position: $pos;
+}
+
+@mixin responsive-ratio($x, $y, $pseudo: false) {
+  $padding: unquote(($x/$y)*100+'%');
+  @if $pseudo {
+    &:before {
+      @include pseudo($pos: relative);
+      width: 100%;
+      padding-bottom: $padding;
+    }
+  }
+  @else {
+    padding-bottom: $padding;
+  }
+}
+
+@mixin input-placeholder {
+  &.placeholder { @content; }
+  &:-moz-placeholder { @content; }
+  &::-moz-placeholder { @content; }
+  &:-ms-input-placeholder { @content; }
+  &::-webkit-input-placeholder { @content; }
+}
