@@ -25,10 +25,36 @@ $(document).ready(function () {
   // AOS.
   AOS.init();
 
+  scrollWatcher();
   containerFix();
   sliders();
   runMaps();
 
+  $(window).resize(() => {
+    containerFix();
+    runMaps();
+  });
+
+  $(window).scroll(() => {
+    scrollWatcher();
+  })
+
+  // Smooth scroll.
+  $('a[href*="#"]').not('[href="#"]').not('[href="#0"]').click(function (event) {
+    if (location.pathname.replace(/^\//, '') == this.pathname.replace(/^\//, '') && location.hostname == this.hostname) {
+      var target = $(this.hash);
+      var offset = $('header').outerHeight();
+      target = target.length ? target : $('[name=' + this.hash.slice(1) + ']');
+      if (target.length) {
+        event.preventDefault();
+        $('html, body').animate({
+          scrollTop: target.offset().top - offset
+        }, 1000);
+      }
+    }
+  });
+
+  // Burger click
   $('#burger').click(function () {
     open = !open;
     toggleMenu(open);
@@ -41,6 +67,19 @@ $(document).ready(function () {
     }
   });
 });
+
+
+/**
+ * @description run on scroll event to add classs to header on scroll
+ */
+let scrollWatcher = () => {
+  let scroll = $(window).scrollTop();
+  if (scroll > 0) {
+    $('header').addClass('scroll');
+  } else {
+    $('header').removeClass('scroll');
+  }
+}
 
 /**
  * @description function for fixing floating elements or page width elements with content to the conventional container sizes
