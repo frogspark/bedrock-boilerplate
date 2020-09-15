@@ -69,7 +69,7 @@ function cc_mime_types($mimes){
 add_filter('upload_mimes', 'cc_mime_types');
 
 /*
-* Print multi-level menu.
+* Print menu.
 */
 
 function print_menu($menu, $parent_item_class = 'parent-item'){

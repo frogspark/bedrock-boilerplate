@@ -12,7 +12,7 @@ $(document).ready(function(){
   $('#burger').click(function() { open = !open; openMenu(open); });
 
   // Active class.
-  $('#header .nav [href]').each(function() { if (this.href == window.location.href) { $(this).addClass('active'); } });
+  $('#header .nav > li > a[href]').each(function() { if (this.href == window.location.href) { $(this).addClass('active'); } });
 
   // AOS.
   AOS.init();
