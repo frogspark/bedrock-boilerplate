@@ -458,6 +458,181 @@ add_action('do_feed_atom', 'rss_disable_feed', 1);
 */
 remove_action('welcome_panel', 'wp_welcome_panel');
 
+// Add support for featured images
+add_theme_support( 'post-thumbnails' );
+
+// /*
+// * WooCommerce support.
+// */
+// add_theme_support('woocommerce');
+
+// /*
+// * Setting products per row.
+// */
+// add_filter('loop_shop_columns', 'loop_columns');
+// if (!function_exists('loop_columns')) {
+//   function loop_columns() {
+//     return 3;
+//   }
+// }
+
+// /*
+// * Changing "cart" to "basket".
+// */
+// function woo_custom_change_cart_string($translated_text, $text, $domain) {
+//   $translated_text = str_replace("cart", "basket", $translated_text);
+//   $translated_text = str_replace("Cart", "Basket", $translated_text);
+//   $translated_text = str_replace("View Cart", "View Basket", $translated_text);
+// return $translated_text;
+// }
+// add_filter('gettext', 'woo_custom_change_cart_string', 100, 3);
+// add_filter('ngettext', 'woo_custom_change_cart_string', 100, 3);
+// add_filter('woocommerce_product_add_to_cart_text', 'woo_custom_single_add_to_cart_text');
+// add_filter('woocommerce_product_single_add_to_cart_text', 'woo_custom_single_add_to_cart_text');
+// function woo_custom_single_add_to_cart_text() {
+//   return __('Add to Basket', 'woocommerce');
+// }
+
+// /*
+// * Removing the breadcrumbs.
+// */
+// add_action('init', 'woo_remove_wc_breadcrumbs');
+// function woo_remove_wc_breadcrumbs() {
+//   remove_action('woocommerce_before_main_content', 'woocommerce_breadcrumb', 20, 0);
+// }
+
+// /*
+// * Adding the product gallery.
+// */
+// add_theme_support('wc-product-gallery-slider');
+// add_theme_support('wc-product-gallery-lightbox');
+
+// /*
+// * Removing the "Additional information" tabs.
+// */
+// add_filter('woocommerce_product_tabs', 'frogspark_remove_product_tabs', 98);
+// function frogspark_remove_product_tabs($tabs) {
+//   unset($tabs['additional_information']); 
+//   return $tabs;
+// }
+
+// /*
+// * Hides categories from the product page.
+// */
+// remove_action('woocommerce_single_product_summary', 'woocommerce_template_single_meta', 40);
+
+// /*
+// * Updating the search placeholder text.
+// */
+// // add_filter('gettext', 'translate_text');
+// // add_filter('ngettext', 'translate_text');
+// // function translate_text($translated) {
+// // $translated = str_ireplace('Search products&hellip;', 'Search products', $translated);
+// // return $translated;
+// // }
+// /*
+
+// * Adjusting the product image.
+// */
+// function replacing_template_loop_product_thumbnail() {
+//   remove_action( 'woocommerce_before_shop_loop_item_title', 'woocommerce_template_loop_product_thumbnail', 10);
+//   function wc_template_loop_product_replaced_thumb() {
+//     global $post;
+//     echo  '<div class="product-image"><div class="bg-landscape bg-p-center" style="background-image: url('.get_the_post_thumbnail_url($post->ID).');"></div></div>';
+//   }
+//   add_action( 'woocommerce_before_shop_loop_item_title', 'wc_template_loop_product_replaced_thumb', 10);
+// }
+// add_action( 'woocommerce_init', 'replacing_template_loop_product_thumbnail');
+
+// /*
+// * Adjusting the "Add to cart" button.
+// */
+// function remove_loop_button(){
+//   remove_action('woocommerce_after_shop_loop_item', 'woocommerce_template_loop_add_to_cart', 10);
+// }
+// add_action('init','remove_loop_button');
+// add_action('woocommerce_after_shop_loop_item', 'replace_add_to_cart');
+
+// /**
+//  * Returns product price based on sales.
+//  * 
+//  * @return string
+//  */
+// function get_product_price() {
+//   global $product;
+//   if( $product->is_on_sale() ) {
+//       return $product->get_sale_price();
+//   }
+//   return $product->get_regular_price();
+// }
+// function replace_add_to_cart() {
+//   global $product;
+//   $link = $product->get_permalink();
+//   if(has_term('keepsakes-shop', 'product_cat', $product->get_id())) {
+//     echo '
+//       <div class="d-flex flex-column">
+//         <p class="mb-4 font-weight-bold">'.get_woocommerce_currency_symbol().get_product_price().'</p>
+//         <a class="product-view" href="'.esc_attr($link).'">
+//           <button class="btn-tertiary">
+//             <div class="ml-auto">
+//               view details
+//             </div>
+//           </button>
+//         </a>
+//       </div>';
+//   }
+//   else {
+//     echo '
+//       <a class="product-view" href="'.esc_attr($link).'">
+//         <button class="btn-tertiary d-flex w-100">'.
+//           get_woocommerce_currency_symbol().get_product_price().
+//           '<div class="ml-auto">
+//             add to basket
+//             <i class="far fa-shopping-basket pl-3"></i>
+//           </div>
+//         </button>
+//       </a>';
+//   }
+// }
+
+
+// remove_action( 'woocommerce_after_shop_loop_item_title', 'woocommerce_template_loop_price');
+// remove_action( 'woocommerce_after_shop_loop_item_title', 'woocommerce_template_loop_rating');
+
+// function wc_add_short_description() {
+// 	global $product;
+//   echo '<div itemprop="description" class="wysiwyg mb-6">'.get_the_excerpt().'</div>';
+// }
+// add_action( 'woocommerce_after_shop_loop_item_title', 'wc_add_short_description' );
+
+// /*
+// * Removes related products.
+// */
+// remove_action('woocommerce_after_single_product_summary', 'woocommerce_output_related_products', 20);
+
+// /*
+// * Adding alt tags to images.
+// */
+// add_filter('wp_get_attachment_image_attributes', 'change_attachement_image_attributes', 20, 2);
+// function change_attachement_image_attributes($attr, $attachment){
+//   $parent = get_post_field('post_parent', $attachment);
+//   $type = get_post_field('post_type', $parent);
+//   if($type != 'product'){
+//     return $attr;
+//   }
+//   $title = get_post_field('post_title', $parent);
+//   $attr['alt'] = $title;
+//   $attr['title'] = $title;
+//   return $attr;
+// }
+// add_filter( 'woocommerce_get_image_size_gallery_thumbnail', function( $size ) {
+//   return array(
+//       'width' => 300,
+//       'height' => 300,
+//       'crop' => 0,
+//   );
+// } );
+
 function get_navigation() {
   return get_template_part('inc/_navigation');
 }
