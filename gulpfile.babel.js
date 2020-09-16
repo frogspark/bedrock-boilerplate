@@ -1,6 +1,5 @@
 const {series, parallel, src, dest, watch} = require('gulp');
 const gulp = require('gulp');
-const babel = require('gulp-babel');
 const sass = require('gulp-sass');
 const concat = require('gulp-concat');
 const sourcemaps = require('gulp-sourcemaps');
@@ -12,7 +11,6 @@ const browserSync = require('browser-sync');
 const plumber = require('gulp-plumber');
 const source = require('vinyl-source-stream');
 const buffer = require('vinyl-buffer');
-const babelify = require('babelify');
 const browserify = require('browserify');
 const through = require('through2');
 const globby = require('globby');
@@ -34,6 +32,7 @@ let javascript = () => {
       .on('error', log.error)
     .pipe(sourcemaps.write('./'))
     .pipe(gulp.dest(`${themeURL}js/dist/`))
+    .pipe(browserSync.stream());
 
   globby([`${themeURL}js/src/Global.js`]).then((entries) => {
     let b = browserify({
