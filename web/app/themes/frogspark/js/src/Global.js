@@ -23,7 +23,13 @@ import slick from 'slick-carousel';
 
 $(document).ready(function () {
   // AOS.
-  AOS.init();
+  setTimeout(() => {
+    $('body').addClass('loaded');
+    setTimeout(() => {
+      AOS.init();
+    }, 500);
+  }, 1000)
+  // AOS.init();
 
   scrollWatcher();
   containerFix();
@@ -66,6 +72,64 @@ $(document).ready(function () {
       $(this).addClass('active');
     }
   });
+
+  // Scroll.
+  var $circle = $('.scroll-cursor'),
+    $wrapper = $('.scroll');
+
+  function moveCircle(e) {
+    TweenLite.to($circle, 0.3, {
+      css: {
+        left: e.pageX,
+        top: e.pageY
+      }
+    });
+  }
+  var flag = false;
+  $($wrapper).mouseover(function () {
+    flag = true;
+    TweenLite.to($circle, .4, {
+      scale: 1,
+      autoAlpha: 1
+    })
+    $($wrapper).on('mousemove', moveCircle);
+  });
+  $($wrapper).mouseout(function () {
+    flag = false;
+    TweenLite.to($circle, .4, {
+      scale: .1,
+      autoAlpha: 0
+    })
+  });
+
+  // In-view.
+  function isScrolledIntoView(elem) {
+    var docViewTop = $(window).scrollTop();
+    var docViewBottom = docViewTop + $(window).height();
+    var elemTop = $(elem).offset().top;
+    return ((elemTop <= docViewBottom) && (elemTop >= docViewTop));
+  }
+  $(window).on('scroll', function () {
+    $('.uncover').each(function () {
+      if (isScrolledIntoView(this) === true) {
+        $(this).addClass('show');
+      }
+    });
+  });
+
+  // Scroll fix.
+  function scrollFix() {
+    var headerHeight = $('#header').outerHeight();
+    var dropdown = $('.submenu');
+    var scroll = $(document).scrollTop();
+    if (scroll == 0) {
+      dropdown.css('top', headerHeight + 'px');
+    } else if (scroll < topstripHeight) {
+      dropdown.css('top', scroll + headerHeight + 'px');
+    } else {
+      dropdown.css('top', headerHeight + 'px');
+    }
+  }
 });
 
 
