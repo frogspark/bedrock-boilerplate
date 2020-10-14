@@ -712,7 +712,7 @@ a:hover .bg-wrapper {
   .cc-btn {
     background-color: $secondary !important;
     border-radius: 0;
-    color: $senary !important;
+    color: $tertiary!important;
     font-size: 1rem;
     font-weight: bold;
     padding: 12px 28px 10px;
@@ -720,7 +720,7 @@ a:hover .bg-wrapper {
 
     &:hover {
       background-color: $secondary !important;
-      color: $senary !important;
+      color: $tertiary !important;
     }
   }
 }

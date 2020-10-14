@@ -268,7 +268,7 @@ add_action('acf/input/admin_head', 'my_acf_admin_head');
 */
 
 function remove_footer_admin() {
-  echo 'Website by <a href="https://frogspark.co.uk" target="_blank">Frogspark</a>';
+  echo 'Web Design Derby - <a href="https://frogspark.co.uk" target="_blank">Frogspark</a>';
 }   
 add_filter('admin_footer_text', 'remove_footer_admin');
 

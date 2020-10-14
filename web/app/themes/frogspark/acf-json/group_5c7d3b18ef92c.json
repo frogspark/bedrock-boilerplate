@@ -40,7 +40,7 @@
           "max_width": "",
           "max_height": "",
           "max_size": "",
-          "mime_types": "svg"
+          "mime_types": ""
       },
       {
           "key": "field_5c7d3b449ea58",
@@ -103,7 +103,7 @@
           "label": "VAT number",
           "name": "vat_number",
           "type": "text",
-          "instructions": "The VAT number which will be used site-wide (if applicable).",
+          "instructions": "The VAT number which will be used site-wide.",
           "required": 1,
           "conditional_logic": 0,
           "wrapper": {
@@ -158,9 +158,9 @@
               {
                   "key": "field_5e452cfaa0cd4",
                   "label": "Platform",
-                  "name": "social_media_platform",
+                  "name": "platform",
                   "type": "select",
-                  "instructions": "",
+                  "instructions": "The platform which will be used for this section.",
                   "required": 1,
                   "conditional_logic": 0,
                   "wrapper": {
@@ -185,7 +185,7 @@
               {
                   "key": "field_5e452d2ea0cd5",
                   "label": "URL",
-                  "name": "social_media_url",
+                  "name": "url",
                   "type": "url",
                   "instructions": "The URL which will be used for this section.",
                   "required": 1,
