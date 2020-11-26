@@ -552,10 +552,16 @@ header {
   transition: $transition-base;
   z-index: 9;
 
+  &.scroll {
+    box-shadow: 0 3px 7px 0 rgba(25,25,25,.1);
+  }
+
   #burger {
     background-color: transparent;
     border: none;
+    height: 22px;
     position: relative;
+    width: 24px;
     z-index: 10;
 
     &:focus {
@@ -569,20 +575,19 @@ header {
     .burger {
       background-color: $primary;
       height: 2px;
-      margin-left: 16px;
       position: relative;
       transition: $transition-base;
-      width: 24px;
+      width: inherit;
 
       &:before,
       &:after {
         background-color: $primary;
         content: '';
-        height: 2px;
+        height: inherit;
         left: 0;
         position: absolute;
         transition: $transition-base;
-        width: 24px;
+        width: inherit;
       }
 
       &:before {
@@ -626,6 +631,46 @@ header {
 
     li {
       opacity: 0;
+    }
+  }
+}
+
+footer, .footer {
+  // add general footer styling here
+
+  ul.nav {
+    flex-direction: column;
+
+    li.nav-item {
+      a.nav-link {
+        &:before {
+          content: '';
+        }
+      }
+    }
+  }
+
+  .backlink {
+    font-size: 10px;
+    position: relative;
+
+    &:after {
+      background-color: $primary;
+      bottom: -4px;
+      content: '';
+      height: 1.25px;
+      left: 0;
+      overflow: hidden;
+      opacity: 0;
+      position: absolute;
+      width: 100%;
+    }
+
+    &:hover {
+      &:after {
+        bottom: 0;
+        opacity: 1;
+      }
     }
   }
 }

@@ -2,8 +2,9 @@
 $bg-r: (
   "cinematic": 42.8571%,
   "landscape": 56.25%,
-  "portrait": 125%,
+  "box": 65%,
   "square": 100%,
+  "portrait": 125%,
 );
 @each $key, $value in $bg-r {
   .bg-#{$key} {
