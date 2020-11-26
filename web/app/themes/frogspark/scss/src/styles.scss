@@ -35,6 +35,7 @@ html {
   height: 100%;
   overflow-x: hidden;
 }
+
 body {
   display: flex;
   flex-direction: column;
@@ -46,7 +47,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
-  > main {
+  >main {
     flex: 1 1 auto;
   }
 }
@@ -60,7 +61,9 @@ body {
 
 
 // theme colour button styling
-@each $label, $color in $theme-colors {
+@each $label,
+$color in $theme-colors {
+
   // filled button
   .btn-#{$label} {
     background-color: $color;
@@ -197,9 +200,17 @@ body {
 
   // button animation keyframes
   @keyframes btn-#{$label} {
-    0% {box-shadow: 0px 0px 0px 4px rgba($color, .5);}
-    50% {box-shadow: 0px 0px 0px 8px rgba($color, .25);}
-    100% {box-shadow: 0px 0px 0px 12px rgba($color, 0);}
+    0% {
+      box-shadow: 0px 0px 0px 4px rgba($color, .5);
+    }
+
+    50% {
+      box-shadow: 0px 0px 0px 8px rgba($color, .25);
+    }
+
+    100% {
+      box-shadow: 0px 0px 0px 12px rgba($color, 0);
+    }
   }
 }
 
@@ -208,13 +219,15 @@ body {
 .rounded {
   border-radius: .5rem !important;
 }
+
 .shadow {
   box-shadow: 0px 0px 12px 0px rgba($primary, .25) !important;
 }
 
 
 // image utility styling
-.img-block, .img-grow {
+.img-block,
+.img-grow {
   width: 100%;
   position: relative;
 
@@ -238,12 +251,13 @@ body {
     left: 0;
     top: 0;
     height: 100%;
-    
+
   }
 }
+
 .img-grow {
   overflow: hidden;
- 
+
   &:hover {
     [class*='bg-'] {
       transform: scale(1.1);
@@ -280,6 +294,7 @@ body {
     }
   }
 }
+
 .dropdown {
   width: 100%;
   display: block;
@@ -342,178 +357,179 @@ body {
     }
   }
 }
+
 .nf-form-wrap {
   position: relative;
 
   .nf-error-msg {
-      color: $primary;
+    color: $primary;
   }
 
   .nf-error-required-error {
-      display: none;
+    display: none;
   }
 
   .nf-before-form-content {
-      display: none;
+    display: none;
   }
 
   .nf-form-content {
-      max-width: 100%;
-      padding: 0;
+    max-width: 100%;
+    padding: 0;
   }
 
   .nf-form-content .list-select-wrap>div div:after {
-      display: none;
+    display: none;
   }
 
   .nf-pass.field-wrap .nf-field-element:after,
   .nf-error.field-wrap .nf-field-element:after {
-      display: none;
+    display: none;
   }
 
   .nf-pass .ninja-forms-field,
   .nf-error .ninja-forms-field {
-      border-color: $primary !important;
+    border-color: $primary !important;
   }
 
   nf-fields-wrap {
-      display: block;
-      flex-direction: row;
-      flex-wrap: wrap;
+    display: block;
+    flex-direction: row;
+    flex-wrap: wrap;
 
-      .nf-field-container {
-          margin-bottom: 8px;
+    .nf-field-container {
+      margin-bottom: 8px;
 
-          @include md {
-              margin-bottom: 24px;
-          }
-
-          input:not([type="button"]),
-          textarea {
-              background-color: color-yiq($primary);
-              border: 1px solid $primary;
-              border-radius: 0;
-              color: $primary;
-              height: auto;
-              padding: 16px;
-              transition: $transition-base;
-              width: 100%;
-              -moz-appearance: none;
-              -webkit-appearance: none;
-
-              &:focus {
-                  box-shadow: 0px 0px 0px 4px rgba($primary, .5);
-                  outline: none;
-
-                  &::placeholder {
-                      opacity: .5;
-                  }
-              }
-
-              &::placeholder {
-                  color: $primary;
-                  transition: $transition-base;
-              }
-          }
-
-          textarea {
-              height: 128px;
-          }
+      @include md {
+        margin-bottom: 24px;
       }
 
-      .list-wrap .nf-field-element {
-          position: relative;
+      input:not([type="button"]),
+      textarea {
+        background-color: color-yiq($primary);
+        border: 1px solid $primary;
+        border-radius: 0;
+        color: $primary;
+        height: auto;
+        padding: 16px;
+        transition: $transition-base;
+        width: 100%;
+        -moz-appearance: none;
+        -webkit-appearance: none;
 
-          >div {
-              display: none;
+        &:focus {
+          box-shadow: 0px 0px 0px 4px rgba($primary, .5);
+          outline: none;
+
+          &::placeholder {
+            opacity: .5;
           }
+        }
 
-          &:after {
-              color: $secondary;
-              content: '\f078';
-              font-family: 'Font Awesome 5 Pro';
-              font-weight: bold;
-              position: absolute;
-              right: 16px;
-              top: 50%;
-              transform: translateY(-50%);
-              z-index: 5;
-          }
-
-          select {
-              background-color: color-yiq($primary);
-              border: 1px solid $primary;
-              border-radius: 0;
-              color: $primary;
-              height: auto !important;
-              padding: 16px;
-              transition: $transition-base;
-              width: 100%;
-              -moz-appearance: none;
-              -webkit-appearance: none;
-
-              &:focus {
-                  box-shadow: 0px 0px 0px 4px rgba($primary, .5);
-                  outline: none;
-              }
-          }
+        &::placeholder {
+          color: $primary;
+          transition: $transition-base;
+        }
       }
 
-      .textarea-container {
-          margin-bottom: 0;
+      textarea {
+        height: 128px;
+      }
+    }
 
-          @include md {
-              margin-bottom: 16px;
-          }
+    .list-wrap .nf-field-element {
+      position: relative;
+
+      >div {
+        display: none;
       }
 
-      .submit-container {
-          margin-bottom: 0;
-          text-align: right;
-
-          input {
-              background-color: $primary;
-              border-radius: 100vh;
-              color: color-yiq($primary);
-              display: inline-block;
-              height: auto;
-              max-width: 100%;
-              min-width: 128px;
-              padding: 16px;
-              text-align: center;
-              transition: $transition-base;
-
-              &:focus {
-                  outline: none;
-              }
-
-              &:hover {
-                  background-color: $primary;
-                  box-shadow: 0px 0px 0px 4px rgba($primary, .5);
-                  color: color-yiq($primary);
-              }
-          }
+      &:after {
+        color: $secondary;
+        content: '\f078';
+        font-family: 'Font Awesome 5 Pro';
+        font-weight: bold;
+        position: absolute;
+        right: 16px;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 5;
       }
 
-      @include lg {
-          display: flex;
+      select {
+        background-color: color-yiq($primary);
+        border: 1px solid $primary;
+        border-radius: 0;
+        color: $primary;
+        height: auto !important;
+        padding: 16px;
+        transition: $transition-base;
+        width: 100%;
+        -moz-appearance: none;
+        -webkit-appearance: none;
 
-          nf-field {
-              flex: 100%;
-
-              &:nth-child(-n+4) {
-                  flex: 50%;
-
-                  &:nth-child(odd) {
-                      padding-right: 12px;
-                  }
-
-                  &:nth-child(even) {
-                      padding-left: 12px;
-                  }
-              }
-          }
+        &:focus {
+          box-shadow: 0px 0px 0px 4px rgba($primary, .5);
+          outline: none;
+        }
       }
+    }
+
+    .textarea-container {
+      margin-bottom: 0;
+
+      @include md {
+        margin-bottom: 16px;
+      }
+    }
+
+    .submit-container {
+      margin-bottom: 0;
+      text-align: right;
+
+      input {
+        background-color: $primary;
+        border-radius: 100vh;
+        color: color-yiq($primary);
+        display: inline-block;
+        height: auto;
+        max-width: 100%;
+        min-width: 128px;
+        padding: 16px;
+        text-align: center;
+        transition: $transition-base;
+
+        &:focus {
+          outline: none;
+        }
+
+        &:hover {
+          background-color: $primary;
+          box-shadow: 0px 0px 0px 4px rgba($primary, .5);
+          color: color-yiq($primary);
+        }
+      }
+    }
+
+    @include lg {
+      display: flex;
+
+      nf-field {
+        flex: 100%;
+
+        &:nth-child(-n+4) {
+          flex: 50%;
+
+          &:nth-child(odd) {
+            padding-right: 12px;
+          }
+
+          &:nth-child(even) {
+            padding-left: 12px;
+          }
+        }
+      }
+    }
   }
 }
 
@@ -524,10 +540,12 @@ body {
   width: 64px;
 
   @include lg {
-      width: 128px;
+    width: 128px;
   }
 }
-.header, header {
+
+.header,
+header {
   border-bottom: 1px solid rgba($primary, .25);
   position: sticky;
   top: 0;
@@ -619,77 +637,80 @@ body {
 .slick-track {
   backface-visibility: hidden;
 }
+
 .slick-arrows:focus,
 .slick-dots:focus {
   outline: none;
 }
+
 .slick-arrow {
-    border: 2px solid $secondary;
-    display: block;
-    height: 40px;
-    width: 40px;
-    position: relative;
+  border: 2px solid $secondary;
+  display: block;
+  height: 40px;
+  width: 40px;
+  position: relative;
+  transition: $transition-base;
+
+  &:before,
+  &:after {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    color: $primary;
+    font-family: 'Font Awesome 5 Pro';
+    transform: translateX(-50%) translateY(-50%);
     transition: $transition-base;
+  }
+
+  &.slick-prev:before {
+    content: '\f060';
+  }
+
+  &.slick-next:after {
+    content: '\f061';
+  }
+
+  &:hover {
+    background-color: $secondary;
+    cursor: pointer;
 
     &:before,
     &:after {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        color: $primary;
-        font-family: 'Font Awesome 5 Pro';
-        transform: translateX(-50%) translateY(-50%);
-        transition: $transition-base;
+      color: $quaternary;
     }
-
-    &.slick-prev:before {
-        content: '\f060';
-    }
-
-    &.slick-next:after {
-        content: '\f061';
-    }
-
-    &:hover {
-        background-color: $secondary;
-        cursor: pointer;
-
-        &:before,
-        &:after {
-            color: $quaternary;
-        }
-    }
+  }
 }
+
 .slick-dots {
-    display: flex;
-    flex-direction: row;
-    list-style: none;
-    margin-bottom: 0;
-    padding-left: 0;
+  display: flex;
+  flex-direction: row;
+  list-style: none;
+  margin-bottom: 0;
+  padding-left: 0;
 
-    li {
-        margin-right: 8px;
-        position: relative;
+  li {
+    margin-right: 8px;
+    position: relative;
 
-        &.slick-active button {
-            background-color: $secondary;
-        }
-
-        button {
-            background-color: $primary;
-            border: 0;
-            border-radius: 100vh;
-            font-size: 0;
-            height: 12px;
-            padding: 0;
-            transition: $transition-base;
-            width: 12px;
-
-            &:hover {
-                background-color: $secondary;
-            }
-        }
+    &.slick-active button {
+      background-color: $secondary;
     }
+
+    button {
+      background-color: $primary;
+      border: 0;
+      border-radius: 100vh;
+      font-size: 0;
+      height: 12px;
+      padding: 0;
+      transition: $transition-base;
+      width: 12px;
+
+      &:hover {
+        background-color: $secondary;
+      }
+    }
+  }
 }
 
 
@@ -697,18 +718,21 @@ body {
 .alt-heading {
   font-family: $font-family-sans-serif;
 }
+
 .no-transform {
   text-transform: none !important;
 }
+
 input,
-select, 
+select,
 textarea,
-button, 
+button,
 a {
   &:focus {
-      outline: none !important;
+    outline: none !important;
   }
 }
+
 h1,
 .h1,
 h2,
@@ -724,6 +748,7 @@ h6,
   letter-spacing: 1px;
   text-transform: uppercase;
 }
+
 h4,
 .h4,
 h5,
@@ -732,9 +757,11 @@ h6,
 .h6 {
   letter-spacing: 2px;
 }
+
 p:empty {
   display: none;
 }
+
 a {
   transition: $transition-base;
 
@@ -794,109 +821,112 @@ a {
     }
   }
 }
+
 @media screen and (max-width: 767px) {
+
   h1,
   .h1 {
-      font-size: 1.75rem;
+    font-size: 1.75rem;
   }
 
   h2,
   .h2 {
-      font-size: 1.5rem;
+    font-size: 1.5rem;
   }
 
   h3,
   .h3 {
-      font-size: 1.3rem;
+    font-size: 1.3rem;
   }
 
   h4,
   .h4 {
-      font-size: 1.2rem;
+    font-size: 1.2rem;
   }
 
   h5,
   .h5 {
-      font-size: 1.1rem;
+    font-size: 1.1rem;
   }
 
   h6,
   .h6 {
-      font-size: 1rem;
+    font-size: 1rem;
   }
 }
+
 .wysiwyg {
   position: relative;
 
   >*:last-child() {
-      margin-bottom: 0;
+    margin-bottom: 0;
   }
 
   ul {
-      list-style: none;
-      padding-left: 0;
+    list-style: none;
+    padding-left: 0;
 
-      li {
-          margin-bottom: 8px;
-          padding-left: 32px;
-          position: relative;
+    li {
+      margin-bottom: 8px;
+      padding-left: 32px;
+      position: relative;
 
-          &:before {
-              color: $secondary;
-              content: '\f00c';
-              font-family: 'Font Awesome 5 Pro';
-              left: 0;
-              position: absolute;
-          }
-
-          &:last-of-type {
-              margin-bottom: 0;
-          }
+      &:before {
+        color: $secondary;
+        content: '\f00c';
+        font-family: 'Font Awesome 5 Pro';
+        left: 0;
+        position: absolute;
       }
+
+      &:last-of-type {
+        margin-bottom: 0;
+      }
+    }
   }
 
   >ol {
-      list-style: none;
-      padding-left: 0;
+    list-style: none;
+    padding-left: 0;
 
-      >li {
-          counter-increment: count;
+    >li {
+      counter-increment: count;
+      margin-bottom: 4px;
+      position: relative;
+      padding-left: 28px;
+
+      &:before {
+        color: $secondary;
+        content: counter(count) '.';
+        font-weight: bold;
+        left: 0;
+        position: absolute;
+        top: 0;
+        width: 24px;
+      }
+
+      ol {
+        list-style: none;
+        margin: 8px 0 12px;
+        padding-left: 0;
+
+        >li {
+          counter-increment: counter;
           margin-bottom: 4px;
           position: relative;
           padding-left: 28px;
 
           &:before {
-              color: $secondary;
-              content: counter(count) '.';
-              font-weight: bold;
-              left: 0;
-              position: absolute;
-              top: 0;
-              width: 24px;
+            color: $secondary;
+            content: counter(counter) '.';
+            font-weight: bold;
+            left: 0;
+            position: absolute;
+            top: 0;
+            width: 24px;
           }
-
-          ol {
-              list-style: none;
-              margin: 8px 0 12px;
-              padding-left: 0;
-
-              >li {
-                  counter-increment: counter;
-                  margin-bottom: 4px;
-                  position: relative;
-                  padding-left: 28px;
-
-                  &:before {
-                      color: $secondary;
-                      content: counter(counter) '.';
-                      font-weight: bold;
-                      left: 0;
-                      position: absolute;
-                      top: 0;
-                      width: 24px;
-                  }
-              }
-          }
+        }
       }
+    }
   }
 }
