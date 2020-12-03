@@ -581,7 +581,7 @@ header {
 
       &:before,
       &:after {
-        background-color: $primary;
+        background-color: inherit;
         content: '';
         height: inherit;
         left: 0;
@@ -602,6 +602,40 @@ header {
     &.open .burger:before,
     &.open .burger:after {
       top: 0;
+    }
+  }
+
+  #navigation ul, 
+  #navigation-mobile ul {
+    li.nav-item {
+      a.nav-link {
+        position: relative;
+
+        &:before {
+          background-color: $primary;
+          bottom: -4px;
+          content:'';
+          display: none;
+          height: 2px;
+          left: 0;
+          opacity: 0;
+          overflow: hidden;
+          position: absolute;
+          transition: $transition-base;
+          width: 100%;
+
+          @include lg {
+            display: block;
+          }
+        }
+
+        &:hover {
+          &:before {
+            bottom: 0;
+            opacity: 1;
+          }
+        }
+      }
     }
   }
 
