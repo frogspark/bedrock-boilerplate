@@ -223,7 +223,7 @@ let centerMap = (map) => {
   });
   if (map.markers.length == 1) {
     map.setCenter(bounds.getCenter());
-    map.setZoom(16);
+    map.setZoom(map.zoom);
   } else {
     map.fitBounds(bounds);
   }
@@ -302,7 +302,7 @@ let newMap = ($el) => {
         "visibility": "off"
       }]
     }],
-    zoom: 16,
+    zoom: 12,
   };
   let map = new google.maps.Map($el[0], args);
   map.markers = [];
