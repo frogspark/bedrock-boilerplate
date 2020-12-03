@@ -317,7 +317,7 @@ let newMap = ($el) => {
  * @description convenience function for running all code required to generate a single (or multiple) maps on a page
  */
 let runMaps = () => {
-  $('.map').each(() => {
+  $('.map').each(function() {
     newMap($(this));
-  })
+  });
 }

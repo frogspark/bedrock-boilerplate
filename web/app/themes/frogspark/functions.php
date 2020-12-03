@@ -633,6 +633,38 @@ add_theme_support( 'post-thumbnails' );
 //   );
 // } );
 
+/* rewright for permalinks */ 
+function add_rewrite_rules(){
+  global $wp_rewrite;
+  add_rewrite_rule('^<*permalink structure here*>/([^/]*)/?','index.php?&collections=$matches[1]','top');
+  // example of rewrite
+  // add_rewrite_rule('^memorials/memorial-collections/([^/]*)/?','index.php?&collections=$matches[1]','top');
+}
+add_action('init', 'add_rewrite_rules');
+
+/*
+* Adds a custom logo to the login page.
+*/
+function custom_login_logo() {
+  echo '<style type="text/css">
+    h1 {
+      border-radius: 4px;
+      padding: 6px 10px !important;
+    }
+    h1 a { 
+      background-image: url('.get_field('logo', 'option')['url'].') !important;
+      background-position: center !important;
+      background-repeat: no-repeat !important;
+      background-size: contain !important;
+      height: 0 !important;
+      margin-bottom: 0 !important;
+      padding-bottom: 25% !important;
+      width: 100% !important;
+    }
+  </style>';
+}
+add_action('login_head', 'custom_login_logo');
+
 function get_navigation() {
   return get_template_part('inc/_navigation');
 }
