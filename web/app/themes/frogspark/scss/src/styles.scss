@@ -151,7 +151,7 @@ button:focus {
   position: relative;
 
   &:before {
-    background-color: rgba(0, 0, 0, 0);
+    background-color: rgba(0, 0, 0, .25);
     content: '';
     height: 100%;
     left: 0;
@@ -162,26 +162,8 @@ button:focus {
     z-index: 1;
   }
 
-  &:after {
-    align-items: center;
-    background-color: $secondary;
-    border-radius: 0;
-    color: $primary;
-    content: '\f101';
-    display: flex;
-    flex-direction: row;
-    font-family: 'Font Awesome 5 Pro';
-    font-size: 1.5rem;
-    height: 64px;
-    justify-content: center;
-    left: 50%;
-    opacity: 0;
-    position: absolute;
-    top: 50%;
-    transform: translateX(-50%) translateY(-50%) scale(0);
-    transition: $transition;
-    width: 64px;
-    z-index: 2;
+  > div {
+    transition: all .75s ease;
   }
 }
 
@@ -195,9 +177,8 @@ a:hover .bg-wrapper {
       background-color: rgba(0, 0, 0, .5);
     }
 
-    &:after {
-      opacity: 1;
-      transform: translateX(-50%) translateY(-50%) scale(1);
+    > div {
+      transform: scale(1.1);
     }
   }
 }
@@ -448,7 +429,7 @@ a:hover .bg-wrapper {
 
       input {
         background-color: $primary;
-        border-radius: 100vh;
+        border-radius: 0;
         color: color-yiq($primary);
         display: inline-block;
         height: auto;
@@ -565,6 +546,7 @@ a:hover .bg-wrapper {
 
     &.active:before {
       bottom: 0;
+      content: '';
       opacity: 1;
     }
 
@@ -579,6 +561,10 @@ a:hover .bg-wrapper {
       position: absolute;
       transition: $transition;
       width: 100%;
+
+      @include lg {
+        content: '';
+      }
     }
   }
 
@@ -712,7 +698,7 @@ a:hover .bg-wrapper {
   .cc-btn {
     background-color: $secondary !important;
     border-radius: 0;
-    color: $tertiary!important;
+    color: $primary !important;
     font-size: 1rem;
     font-weight: bold;
     padding: 12px 28px 10px;
@@ -720,7 +706,7 @@ a:hover .bg-wrapper {
 
     &:hover {
       background-color: $secondary !important;
-      color: $tertiary !important;
+      color: $primary !important;
     }
   }
 }
@@ -753,7 +739,7 @@ a:hover .bg-wrapper {
   }
 }
 
-@media screen and (max-width: 767px) {
+@media screen and (max-width: 991px) {
   h1, .h1 {
     font-size: 1.75rem;
   }

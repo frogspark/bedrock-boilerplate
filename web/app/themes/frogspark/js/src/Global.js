@@ -9,7 +9,7 @@ $(document).ready(function(){
   // Burger menu.
   function openMenu(open) { $('#burger').toggleClass('open', open); $('#navigation-mobile ul').toggleClass('open', open); }
   var open = false;
-  $('#burger').click(function() { open = !open; openMenu(open); });
+  $('#burger').on('click', function() { open = !open; openMenu(open); });
 
   // Active class.
   $('#header .nav > li > a[href]').each(function() { if (this.href == window.location.href) { $(this).addClass('active'); } });
