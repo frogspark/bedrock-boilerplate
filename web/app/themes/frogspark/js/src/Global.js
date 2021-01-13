@@ -75,8 +75,7 @@ $(document).ready(function () {
 
   // Scroll.
   var $circle = $('.scroll-cursor'),
-    $wrapper = $('.scroll');
-x
+      $wrapper = $('.scroll');
   function moveCircle(e) {
     TweenLite.to($circle, 0.3, {
       css: {
