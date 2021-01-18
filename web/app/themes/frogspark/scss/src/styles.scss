@@ -266,6 +266,9 @@ $color in $theme-colors {
   }
 }
 
+.bg-contain {
+  background-size: contain !important;
+}
 
 // forms and pagination styling
 .pagination {

@@ -190,12 +190,12 @@ let sliders = () => {
   });
 
   // slider arrow functionality
-  $('.slick-slider.slick-prev').click(function () {
-    $('.slider').slick('slickPrev');
-  });
-  $('.slick-slider.slick-next').click(function () {
-    $('.slider').slick('slickNext');
-  });
+  // $('.slick-{arrow-name}.slick-prev').click(function () {
+  //   $('.{carousel-name}').slick('slickPrev');
+  // });
+  // $('.slick-{arrow-name}.slick-next').click(function () {
+  //   $('.{carousel-name}').slick('slickNext');
+  // });
 }
 
 /**
