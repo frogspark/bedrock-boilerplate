@@ -224,6 +224,22 @@ $color in $theme-colors {
   box-shadow: 0px 0px 12px 0px rgba($primary, .25) !important;
 }
 
+.map {
+  width: 100%;
+
+  &.short {
+    padding-bottom: 65%;
+  }
+
+  &.square {
+    padding-bottom: 100%;
+  }
+
+  &.tall {
+    padding-bottom: 150%;
+  }
+}
+
 
 // image utility styling
 .img-block,
