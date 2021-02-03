@@ -670,6 +670,136 @@ header {
       opacity: 0;
     }
   }
+
+  #navigation > ul {
+    align-items: center;
+    background-color: $quinary;
+    flex-direction: column;
+    height: 0;
+    justify-content: center;
+    left: 0;
+    pointer-events: none;
+    position: fixed;
+    top: 0;
+    transition: $transition-base;
+    width: 100%;
+    z-index: 9;
+  
+    &.open {
+      height: 100vh;
+      pointer-events: all;
+  
+      li {
+        opacity: 1;
+        transition: all .75s ease .35s;
+        transform: translateY(0) translateZ(0) !important;
+
+        @for $i from 1 through 12 {
+          &:nth-child(#{$i}) {
+            transition-delay: #{256ms + ($i * 32ms)};
+            visibility: visible;
+          }
+        }
+      }
+    }
+  
+    li {
+      opacity: 0;
+      position: relative;
+      text-align: left;
+
+
+      @for $i from 1 through 12 {
+        &:nth-child(#{$i}) {
+          transform: translateY(#{-64px - ($i * 8px)}) translateZ(0);
+        }
+      }
+
+      a.parent-item {
+        padding-right: 16px !important;
+      }
+
+      a.active,
+      a.open,
+      a:hover {
+        color: $secondary !important;
+      }
+
+      .submenu ul {
+        display: none;
+        padding-left: 16px;
+
+        li {
+          margin:0 !important;
+          
+          a {
+            font-size: 30px !important;
+            padding-left: 2rem;
+
+            @include lg {
+              padding-left: 4rem;
+              font-size: 50px !important;
+            }
+          }
+        }
+      }
+      
+      .submenu-toggle {
+        cursor: pointer;
+        display: block;
+        height: 20px;
+        position: absolute;
+        right: 0;
+        top: 33.5px;
+        transform: translateY(-50%);
+        transition: $transition-base;
+        width: 20px;
+
+        @include md {
+          left: 300px;
+          top: 45px;
+          transform: none;
+          right: auto;
+        }
+        
+        @include lg {
+          left: 350px;
+          top: 56px;
+        }
+
+        &.open:after {
+          height: 2px;
+        }
+
+        // &.open:before,
+        // &.open:after {
+        //   background-color: $secondary;
+        // }
+
+        &:before,
+        &:after {
+          background-color: $secondary;
+          content: '';
+          display: block;
+          left: 50%;
+          position: absolute;
+          top: 50%;
+          transform: translateX(-50%) translateY(-50%);
+          transition: $transition-base;
+        }
+
+        &:before {
+          height: 4px;
+          width: 100%;
+        }
+
+        &:after {
+          height: 100%;
+          width: 4px;
+        }
+      }
+    }
+  }
 }
 
 footer, .footer {
