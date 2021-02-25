@@ -27,6 +27,7 @@
     7. navigation
     8. slick slider
     9. typography
+    10,loaderwrapper
 
 */
 
@@ -1156,5 +1157,72 @@ a {
         }
       }
     }
+  }
+}
+
+
+// loader wrapper
+@keyframes logopulse {
+  0% { opacity: 1; }
+  50% { opacity: 0.5; }
+  100% { opacity: 0; }
+}
+.loader-wrapper {
+  height: 100vh;
+  left: 0;
+  position: fixed;
+  top: 0;
+  width: 100vw;
+  z-index: 1000;
+  .loader {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    height: 100vh;
+    justify-content: center;
+    position: fixed;
+    width: 100vw;
+    z-index: 1001;
+    img {
+      animation: logopulse 1.5s ease-out infinite;
+      height: 24px;
+      transition: .5s;
+      width: auto;
+      @include lg {
+        height: 36px;
+      }
+    }
+  }
+  .loader-section {
+    background: $quinary;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    transform: translateX(0);
+    width: 50vw;
+    z-index: 1000;
+    &.section-left {
+      left: 0;
+    }
+    &.section-right {
+      right: 0;
+    }
+  }
+}
+.loaded .loader-wrapper {
+  transform: translateY(-100%);
+  transition: all 0.3s 1s ease-out;
+  visibility: hidden;
+  .loader {
+    opacity: 0;
+    transition: all 0.3s ease-out;
+  }
+  .loader-section.section-left {
+    transform: translateX(-100%);
+    transition: all 0.7s 0.3s cubic-bezier(0.645, 0.045, 0.355, 1.000);
+  }
+  .section-right {
+    transform: translateX(100%);
+    transition: all 0.7s 0.3s cubic-bezier(0.645, 0.045, 0.355, 1.000);
   }
 }

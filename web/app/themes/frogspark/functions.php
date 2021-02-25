@@ -278,6 +278,9 @@ function print_multi_level_menu($menu, $parent_item_class = 'parent-item'){
     if ($current->menu_item_parent == $parent->ID) {
       echo '</li>';
     }
+    if($next && $next->menu_item_parent != 0 && $current->menu_item_parent != $parent->ID){
+      echo '<span class="submenu-toggle"></span>';
+    }
     if (!$next){
       if ($current->menu_item_parent != 0) {
         echo '</ul></div>';

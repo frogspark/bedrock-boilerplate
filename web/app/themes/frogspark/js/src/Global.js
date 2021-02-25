@@ -73,6 +73,15 @@ $(document).ready(function () {
     }
   });
 
+  // Submenu.
+  $('.submenu-toggle').on('click', function () {
+    var toggle = $(this);
+    toggle.toggleClass('open');
+    $(this).prev('.parent-item').toggleClass('open');
+    var submenu = $(this).next('.submenu');
+    submenu.children('ul').slideToggle('fast');
+  });
+
   // Scroll.
   var $circle = $('.scroll-cursor'),
     $wrapper = $('.scroll');
