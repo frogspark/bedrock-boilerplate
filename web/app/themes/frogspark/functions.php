@@ -241,13 +241,64 @@ add_action( 'after_setup_theme', 'mytheme_post_thumbnails' );
 * Print multi-level menu.
 */
 
+// function print_multi_level_menu($menu, $parent_item_class = 'parent-item'){
+//   reset($menu);
+//   $submenu = false;
+//   $parent = null;
+//   echo '<ul class="nav">';
+//   foreach ($menu as $current){
+//     $anchor_class = 'nav-link';
+//     if ($current->menu_item_parent == 0){
+//       if ($parent != null) {
+//         echo '</li>';
+//       }
+//       $parent = $current;
+//       if ($submenu == true){
+//         $submenu = false;
+//         echo '</ul></div>';
+//       }
+//     }
+//     $next = next($menu);
+//     if ($current->menu_item_parent == $parent->ID){
+//       if (!$submenu){
+//         $submenu = true;
+//         echo '<div class="submenu">';
+//         echo '<ul class="flex-column nav">';
+//       }
+//     } else {
+//       if ($next && $next->menu_item_parent != 0) {
+//         $anchor_class = 'nav-link ';
+//         $anchor_class .= $parent_item_class;
+//       }
+//     }
+//     echo '<li class="nav-item">';
+//     echo '<a href="'.$current->url.'" class="'.$anchor_class.'">';
+//     echo $current->title;
+//     echo '</a>';
+//     if ($current->menu_item_parent == $parent->ID) {
+//       echo '</li>';
+//     }
+//     if($next && $next->menu_item_parent != 0 && $current->menu_item_parent != $parent->ID){
+//       echo '<span class="submenu-toggle"></span>';
+//     }
+//     if (!$next){
+//       if ($current->menu_item_parent != 0) {
+//         echo '</ul></div>';
+//       } else {
+//         echo '</li>';
+//       }
+//     }
+//   }
+//   echo '</ul>';
+// }
+
 function print_multi_level_menu($menu, $parent_item_class = 'parent-item'){
   reset($menu);
   $submenu = false;
   $parent = null;
   echo '<ul class="nav">';
   foreach ($menu as $current){
-    $anchor_class = 'nav-link';
+    $anchor_class = 'nav-link d-flex align-items-center font-weight-medium';
     if ($current->menu_item_parent == 0){
       if ($parent != null) {
         echo '</li>';
@@ -263,11 +314,74 @@ function print_multi_level_menu($menu, $parent_item_class = 'parent-item'){
       if (!$submenu){
         $submenu = true;
         echo '<div class="submenu">';
-        echo '<ul class="flex-column nav">';
+        echo '<div class="container">';
+        echo '<div class="row">';
+        echo '<div class="col-12">';
+        echo '<ul class="nav flex-lg-row flex-column">';
       }
     } else {
       if ($next && $next->menu_item_parent != 0) {
-        $anchor_class = 'nav-link ';
+        $anchor_class = $anchor_class." ";
+        $anchor_class .= $parent_item_class;
+      }
+    }
+    echo '<li class="nav-item">';
+    echo '<a href="'.$current->url.'" class="'.$anchor_class.'">';
+    echo '<span class="link-text">';
+    echo $current->title;
+    echo '</span>';
+    echo '</a>';
+    if ($current->menu_item_parent == $parent->ID) {
+      echo '</li>';
+    }
+    if($next && $next->menu_item_parent != 0 && $current->menu_item_parent != $parent->ID){
+      echo '<span class="submenu-toggle d-xl-none d-block"></span>';
+    }
+    if (!$next){
+      if ($current->menu_item_parent != 0) {
+        echo '</ul>';
+        echo '</div>';
+        echo '</div>';
+        echo '</div>';
+        echo '</div>';
+      } else {
+        echo '</li>';
+      }
+    }
+  }
+  echo '</ul>';
+}
+
+function print_mobile_menu($menu, $parent_item_class = 'parent-item'){
+  reset($menu);
+  $submenu = false;
+  $parent = null;
+  echo '<ul class="nav">';
+  echo '<div class="container">';
+  echo '<div class="row justify-content-center">';
+  echo '<div class="col-lg-6 col-md-8 col-sm-10 col-11">';
+  foreach ($menu as $current){
+    $anchor_class = 'nav-link d-flex align-items-center justify-content-center font-weight-medium';
+    if ($current->menu_item_parent == 0){
+      if ($parent != null) {
+        echo '</li>';
+      }
+      $parent = $current;
+      if ($submenu == true){
+        $submenu = false;
+        echo '</ul></div>';
+      }
+    }
+    $next = next($menu);
+    if ($current->menu_item_parent == $parent->ID){
+      if (!$submenu){
+        $submenu = true;
+        echo '<div class="submenu">';
+        echo '<ul class="nav flex-lg-row flex-column">';
+      }
+    } else {
+      if ($next && $next->menu_item_parent != 0) {
+        $anchor_class = $anchor_class." ";
         $anchor_class .= $parent_item_class;
       }
     }
@@ -279,16 +393,20 @@ function print_multi_level_menu($menu, $parent_item_class = 'parent-item'){
       echo '</li>';
     }
     if($next && $next->menu_item_parent != 0 && $current->menu_item_parent != $parent->ID){
-      echo '<span class="submenu-toggle"></span>';
+      echo '<span class="submenu-toggle d-xl-none d-block"></span>';
     }
     if (!$next){
       if ($current->menu_item_parent != 0) {
-        echo '</ul></div>';
+        echo '</ul>';
+        echo '</div>';
       } else {
         echo '</li>';
       }
     }
   }
+  echo '</div>';
+  echo '</div>';
+  echo '</div>';
   echo '</ul>';
 }
 
