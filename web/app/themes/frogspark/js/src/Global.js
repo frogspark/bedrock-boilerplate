@@ -35,10 +35,12 @@ $(document).ready(function () {
   containerFix();
   sliders();
   runMaps();
+  dropdownFix();
 
   $(window).resize(() => {
     containerFix();
     runMaps();
+    dropdownFix();
   });
 
   $(window).scroll(() => {
@@ -81,6 +83,18 @@ $(document).ready(function () {
     var submenu = $(this).next('.submenu');
     submenu.children('ul').slideToggle('fast');
   });
+
+  // Dropdown fix.
+  function dropdownFix() {
+    // let windowWidth = $(window).width();
+    // let containerWidth = $('.container').width();
+    let navOffset = $('#navigation').offset();
+    let adjustment = navOffset.left;
+
+    if($(window).width() > 1200) {
+      $('.submenu').css('left', '-' + adjustment + 'px');
+    }
+  }
 
   // Scroll.
   var $circle = $('.scroll-cursor'),
