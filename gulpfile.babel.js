@@ -16,9 +16,9 @@ const through = require('through2');
 const globby = require('globby');
 const log = require('gulplog');
 
-browserSync.create();
+const server = browserSync.create();
 
-const projectURL = 'http://bedrock-boilerplate.test';
+const projectURL = 'http://khr.test';
 const themeURL = 'web/app/themes/frogspark/';
 
 let javascript = () => {
@@ -32,7 +32,7 @@ let javascript = () => {
       .on('error', log.error)
     .pipe(sourcemaps.write('./'))
     .pipe(gulp.dest(`${themeURL}js/dist/`))
-    .pipe(browserSync.stream());
+    .pipe(server.stream());
 
   globby([`${themeURL}js/src/Global.js`]).then((entries) => {
     let b = browserify({
@@ -60,7 +60,7 @@ function styles() {
     console.log(err.toString());
   };
 
-  browserSync.notify('Compiling SCSS');
+  server.notify('Compiling SCSS');
 
   return src(`${themeURL}scss/src/styles.scss`)
     .pipe(concat('bundle.min.scss'))
@@ -71,7 +71,7 @@ function styles() {
     .pipe(cleanCSS())
     .pipe(rename('bundle.min.css'))
     .pipe(dest(`${themeURL}scss/dist`))
-    .pipe(browserSync.stream());
+    .pipe(server.stream());
 }
 
 function fonts() {
@@ -80,13 +80,13 @@ function fonts() {
 }
 
 function browsersync() {
-  browserSync.init({
+  server.init({
     proxy: projectURL,
   });
 
   watch(`${themeURL}scss/src/**/*.scss`, styles);
   watch(`${themeURL}js/src/*.js`, javascript);
-  watch(`${themeURL}**/*.php`).on('change', browserSync.reload);
+  watch(`${themeURL}**/*.php`).on('change', server.reload);
 }
 
 const development = series(fonts, styles, javascript, browsersync);
@@ -94,30 +94,3 @@ const production = parallel(fonts, styles, javascript);
 
 exports.production = production;
 exports.default = development;
-
-/* function js() {
-  const onError = (err) => {
-    notify({
-      title: "Gulp JavaScript Error",
-      message: "JavaScript compilation task failed, check the console!"
-    }).write(err);
-    console.log(err.toString());
-  };
-
-  const bundler = browserify({
-    entries: `${themeURL}js/src/Global.js`, 
-    debug: true, 
-    insertGlobals: true, 
-  }).transform(babelify.configure({ presets: ['@babel/preset-env'] }));
-  
-  return bundler.bundle()
-    .pipe(source(`${themeURL}js/src/Global.js`))
-    .pipe(buffer())
-    .pipe(concat('bundle.min.js'))
-    .pipe(babel())
-    .pipe(sourcemaps.init({loadMaps: true}))
-      .pipe(uglify())
-      .pipe(plumber({ errorHandler : onError }))
-    .pipe(sourcemaps.write())
-    .pipe(dest(`${themeURL}js/dist/`));
-} */
