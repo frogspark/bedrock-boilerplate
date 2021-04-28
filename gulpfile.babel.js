@@ -18,7 +18,7 @@ const log = require('gulplog');
 
 const server = browserSync.create();
 
-const projectURL = 'http://khr.test';
+const projectURL = 'http://bedrock.test';
 const themeURL = 'web/app/themes/frogspark/';
 
 let javascript = () => {
