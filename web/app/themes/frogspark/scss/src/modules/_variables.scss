@@ -58,7 +58,12 @@ $theme-colors: (
 */
 $enable-gradients: false;
 
+/* Columns. */
+// default 12
+$grid-columns: 12;
+
 /* Gutters. */
+// default 30px
 $grid-gutter-width: 32px;
 
 /* Misc */
