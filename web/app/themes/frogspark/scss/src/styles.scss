@@ -706,18 +706,18 @@ $color in $theme-colors {
 //       height: 100vh;
 //       pointer-events: all;
   
-//       li {
-//         opacity: 1;
-//         transition: all .75s ease .35s;
-//         transform: translateY(0) translateZ(0) !important;
+      // li {
+      //   opacity: 1;
+      //   transition: all .75s ease .35s;
+      //   transform: translateY(0) translateZ(0) !important;
 
-//         @for $i from 1 through 12 {
-//           &:nth-child(#{$i}) {
-//             transition-delay: #{256ms + ($i * 32ms)};
-//             visibility: visible;
-//           }
-//         }
-//       }
+      //   @for $i from 1 through 12 {
+      //     &:nth-child(#{$i}) {
+      //       transition-delay: #{256ms + ($i * 32ms)};
+      //       visibility: visible;
+      //     }
+      //   }
+      // }
 //     }
   
 //     li {
