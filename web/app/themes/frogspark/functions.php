@@ -786,6 +786,98 @@ function custom_login_logo() {
 }
 add_action('login_head', 'custom_login_logo');
 
+/*
+* Allows for styling/highlighting of marked text withing a header 
+*/
+function highlightHeading($input, $class=""){
+  $bracket_pos = strpos($input, "{");
+  $padding = "pl-1";
+  if($bracket_pos == 0) {
+    $padding = "pl-0";
+  }
+  $alt = array('{{' => "<span class=\"text-quaternary {$padding} {$class}\">", '}}' => '</span>');
+  $input = strtr($input, $alt);
+
+  return $input;
+}
+
+// /*
+// * Allows for retrieval of twitter posts from a users account
+// * The user must first have a valid developer account to use this function
+// */
+// function get_twitter_posts() {
+//   $user_id="<user_id_here>";
+//   $url = "https://api.twitter.com/2/users/$user_id/tweets";
+//   $get_field = "?max_results=10&tweet.fields=created_at,attachments&expansions=attachments.media_keys&media.fields=duration_ms,height,media_key,preview_image_url,public_metrics,type,url,width";
+//   $request_method="GET";
+//   $bearer = "<user bearer token here>";
+//   $header = array("Authorization: Bearer $bearer");
+
+//   $options = array(
+//     CURLOPT_HTTPHEADER => $header,
+//     CURLOPT_HEADER => false,
+//     CURLOPT_URL => $url,
+//     CURLOPT_RETURNTRANSFER => true,
+//     CURLOPT_TIMEOUT => 10,
+//   );
+  
+//   if($get_field !== '') {
+//     $options[CURLOPT_URL] .= $get_field;
+//   }
+
+//   $curl = curl_init(); 
+//   curl_setopt_array($curl, $options);
+//   $json = curl_exec($curl);
+
+//   if (($error = curl_error($curl)) !== '') {
+//     curl_close($curl);
+//     throw new \Exception($error);
+//   }
+
+//   curl_close($curl);
+//   $json = rtrim($json, "\0");
+//   return json_decode($json, true);
+// }
+
+// /* 
+// * Function for requesting twitter media items (such as images/videos) from a user account
+// */
+// function requestmediaitem($tweet_id, $media_key) {
+//   if ((!is_null($tweet_id) && $tweet_id !== "") && (!is_null($media_key) && $media_key !== "")) {
+//     $url = "https://api.twitter.com/2/tweets?";
+//     $get_field = "ids=$tweet_id&expansions=attachments.media_keys&media.fields=duration_ms,height,media_key,preview_image_url,public_metrics,type,url,width";
+//     $bearer = "<user bearer token here>";
+//     $header = array("Authorization: Bearer $bearer");
+  
+//     $options = array(
+//       CURLOPT_HTTPHEADER => $header,
+//       CURLOPT_HEADER => false,
+//       CURLOPT_URL => $url,
+//       CURLOPT_RETURNTRANSFER => true,
+//       CURLOPT_TIMEOUT => 10,
+//     );
+    
+//     if($get_field !== '') {
+//       $options[CURLOPT_URL] .= $get_field;
+//     }
+  
+//     $curl = curl_init(); 
+//     curl_setopt_array($curl, $options);
+//     $json = curl_exec($curl);
+  
+//     if (($error = curl_error($curl)) !== '') {
+//       curl_close($curl);
+//       throw new \Exception($error);
+//     }
+  
+//     curl_close($curl);
+//     $json = rtrim($json, "\0");
+//     // return $json;
+//     return json_decode($json, true);
+//   }
+// }
+
+
 function get_navigation() {
   return get_template_part('inc/_navigation');
 }

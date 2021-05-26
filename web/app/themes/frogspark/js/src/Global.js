@@ -35,12 +35,10 @@ $(document).ready(function () {
   containerFix();
   sliders();
   runMaps();
-  dropdownFix();
 
   $(window).resize(() => {
     containerFix();
     runMaps();
-    dropdownFix();
   });
 
   $(window).scroll(() => {
@@ -84,15 +82,17 @@ $(document).ready(function () {
     submenu.children('ul').slideToggle('fast');
   });
 
-  // Dropdown fix.
-  function dropdownFix() {
-    // let windowWidth = $(window).width();
-    // let containerWidth = $('.container').width();
-    let navOffset = $('#navigation').offset();
-    let adjustment = navOffset.left;
-
-    if($(window).width() > 1200) {
-      $('.submenu').css('left', '-' + adjustment + 'px');
+  // Scroll fix.
+  function scrollFix() {
+    var headerHeight = $('#header').outerHeight();
+    var dropdown = $('.submenu');
+    var scroll = $(document).scrollTop();
+    if (scroll == 0) {
+      dropdown.css('top', headerHeight + 'px');
+    } else if (scroll < topstripHeight) {
+      dropdown.css('top', scroll + headerHeight + 'px');
+    } else {
+      dropdown.css('top', headerHeight + 'px');
     }
   }
 
@@ -139,20 +139,6 @@ $(document).ready(function () {
       }
     });
   });
-
-  // Scroll fix.
-  function scrollFix() {
-    var headerHeight = $('#header').outerHeight();
-    var dropdown = $('.submenu');
-    var scroll = $(document).scrollTop();
-    if (scroll == 0) {
-      dropdown.css('top', headerHeight + 'px');
-    } else if (scroll < topstripHeight) {
-      dropdown.css('top', scroll + headerHeight + 'px');
-    } else {
-      dropdown.css('top', headerHeight + 'px');
-    }
-  }
 });
 
 
