@@ -29,13 +29,12 @@ $(document).ready(function () {
       AOS.init();
     }, 500);
   }, 1000)
-  // AOS.init();
 
   scrollWatcher();
   containerFix();
   sliders();
   runMaps();
-  scrollFix();
+  submenuTopFix();
 
   $(window).resize(() => {
     containerFix();
@@ -83,8 +82,8 @@ $(document).ready(function () {
     submenu.children('ul').slideToggle('fast');
   });
 
-  // Scroll fix.
-  function scrollFix() {
+  // Submenu Fix.
+  function submenuTopFix() {
     var headerHeight = $('#header').outerHeight();
     var dropdown = $('.submenu');
     var scroll = $(document).scrollTop();
@@ -94,6 +93,17 @@ $(document).ready(function () {
       dropdown.css('top', scroll + headerHeight + 'px');
     } else {
       dropdown.css('top', headerHeight + 'px');
+    }
+  }
+
+  // Offet hero
+  function offsetHero() {
+    let hero = $('.offset-hero');
+    let header = $('header');
+
+    if (hero.length && header.length) {
+      let height = $(header).outerHeight();
+      $(hero).css('margin-top', `${height}px`);
     }
   }
 
