@@ -35,6 +35,7 @@ $(document).ready(function () {
   containerFix();
   sliders();
   runMaps();
+  scrollFix();
 
   $(window).resize(() => {
     containerFix();
