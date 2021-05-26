@@ -2,7 +2,7 @@
   <?php get_header(); ?>
   <?php get_navigation(); ?>
 
-  <section class="align-items-center bg-gradient hero mb-16 mobile-bg-secondary py-16 py-lg-24">
+  <section class="offset-hero bg-secondary py-16 py-lg-24">
     <div class="container">
       <div class="row">
         <div class="col-12" data-aos="fade-up" data-aos-delay="200">
