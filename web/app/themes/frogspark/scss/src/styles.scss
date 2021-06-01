@@ -1082,22 +1082,22 @@ footer, .footer {
     font-size: 10px;
     position: relative;
 
-    &:after {
-      background-color: $primary;
-      bottom: -4px;
+    &:before {
+      background-color: $secondary;
+      bottom: 0;
       content: '';
-      height: 1.25px;
-      left: 0;
-      overflow: hidden;
-      opacity: 0;
+      display: block;
+      height: 2px;
       position: absolute;
-      width: 100%;
+      right: 0;
+      transition: $transition-base;
+      width: 0;
     }
 
     &:hover {
-      &:after {
-        bottom: 0;
-        opacity: 1;
+      &:before {
+        left: 0;
+        width: 100%;
       }
     }
   }
