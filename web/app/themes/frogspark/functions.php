@@ -757,9 +757,16 @@ add_theme_support( 'post-thumbnails' );
 /* rewright for permalinks */ 
 function add_rewrite_rules(){
   global $wp_rewrite;
-  add_rewrite_rule('^<*permalink structure here*>/([^/]*)/?','index.php?&collections=$matches[1]','top');
-  // example of rewrite
-  // add_rewrite_rule('^memorials/memorial-collections/([^/]*)/?','index.php?&collections=$matches[1]','top');
+  add_rewrite_rule('^case-studies/page/([^/]*)/?','index.php?pagename=case-studies&paged=$matches[1]&post_type=page','top');
+  add_rewrite_rule('^case-studies/([^/]*)/?','index.php?name=$matches[1]&post_type=case_studies','top');
+
+  // example of custom taxonomy rewrite
+  // add_rewrite_rule('^<page slug here>/<tax slug here>/([^/]*)/?','index.php?&<tax name here>=$matches[1]','top');
+
+
+  // example of CPT rewrite
+  // add_rewrite_rule('^<page slug here>/page/([^/]*)/?','index.php?pagename=<page slug here>&paged=$matches[1]&post_type=page','top');
+  // add_rewrite_rule('^<page slug here>/([^/]*)/?','index.php?name=$matches[1]&post_type=<CPT name here>','top');
 }
 add_action('init', 'add_rewrite_rules');
 
