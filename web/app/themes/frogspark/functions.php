@@ -757,7 +757,7 @@ add_theme_support( 'post-thumbnails' );
 /* rewright for permalinks */ 
 function add_rewrite_rules(){
   global $wp_rewrite;
-  add_rewrite_rule('^case-studies/page/([^/]*)/?','index.php?pagename=case-studies&paged=$matches[1]&post_type=page','top');
+  add_rewrite_rule('^case-studies/page/([^/]*)/?','index.php?pagename=case_studies&paged=$matches[1]&post_type=page','top');
   add_rewrite_rule('^case-studies/([^/]*)/?','index.php?name=$matches[1]&post_type=case_studies','top');
 
   // example of custom taxonomy rewrite
