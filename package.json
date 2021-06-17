@@ -29,7 +29,7 @@
   "dependencies": {
     "@fortawesome/fontawesome-pro": "^5.15.3",
     "aos": "^2.3.4",
-    "bootstrap": "^4.6.0",
+    "bootstrap": "^5.0.1",
     "jquery": "^3.6.0",
     "letteringjs": "^0.7.0",
     "magnific-popup": "^1.1.0",
