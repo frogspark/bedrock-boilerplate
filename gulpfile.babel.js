@@ -1,43 +1,57 @@
-import gulp from 'gulp';
-import sass from 'gulp-sass';
-import concat from 'gulp-concat';
-import sourcemaps from 'gulp-sourcemaps';
-import uglify from 'gulp-uglify';
-import notify from 'gulp-notify';
-import rename from 'gulp-rename';
-import cleanCSS from 'gulp-clean-css';
-import babel from 'gulp-babel';
-import gulpif from 'gulp-if';
-import browserify from 'gulp-browserify';
-import autoprefix from 'gulp-autoprefixer';
-import browserSync from 'browser-sync';
-import plumber from 'gulp-plumber';
+const {series, parallel, src, dest, watch} = require('gulp');
+const gulp = require('gulp');
+const sass = require('gulp-sass');
+const concat = require('gulp-concat');
+const sourcemaps = require('gulp-sourcemaps');
+const uglify = require('gulp-uglify');
+const notify = require('gulp-notify');
+const rename = require('gulp-rename');
+const cleanCSS = require('gulp-clean-css');
+const browserSync = require('browser-sync');
+const plumber = require('gulp-plumber');
+const source = require('vinyl-source-stream');
+const buffer = require('vinyl-buffer');
+const browserify = require('browserify');
+const through = require('through2');
+const globby = require('globby');
+const log = require('gulplog');
 
-browserSync.create();
+const server = browserSync.create();
 
-const autoprefixerOptions = {
-  browsers: ['last 2 versions', '> 5%', 'Firefox ESR'],
-};
-
-const ENVIRONMENT = process.env.NODE_ENV || 'production';
-const projectURL = 'http://sitename.test';
+const projectURL = 'http://bedrock.test';
 const themeURL = 'web/app/themes/frogspark/';
 
-gulp.task('js', () => {
-  return gulp.src(`${themeURL}js/src/*.js`)
-    .pipe(browserify({
-      insertGlobals: true,
-    }))
-    .pipe(concat('bundle.min.js'))
-    .pipe(gulpif(ENVIRONMENT, sourcemaps.init()))
-    .pipe(babel())
-    .pipe(gulpif(ENVIRONMENT, sourcemaps.write()))
-    .pipe(gulpif(!ENVIRONMENT, uglify()))
-    .pipe(rename('bundle.min.js'))
-    .pipe(gulp.dest(`${themeURL}js/dist`));
-});
+let javascript = () => {
+  var bundledStream = through();
 
-gulp.task('sass', () => {
+  bundledStream
+    .pipe(source(`bundle.min.js`))
+    .pipe(buffer())
+    .pipe(sourcemaps.init({ loadMaps:true }))
+      .pipe(uglify())
+      .on('error', log.error)
+    .pipe(sourcemaps.write('./'))
+    .pipe(gulp.dest(`${themeURL}js/dist/`))
+    .pipe(server.stream());
+
+  globby([`${themeURL}js/src/Global.js`]).then((entries) => {
+    let b = browserify({
+      entries: entries, 
+      debug: true, 
+      insertGlobals: true
+    }).transform("babelify", {
+      presets: ["@babel/preset-env"]
+    });
+
+    b.bundle().pipe(bundledStream);
+  }).catch((err) => {
+    bundledStream.emit('error', err);
+  });
+
+  return bundledStream;
+}
+
+function styles() {
   const onError = (err) => {
     notify({
       title: 'Gulp Task Error',
@@ -46,43 +60,37 @@ gulp.task('sass', () => {
     console.log(err.toString());
   };
 
-  return gulp.src(`${themeURL}scss/src/styles.scss`)
+  server.notify('Compiling SCSS');
+
+  return src(`${themeURL}scss/src/styles.scss`)
     .pipe(concat('bundle.min.scss'))
-    .pipe(gulpif(ENVIRONMENT, sourcemaps.init()))
+    .pipe(sourcemaps.init())
     .pipe(plumber({ errorHandler: onError }))
     .pipe(sass())
-    .pipe(gulpif(ENVIRONMENT, sourcemaps.write()))
-    .pipe(autoprefix(autoprefixerOptions))
+    .pipe(sourcemaps.write())
     .pipe(cleanCSS())
     .pipe(rename('bundle.min.css'))
-    .pipe(gulp.dest(`${themeURL}scss/dist`))
-    .pipe(browserSync.stream());
-});
+    .pipe(dest(`${themeURL}scss/dist`))
+    .pipe(server.stream());
+}
 
-gulp.task('font', () => {
-  return gulp.src('node_modules/@fortawesome/fontawesome-pro/webfonts/*')
-    .pipe(gulp.dest(`${themeURL}scss/webfonts`));
-});
+function fonts() {
+  return src('node_modules/@fortawesome/fontawesome-pro/webfonts/*')
+         .pipe(dest(`${themeURL}scss/webfonts`));
+}
 
-gulp.task('browserSync', () => {
-  browserSync.init({
+function browsersync() {
+  server.init({
     proxy: projectURL,
   });
-});
 
-gulp.task('sass:watch', () => {
-  gulp.watch(`${themeURL}scss/src/**/*.scss`, ['sass']);
-  gulp.watch(`${themeURL}**/*.php`).on('change', browserSync.reload);
-});
+  watch(`${themeURL}scss/src/**/*.scss`, styles);
+  watch(`${themeURL}js/src/*.js`, javascript);
+  watch(`${themeURL}**/*.php`).on('change', server.reload);
+}
 
-gulp.task('js:watch', () => {
-  gulp.watch(`${themeURL}js/src/*.js`, ['js']);
-  gulp.watch(`${themeURL}**/*.php`).on('change', browserSync.reload);
-  gulp.watch(`${themeURL}**/*.js`).on('change', browserSync.reload);
-});
+const development = series(fonts, styles, javascript, browsersync);
+const production = parallel(fonts, styles, javascript);
 
-gulp.task('development', ['font', 'browserSync', 'sass:watch', 'js:watch']);
-
-gulp.task('production', ['font', 'sass', 'js']);
-
-gulp.task('default', ['development']);
+exports.production = production;
+exports.default = development;

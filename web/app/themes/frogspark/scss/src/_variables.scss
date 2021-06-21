@@ -2,8 +2,9 @@
 $bg-r: (
   "cinematic": 42.8571%,
   "landscape": 56.25%,
-  "portrait": 125%,
+  "box": 65%,
   "square": 100%,
+  "portrait": 125%,
 );
 @each $key, $value in $bg-r {
   .bg-#{$key} {
@@ -51,14 +52,20 @@ $theme-colors: (
   "septenary": $septenary,
 );
 
+/* Gradients. */
+$enable-gradients: false;
+
+/* Columns. */
+$grid-columns: 12;
+
 /* Gutters. */
 $grid-gutter-width: 32px;
 
-/* Misc */
+/* Misc. */
 $transition: all .25s ease;
 
 /* Spacing. */
-$spacer: 4px;
+$spacer: .25rem;
 $spacers: (
   0: 0,
   1: $spacer,
@@ -76,7 +83,7 @@ $spacers: (
   13: $spacer * 13,
   14: $spacer * 14,
   15: $spacer * 15,
-  16: $spacer * 16,
+  16: $spacer * 16, 
   17: $spacer * 17,
   18: $spacer * 18,
   19: $spacer * 19,
@@ -91,8 +98,7 @@ $spacers: (
   28: $spacer * 28,
   29: $spacer * 29,
   30: $spacer * 30,
-  31: $spacer * 31,
-  32: $spacer * 32
+  35: $spacer * 35
 );
 
 /* Typography. */
@@ -115,3 +121,4 @@ $link-color: $secondary;
 $link-decoration: none;
 $link-hover-color: darken($link-color, 15%);
 $link-hover-decoration: none;
+$font-awesome: 'Font Awesome 5 Pro';
