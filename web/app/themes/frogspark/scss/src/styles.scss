@@ -128,7 +128,17 @@ a {
   }
 
   &.alt {
-    color: color-yiq($primary);
+    color: color-contrast($primary);
+
+    a {
+      color: color-contrast($primary);
+      text-decoration: underline;
+    }
+
+    ul li:before,
+    ol li:before {
+      color: color-contrast($primary);
+    }
   }
 }
 
@@ -237,7 +247,7 @@ a:hover .bg-wrapper {
 
       input:not([type="button"]),
       textarea {
-        background-color: color-yiq($primary);
+        background-color: color-contrast($primary);
         border: 1px solid $primary;
         border-radius: 0;
         color: $primary;
@@ -273,145 +283,6 @@ a:hover .bg-wrapper {
       }
     }
 
-    .listselect-wrap .nf-field-element {
-      position: relative;
-  
-      > div {
-        display: none;
-      }
-  
-      &:after {
-        color: $primary;
-        content: '\f078';
-        font-family: 'Font Awesome 5 Pro';
-        font-weight: bold;
-        pointer-events: none;
-        position: absolute;
-        right: 16px;
-        top: 50%;
-        transform: translateY(-50%);
-        z-index: 5;
-      }
-  
-      select {
-        background-color: color-yiq($primary);
-        border: 1px solid $primary;
-        border-radius: 0;
-        color: $primary;
-        height: auto !important;
-        padding: 16px;
-        transition: $transition;
-        width: 100%;
-        -moz-appearance: none;
-        -webkit-appearance: none;
-    
-        &:focus {
-          box-shadow: 0px 0px 0px 4px rgba($primary, .5);
-          outline: none;
-        }
-      }
-    }
-
-    .listradio-wrap {
-      position: relative;
-
-      ul {
-        display: block;
-
-        li {
-          display: block;
-          margin-bottom: 8px !important;
-          position: relative;
-          width: 100%;
-
-          &:last-of-type {
-            margin-bottom: 0 !important;
-          }
-
-          label {
-            line-height: 32px;
-            margin: 0;
-            padding-left: 48px;
-            position: relative;
-  
-            &.nf-checked-label:after {
-              opacity: 1;
-            }
-  
-            &:before {
-              border: 1px solid $primary;
-              border-radius: 100vh;
-              content: '';
-              height: 32px;
-              left: 0;
-              position: absolute;
-              top: 0;
-              width: 32px;
-            }
-  
-            &:after {
-              color: $primary;
-              content: '\f111';
-              font-family: 'Font Awesome 5 Pro';
-              font-weight: bold;
-              left: 8px;
-              opacity: 0;
-              position: absolute;
-              transition: $transition-base;
-            }
-          }
-
-          input {
-            display: none;
-          }
-        }
-      }
-    }
-
-    .checkbox-container {
-      position: relative;
-
-      .nf-field-label {
-        display: block;
-        line-height: 32px;
-        padding-left: 48px;
-        width: 100%;
-
-        label {
-          font-weight: normal;
-          position: relative;
-
-          &.nf-checked-label:after {
-            opacity: 1;
-          }
-
-          &:before {
-            border: 1px solid $primary;
-            content: '';
-            height: 32px;
-            left: -48px;
-            position: absolute;
-            top: 0;
-            width: 32px;
-          }
-
-          &:after {
-            color: $primary;
-            content: '\f00c';
-            font-family: 'Font Awesome 5 Pro';
-            left: -40px;
-            opacity: 0;
-            position: absolute;
-            transition: $transition-base;
-          }
-        }
-      }
-
-      .nf-field-element {
-        display: none;
-      }
-    }
-
     .textarea-container {
       margin-bottom: 0;
 
@@ -431,7 +302,7 @@ a:hover .bg-wrapper {
       input {
         background-color: $primary;
         border-radius: 0;
-        color: color-yiq($primary);
+        color: color-contrast($primary);
         display: inline-block;
         height: auto;
         max-width: 100%;
@@ -449,7 +320,7 @@ a:hover .bg-wrapper {
         &:hover {
           background-color: $primary;
           box-shadow: 0px 0px 0px 4px rgba($primary, .5);
-          color: color-yiq($primary);
+          color: color-contrast($primary);
         }
       }
     }
@@ -487,10 +358,12 @@ a:hover .bg-wrapper {
     }
   }
 
-  .slick-list,
-  .slick-slide,
-  .slick-track {
-    backface-visibility: hidden;
+  &.slick-overflow {
+    position: relative;
+  
+    .slick-list {
+      overflow: visible;
+    }
   }
 }
 
@@ -525,7 +398,7 @@ a:hover .bg-wrapper {
     background-color: $color;
     border: 2px solid $color;
     border-radius: 0;
-    color: color-yiq($color);
+    color: color-contrast($color);
     display: inline-block;
     font-weight: bold;
     text-align: center;
@@ -534,7 +407,7 @@ a:hover .bg-wrapper {
 
   a:hover .btn-#{$label},
   .btn-#{$label}:hover {
-    background-color: color-yiq($color);
+    background-color: color-contrast($color);
     border: 2px solid $color;
     box-shadow: 0px 0px 0px 4px rgba($color, .5);
     color: $color;
@@ -691,9 +564,12 @@ a:hover .bg-wrapper {
 .cc-window {
   font-family: $font-family-sans-serif !important;
 
-  .cc-link {
-    padding: 0;
-    text-decoration: none;
+  .cc-message {
+    text-align: center;
+
+    @include lg {
+      text-align: start;
+    }
   }
 
   .cc-btn {
@@ -709,6 +585,11 @@ a:hover .bg-wrapper {
       background-color: $secondary !important;
       color: $primary !important;
     }
+  }
+
+  .cc-link {
+    padding: 0;
+    text-decoration: none;
   }
 }
 

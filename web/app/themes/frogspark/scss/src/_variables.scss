@@ -2,7 +2,6 @@
 $bg-r: (
   "cinematic": 42.8571%,
   "landscape": 56.25%,
-  "box": 65%,
   "square": 100%,
   "portrait": 125%,
 );
@@ -52,9 +51,6 @@ $theme-colors: (
   "septenary": $septenary,
 );
 
-/* Gradients. */
-$enable-gradients: false;
-
 /* Columns. */
 $grid-columns: 12;
 
@@ -62,6 +58,8 @@ $grid-columns: 12;
 $grid-gutter-width: 32px;
 
 /* Misc. */
+$enable-gradients: false;
+$enable-negative-margins: true;
 $transition: all .25s ease;
 
 /* Spacing. */
@@ -98,7 +96,8 @@ $spacers: (
   28: $spacer * 28,
   29: $spacer * 29,
   30: $spacer * 30,
-  35: $spacer * 35
+  31: $spacer * 31,
+  32: $spacer * 32,
 );
 
 /* Typography. */
