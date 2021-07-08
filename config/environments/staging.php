@@ -1,7 +1,12 @@
 <?php
-/** Staging */
-ini_set('display_errors', 0);
-define('WP_DEBUG_DISPLAY', false);
-define('SCRIPT_DEBUG', false);
+/**
+ * Configuration overrides for WP_ENV === 'staging'
+ */
+use Roots\WPConfig\Config;
+
+ini_set('display_errors', 0);;
+Config::define('WP_DEBUG_DISPLAY', false);
+Config::define('SCRIPT_DEBUG', false);
+
 /** Disable all file modifications including updates and update notifications */
-define('DISALLOW_FILE_MODS', true);
+Config::define('DISALLOW_FILE_MODS', true);
