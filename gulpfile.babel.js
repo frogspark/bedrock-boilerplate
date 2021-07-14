@@ -3,7 +3,7 @@ const gulp = require('gulp');
 const sass = require('gulp-sass');
 const concat = require('gulp-concat');
 const sourcemaps = require('gulp-sourcemaps');
-const uglify = require('gulp-uglify');
+const uglify = require('gulp-uglify-es').default;
 const notify = require('gulp-notify');
 const rename = require('gulp-rename');
 const cleanCSS = require('gulp-clean-css');
@@ -15,6 +15,7 @@ const browserify = require('browserify');
 const through = require('through2');
 const globby = require('globby');
 const log = require('gulplog');
+const autoprefixer = require('gulp-autoprefixer');
 
 const server = browserSync.create();
 
@@ -64,11 +65,12 @@ function styles() {
 
   return src(`${themeURL}scss/src/styles.scss`)
     .pipe(concat('bundle.min.scss'))
-    .pipe(sourcemaps.init())
     .pipe(plumber({ errorHandler: onError }))
+    .pipe(sourcemaps.init())
     .pipe(sass())
     .pipe(sourcemaps.write())
     .pipe(cleanCSS())
+    .pipe(autoprefixer())
     .pipe(rename('bundle.min.css'))
     .pipe(dest(`${themeURL}scss/dist`))
     .pipe(server.stream());
