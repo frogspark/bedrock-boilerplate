@@ -1,7 +1,7 @@
 import $ from 'jquery';
 window.jQuery = $;
 import AOS from 'aos';
-import 'popper.js';
+import '@popperjs/core';
 import 'bootstrap';
 import _ from 'lodash';
 import slick from 'slick-carousel';
