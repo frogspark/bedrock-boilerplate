@@ -27,7 +27,10 @@
     "eslint": "eslint -c .eslintrc.js './web/wp/app/themes/frogspark/js/src/*.js'"
   },
   "browserslist": [
-    "defaults"
+    ">=15%", 
+    "not dead", 
+    "last 2 versions", 
+    "IE 11"
   ],
   "dependencies": {
     "@fortawesome/fontawesome-pro": "^5.15.3",
