@@ -1,4 +1,4 @@
-<header>
+<header <?php if(is_user_logged_in()): echo 'class="mt-8 user-logged-in"'; endif; ?>>
   <div class="container">
     <div class="row">
       <div class="col-6 col-lg-auto d-flex align-items-center">

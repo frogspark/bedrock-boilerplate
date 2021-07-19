@@ -91,3 +91,14 @@
   &:-ms-input-placeholder { @content; }
   &::-webkit-input-placeholder { @content; }
 }
+
+@mixin create-responsive-class($custom_class, $key, $breakpoints: $grid-breakpoints) {
+  @each $breakpoint in map-keys($breakpoints) {
+    $infix: breakpoint-infix($breakpoint, $breakpoints);
+    @include media-breakpoint-up($breakpoint, $breakpoints) {
+      .#{$custom_class}#{$infix}-#{$key} {
+        @content;
+      }
+    }
+  }
+}

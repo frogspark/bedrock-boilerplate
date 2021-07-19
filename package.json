@@ -62,7 +62,6 @@
     "gulp-rename": "^1.2.2",
     "gulp-sass": "^3.1.0",
     "gulp-sourcemaps": "^2.6.1",
-    "gulp-uglify": "^3.0.0",
     "gulp-uglify-es": "^2.0.0",
     "gulplog": "^1.0.0",
     "through2": "^4.0.2",
