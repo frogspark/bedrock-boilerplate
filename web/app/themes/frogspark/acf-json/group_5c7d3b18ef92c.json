@@ -145,7 +145,7 @@
             "required": 1,
             "conditional_logic": 0,
             "wrapper": {
-                "width": "",
+                "width": "70",
                 "class": "",
                 "id": ""
             },
@@ -153,6 +153,25 @@
             "center_lng": "",
             "zoom": "",
             "height": ""
+        },
+        {
+            "key": "field_60fe9ff5427b5",
+            "label": "Formatted Address",
+            "name": "formatted_address",
+            "type": "textarea",
+            "instructions": "The line formatted address for use around the site.",
+            "required": 1,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "30",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "placeholder": "Address ...",
+            "maxlength": "",
+            "rows": "",
+            "new_lines": "br"
         }
     ],
     "location": [
@@ -185,7 +204,7 @@
         "tags",
         "send-trackbacks"
     ],
-    "active": 1,
+    "active": true,
     "description": "The fields which will be used site-wide.",
-    "modified": 1560935410
+    "modified": 1627299918
 }

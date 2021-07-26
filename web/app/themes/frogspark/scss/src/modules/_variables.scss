@@ -70,6 +70,7 @@ $grid-gutter-width: 32px;
 $transition-base: all .25s ease;
 
 /* Spacing. */
+$enable-negative-margins: true;
 $spacer: .25rem;
 $spacers: (
   0: 0,
