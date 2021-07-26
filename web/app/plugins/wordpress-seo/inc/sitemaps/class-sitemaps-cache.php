@@ -74,7 +74,7 @@ class WPSEO_Sitemaps_Cache {
 	 *
 	 * @since 3.2
 	 *
-	 * @return boolean
+	 * @return bool
 	 */
 	public function is_enabled() {
 
@@ -94,7 +94,7 @@ class WPSEO_Sitemaps_Cache {
 	 * @param string $type Sitemap type.
 	 * @param int    $page Page number to retrieve.
 	 *
-	 * @return string|boolean
+	 * @return string|bool
 	 */
 	public function get_sitemap( $type, $page ) {
 
@@ -112,7 +112,7 @@ class WPSEO_Sitemaps_Cache {
 	 * @param string $type Sitemap type.
 	 * @param int    $page Page number to retrieve.
 	 *
-	 * @return null|WPSEO_Sitemap_Cache_Data Null on no cache found otherwise object containing sitemap and meta data.
+	 * @return WPSEO_Sitemap_Cache_Data|null Null on no cache found otherwise object containing sitemap and meta data.
 	 */
 	public function get_sitemap_data( $type, $page ) {
 
@@ -195,8 +195,8 @@ class WPSEO_Sitemaps_Cache {
 	public static function invalidate_helper( $unused, $type ) {
 
 		if (
-			WPSEO_Options::get( 'noindex-' . $type ) === false ||
-			WPSEO_Options::get( 'noindex-tax-' . $type ) === false
+			WPSEO_Options::get( 'noindex-' . $type ) === false
+			|| WPSEO_Options::get( 'noindex-tax-' . $type ) === false
 		) {
 			self::invalidate( $type );
 		}
@@ -275,12 +275,12 @@ class WPSEO_Sitemaps_Cache {
 		}
 
 		// Always invalidate the index sitemap as well.
-		if ( ! in_array( WPSEO_Sitemaps::SITEMAP_INDEX_TYPE, $types ) ) {
+		if ( ! in_array( WPSEO_Sitemaps::SITEMAP_INDEX_TYPE, $types, true ) ) {
 			array_unshift( $types, WPSEO_Sitemaps::SITEMAP_INDEX_TYPE );
 		}
 
 		foreach ( $types as $type ) {
-			if ( ! in_array( $type, self::$clear_types ) ) {
+			if ( ! in_array( $type, self::$clear_types, true ) ) {
 				self::$clear_types[] = $type;
 			}
 		}

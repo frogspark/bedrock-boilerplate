@@ -8,7 +8,7 @@
 namespace Smush\Core\Modules;
 
 use Smush\Core\Helper;
-use Smush\WP_Smush;
+use WP_Smush;
 
 if ( ! defined( 'WPINC' ) ) {
 	die;
@@ -50,46 +50,97 @@ class Backup extends Abstract_Module {
 	 *
 	 * Checks if there is a existing backup, else create one
 	 *
-	 * @param string $file_path      File path.
-	 * @param string $backup_path    Backup path.
-	 * @param string $attachment_id  Attachment ID.
+	 * @todo Looks like all calls to this method in the plugin pass both params. Why are they optional?
 	 *
-	 * @return string
+	 * @param string $file_path      File path.
+	 * @param string $attachment_id  Attachment ID.
 	 */
-	public function create_backup( $file_path = '', $backup_path = '', $attachment_id = '' ) {
+	public function create_backup( $file_path = '', $attachment_id = '' ) {
 		$copied = false;
 
 		if ( empty( $file_path ) ) {
-			return '';
+			return;
+		}
+
+		// Add WordPress 5.3 support for -scaled images size.
+		if ( false !== strpos( $file_path, '-scaled.' ) && function_exists( 'wp_get_original_image_path' ) ) {
+			$file_path = wp_get_original_image_path( $attachment_id );
 		}
 
 		// Return file path if backup is disabled.
 		if ( ! $this->settings->get( 'backup' ) || ! WP_Smush::is_pro() ) {
-			return $file_path;
+			return;
+		}
+
+		// Get the width & height of the original image size.
+		if ( ! empty( $attachment_id ) ) {
+			$meta      = wp_get_attachment_metadata( $attachment_id );
+			$imagesize = array( $meta['width'], $meta['height'] );
+		} else {
+			// phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged
+			$imagesize = @getimagesize( $file_path );
+		}
+
+		if ( ! $imagesize ) {
+			return;
+		}
+
+		/**
+		 * Filters the "BIG image" threshold value.
+		 *
+		 * If the original image width or height is above the threshold, it will be scaled down. The threshold is
+		 * used as max width and max height. The scaled down image will be used as the largest available size, including
+		 * the `_wp_attached_file` post meta value.
+		 *
+		 * Returning `false` from the filter callback will disable the scaling.
+		 *
+		 * @since 5.3.0
+		 *
+		 * @param int    $threshold     The threshold value in pixels. Default 2560.
+		 * @param array  $imagesize     {
+		 *     Indexed array of the image width and height in pixels.
+		 *
+		 *     @type int $0 The image width.
+		 *     @type int $1 The image height.
+		 * }
+		 * @param string $file          Full path to the uploaded image file.
+		 * @param int    $attachment_id Attachment post ID.
+		 */
+		$threshold = (int) apply_filters( 'big_image_size_threshold', 2560, $imagesize, $file_path, $attachment_id );
+
+		if ( $threshold ) {
+			list( $width, $height ) = $imagesize;
+
+			$size = $width > $height ? $width : $height;
+
+			if ( $size > $threshold ) {
+				// Skip creating backup and just add original for backup process.
+				$this->add_to_image_backup_sizes( $attachment_id, $file_path );
+				return;
+			}
 		}
 
 		$mod = WP_Smush::get_instance()->core()->mod;
 
 		// Get a backup path if empty.
-		if ( empty( $backup_path ) ) {
-			$backup_path = $this->get_image_backup_path( $file_path );
-		}
+		$backup_path = $this->get_image_backup_path( $file_path );
 
 		// If we don't have any backup path yet, bail!
 		if ( empty( $backup_path ) ) {
-			return $file_path;
+			return;
 		}
 
 		$attachment_id = ! empty( $mod->smush->attachment_id ) ? $mod->smush->attachment_id : $attachment_id;
 		if ( ! empty( $attachment_id ) && $mod->png2jpg->is_converted( $attachment_id ) ) {
 			// No need to create a backup, we already have one if enabled.
-			return $file_path;
+			return;
 		}
 
 		// Check for backup from other plugins, like nextgen, if it doesn't exists, create our own.
 		if ( ! file_exists( $backup_path ) ) {
 			$copied = @copy( $file_path, $backup_path );
 		}
+
 		// Store the backup path in image backup sizes.
 		if ( $copied ) {
 			$this->add_to_image_backup_sizes( $attachment_id, $backup_path );
@@ -136,6 +187,9 @@ class Backup extends Abstract_Module {
 			'height' => $height,
 		);
 
+		// Add to the cached list.
+		$this->add_to_images_with_backups_cache_list( $attachment_id );
+
 		return update_post_meta( $attachment_id, '_wp_attachment_backup_sizes', $backup_sizes );
 	}
 
@@ -154,8 +208,7 @@ class Backup extends Abstract_Module {
 			if ( empty( $_POST['attachment_id'] ) || empty( $_POST['_nonce'] ) ) {
 				wp_send_json_error(
 					array(
-						'error'   => 'empty_fields',
-						'message' => esc_html__( 'Error in processing restore action, Fields empty.', 'wp-smushit' ),
+						'error_msg' => esc_html__( 'Error in processing restore action, Fields empty.', 'wp-smushit' ),
 					)
 				);
 			}
@@ -163,15 +216,15 @@ class Backup extends Abstract_Module {
 			if ( ! wp_verify_nonce( $_POST['_nonce'], 'wp-smush-restore-' . $_POST['attachment_id'] ) ) {
 				wp_send_json_error(
 					array(
-						'error'   => 'empty_fields',
-						'message' => esc_html__( 'Image not restored, Nonce verification failed.', 'wp-smushit' ),
+						'error_msg' => esc_html__( 'Image not restored, Nonce verification failed.', 'wp-smushit' ),
 					)
 				);
 			}
 		}
 
 		// Store the restore success/failure for Full size image.
-		$restored = $restore_png = false;
+		$restored    = false;
+		$restore_png = false;
 
 		// Process now.
 		$attachment_id = empty( $attachment ) ? absint( (int) $_POST['attachment_id'] ) : $attachment;
@@ -179,14 +232,33 @@ class Backup extends Abstract_Module {
 		// Set a Option to avoid the smush-restore-smush loop.
 		update_option( "wp-smush-restore-$attachment_id", true );
 
+		/**
+		 * Delete webp.
+		 *
+		 * Run WebP::delete_images always even when the module is deactivated.
+		 *
+		 * @since 3.8.0
+		 */
+		WP_Smush::get_instance()->core()->mod->webp->delete_images( $attachment_id );
+
+		// The scaled images' paths are re-saved when getting the original image.
+		// This avoids storing the S3's url in there.
+		add_filter( 'as3cf_get_attached_file', array( $this, 'skip_as3cf_url_get_attached_file' ), 10, 4 );
+
 		// Restore Full size -> get other image sizes -> restore other images.
 		// Get the Original Path.
-		$file_path = Helper::get_attached_file( $attachment_id );
+		$file_path = get_attached_file( $attachment_id );
+
+		// Add WordPress 5.3 support for -scaled images size.
+		if ( false !== strpos( $file_path, '-scaled.' ) && function_exists( 'wp_get_original_image_path' ) ) {
+			$file_path = wp_get_original_image_path( $attachment_id, true );
+		}
+
+		// And go back to normal after retrieving the original path.
+		remove_filter( 'as3cf_get_attached_file', array( $this, 'skip_as3cf_url_get_attached_file' ), 10 );
 
 		// Get the backup path.
 		$backup_sizes = get_post_meta( $attachment_id, '_wp_attachment_backup_sizes', true );
-
-		$smush = WP_Smush::get_instance()->core()->mod->smush;
 
 		// If there are.
 		if ( ! empty( $backup_sizes ) ) {
@@ -197,7 +269,7 @@ class Backup extends Abstract_Module {
 				if ( empty( $backup_path ) ) {
 					// Check if it's a jpg converted from png, and restore the jpg to png.
 					$original_file = get_post_meta( $attachment_id, WP_SMUSH_PREFIX . 'original_file', true );
-					$backup_path   = $smush->original_file( $original_file );
+					$backup_path   = Helper::original_file( $original_file );
 				}
 
 				// If we have a backup path for PNG file, use restore_png().
@@ -208,7 +280,6 @@ class Backup extends Abstract_Module {
 
 			// 2. If we don't have a backup path from PNG->JPG, check for normal smush backup path.
 			if ( empty( $backup_path ) ) {
-
 				if ( ! empty( $backup_sizes[ $this->backup_key ] ) ) {
 					$backup_path = $backup_sizes[ $this->backup_key ];
 				} else {
@@ -219,7 +290,13 @@ class Backup extends Abstract_Module {
 			$backup_path = is_array( $backup_path ) && ! empty( $backup_path['file'] ) ? $backup_path['file'] : $backup_path;
 		}
 
-		$backup_full_path = str_replace( wp_basename( $file_path ), wp_basename( $backup_path ), $file_path );
+		$is_bak_file = false === strpos( $backup_path, '.bak' );
+
+		if ( $is_bak_file ){
+			$backup_full_path = $backup_path;
+		} else {
+			$backup_full_path = str_replace( wp_basename( $file_path ), wp_basename( $backup_path ), $file_path );
+		}
 
 		// Finally, if we have the backup path, perform the restore operation.
 		if ( ! empty( $backup_full_path ) ) {
@@ -239,16 +316,20 @@ class Backup extends Abstract_Module {
 			} else {
 				// If file exists, corresponding to our backup path.
 				// Restore.
-				$restored = @copy( $backup_full_path, $file_path );
+				if ( ! $is_bak_file ) {
+					$restored = @copy( $backup_full_path, $file_path );
+				} else {
+					$restored = true;
+				}
 
 				// Remove the backup, if we were able to restore the image.
 				if ( $restored ) {
-
 					// Update backup sizes.
 					$this->remove_from_backup_sizes( $attachment_id, '', $backup_sizes );
 
 					// Delete the backup.
-					$this->remove_backup( $attachment_id, $backup_full_path );
+					@unlink( $backup_full_path );
+					do_action( 'smush_s3_backup_remove', $attachment_id );
 				}
 			}
 		} elseif ( file_exists( $file_path . '_backup' ) ) {
@@ -256,8 +337,12 @@ class Backup extends Abstract_Module {
 			$restored = @copy( $file_path . '_backup', $file_path );
 		}
 
+		// Prevent the image from being offloaded during 'wp_generate_attachment_metadata'.
+		add_filter( 'as3cf_wait_for_generate_attachment_metadata', '__return_true' );
 		// Generate all other image size, and update attachment metadata.
 		$metadata = wp_generate_attachment_metadata( $attachment_id, $file_path );
+		// Aaand go back to normal.
+		remove_filter( 'as3cf_wait_for_generate_attachment_metadata', '__return_true' );
 
 		// Update metadata to db if it was successfully generated.
 		if ( ! empty( $metadata ) && ! is_wp_error( $metadata ) ) {
@@ -278,11 +363,16 @@ class Backup extends Abstract_Module {
 			// Delete resize savings.
 			delete_post_meta( $attachment_id, WP_SMUSH_PREFIX . 'resize_savings' );
 
+			// Remove from the cached list.
+			$this->remove_from_images_with_backups_cache_list( $attachment_id );
+
 			// Get the Button html without wrapper.
-			$button_html = $smush->set_status( $attachment_id );
+			$button_html = WP_Smush::get_instance()->library()->generate_markup( $attachment_id );
 
 			// Remove the transient.
 			delete_option( "wp-smush-restore-$attachment_id" );
+
+			\Smush\Core\Core::remove_from_smushed_list( $attachment_id );
 
 			if ( ! $resp ) {
 				return true;
@@ -295,7 +385,7 @@ class Backup extends Abstract_Module {
 
 			wp_send_json_success(
 				array(
-					'button'   => $button_html,
+					'stats'    => $button_html,
 					'new_size' => isset( $update_size ) ? $update_size : 0,
 				)
 			);
@@ -308,6 +398,21 @@ class Backup extends Abstract_Module {
 		}
 
 		return false;
+	}
+
+	/**
+	 * Returns the original file instead of S3 URL.
+	 *
+	 * @since 3.8.3
+	 *
+	 * @param string             $url S3 URL.
+	 * @param string             $file Local file.
+	 * @param int                $attachment_id Attachment ID.
+	 * @param Media_Library_Item $as3cf_item Instance of Media_Library_Item.
+	 * @return string
+	 */
+	public function skip_as3cf_url_get_attached_file( $url, $file, $attachment_id, $as3cf_item ) {
+		return $file;
 	}
 
 	/**
@@ -341,7 +446,7 @@ class Backup extends Abstract_Module {
 		if ( empty( $original_file ) ) {
 			$original_file = get_post_meta( $image_id, WP_SMUSH_PREFIX . 'original_file', true );
 		}
-		$original_file_path = $mod->smush->original_file( $original_file );
+		$original_file_path = Helper::original_file( $original_file );
 		if ( file_exists( $original_file_path ) ) {
 			// Update the path details in meta and attached file, replace the image.
 			$meta = $mod->png2jpg->update_image_path( $image_id, $file_path, $original_file_path, $meta, 'full', 'restore' );
@@ -372,16 +477,6 @@ class Backup extends Abstract_Module {
 	}
 
 	/**
-	 *  Remove the backup path for a give attachment id and path
-	 *
-	 * @param string $attachment_id  Attachment ID.
-	 * @param string $path           File path.
-	 */
-	private function remove_backup( $attachment_id = '', $path = '' ) {
-		@unlink( $path );
-	}
-
-	/**
 	 * Remove a specific backup key from Backup Size array
 	 *
 	 * @param string $attachment_id  Attachment ID.
@@ -407,11 +502,13 @@ class Backup extends Abstract_Module {
 	/**
 	 * Get the attachments that can be restored.
 	 *
+	 * @since 3.6.0  Changed from private to public.
+	 *
 	 * @param bool $return_ids  Whether to return ids or just the count.
 	 *
 	 * @return array|int  Attachments IDs / Number of attachments.
 	 */
-	private function get_attachments_with_backups( $return_ids = false ) {
+	public function get_attachments_with_backups( $return_ids = false ) {
 		$images = wp_cache_get( 'images_with_backups', 'wp-smush' );
 
 		if ( ! $images ) {
@@ -430,6 +527,47 @@ class Backup extends Abstract_Module {
 		}
 
 		return count( $images );
+	}
+
+	/**
+	 * Adds an attachment to the cached list of images with backup.
+	 *
+	 * @since 3.8.3
+	 *
+	 * @param integer $attachment_id Attachment ID to add to the list.
+	 */
+	private function add_to_images_with_backups_cache_list( $attachment_id ) {
+		$images        = wp_cache_get( 'images_with_backups', 'wp-smush' );
+		$attachment_id = strval( $attachment_id );
+
+		if ( empty( $images ) ) {
+			$images = array( $attachment_id );
+		} elseif ( ! in_array( $attachment_id, $images, true ) ) {
+			$images[] = $attachment_id;
+		}
+
+		wp_cache_set( 'images_with_backups', $images, 'wp-smush' );
+	}
+
+	/**
+	 * Removes an attachment from the cached list of images with backup.
+	 *
+	 * @since 3.8.3
+	 *
+	 * @param integer $attachment_id Attachment ID to add to the list.
+	 */
+	private function remove_from_images_with_backups_cache_list( $attachment_id ) {
+		$images        = wp_cache_get( 'images_with_backups', 'wp-smush' );
+		$attachment_id = strval( $attachment_id );
+
+		if ( ! empty( $images ) && in_array( $attachment_id, $images, true ) ) {
+
+			$index = array_search( $attachment_id, $images, true );
+			if ( false !== $index ) {
+				unset( $images[ $index ] );
+				wp_cache_set( 'images_with_backups', array_values( $images ), 'wp-smush' );
+			}
+		}
 	}
 
 	/**
@@ -471,7 +609,7 @@ class Backup extends Abstract_Module {
 		wp_send_json_success(
 			array(
 				'success' => $status,
-				'src'     => $file_name,
+				'src'     => $file_name ? $file_name : __( 'Error getting file name', 'wp-smushit' ),
 				'thumb'   => wp_get_attachment_image( $id ),
 				'link'    => Helper::get_image_media_link( $id, $file_name, true ),
 			)
@@ -497,9 +635,7 @@ class Backup extends Abstract_Module {
 			return false;
 		}
 
-		$backup_name = trailingslashit( $path['dirname'] ) . $path['filename'] . '.bak.' . $path['extension'];
-
-		return $backup_name;
+		return trailingslashit( $path['dirname'] ) . $path['filename'] . '.bak.' . $path['extension'];
 	}
 
 	/**
@@ -525,6 +661,9 @@ class Backup extends Abstract_Module {
 
 		// If file exists, corresponding to our backup path, delete it.
 		@unlink( $backup_name );
+
+		// Remove from the cached list.
+		$this->remove_from_images_with_backups_cache_list( $image_id );
 
 		// Check meta for rest of the sizes.
 		if ( ! empty( $meta ) && ! empty( $meta['sizes'] ) ) {

@@ -12,8 +12,9 @@
 
 namespace Smush\Core\Integrations;
 
+use Smush\Core\Modules\Helpers\Parser;
 use Smush\Core\Modules\Smush;
-use Smush\WP_Smush;
+use WP_Smush;
 
 if ( ! defined( 'WPINC' ) ) {
 	die;
@@ -30,20 +31,40 @@ class Common {
 	 * Common constructor.
 	 */
 	public function __construct() {
-		// AJAX Thumbnail Rebuild integration.
-		add_filter( 'wp_smush_media_image', array( $this, 'skip_images' ), 10, 2 );
+		if ( is_admin() ) {
+			// AJAX Thumbnail Rebuild integration.
+			add_filter( 'wp_smush_media_image', array( $this, 'skip_images' ), 10, 2 );
 
-		// Optimise WP retina 2x images.
-		add_action( 'wr2x_retina_file_added', array( $this, 'smush_retina_image' ), 20, 3 );
+			// Optimise WP retina 2x images.
+			add_action( 'wr2x_retina_file_added', array( $this, 'smush_retina_image' ), 20, 3 );
 
-		// WPML integration.
-		add_action( 'wp_smush_image_optimised', array( $this, 'wpml_update_duplicate_meta' ), 10, 3 );
+			// WPML integration.
+			add_action( 'wp_smush_image_optimised', array( $this, 'wpml_update_duplicate_meta' ), 10, 3 );
 
-		// Remove any pre_get_posts_filters added by WP Media Folder plugin.
-		add_action( 'wp_smush_remove_filters', array( $this, 'remove_filters' ) );
+			// Remove any pre_get_posts_filters added by WP Media Folder plugin.
+			add_action( 'wp_smush_remove_filters', array( $this, 'remove_filters' ) );
+		}
 
 		// ReCaptcha lazy load.
 		add_filter( 'smush_skip_iframe_from_lazy_load', array( $this, 'exclude_recaptcha_iframe' ), 10, 2 );
+
+		// Compatibility modules for lazy loading.
+		add_filter( 'smush_skip_image_from_lazy_load', array( $this, 'lazy_load_compat' ), 10, 3 );
+
+		// Soliloquy slider CDN support.
+		add_filter( 'soliloquy_image_src', array( $this, 'soliloquy_image_src' ) );
+
+		// Translate Press integration.
+		add_filter( 'smush_skip_image_from_lazy_load', array( $this, 'trp_translation_editor' ) );
+
+		// Jetpack CDN compatibility.
+		add_filter( 'smush_cdn_skip_image', array( $this, 'jetpack_cdn_compat' ), 10, 2 );
+
+		// WP Maintenance Plugin integration.
+		add_action( 'template_redirect', array( $this, 'wp_maintenance_mode' ) );
+
+		// Buddyboss theme and its platform plugin integration.
+		add_filter( 'wp_smush_cdn_before_process_src', array( $this, 'buddyboss_platform_modify_image_src' ), 10, 2 );
 	}
 
 	/**
@@ -220,7 +241,7 @@ class Common {
 		}
 
 		// Calculate the total compression.
-		$stats = $smush->total_compression( $stats );
+		$stats = WP_Smush::get_instance()->core()->total_compression( $stats );
 
 		update_post_meta( $id, Smush::$smushed_meta_key, $stats );
 	}
@@ -240,7 +261,7 @@ class Common {
 	 *
 	 * @since 3.0
 	 *
-	 * @param int    $id   Attachment ID.
+	 * @param int   $id    Attachment ID.
 	 * @param array $stats Smushed stats.
 	 * @param array $meta  New meta data.
 	 */
@@ -269,6 +290,13 @@ class Common {
 			$resize = get_post_meta( $id, WP_SMUSH_PREFIX . 'resize_savings' );
 			// Update each translations.
 			foreach ( $image_ids as $attchment_id ) {
+
+				$original_meta = wp_get_attachment_metadata( $attchment_id );
+				// Don't update the meta if the file isn't the same.
+				if ( $original_meta['file'] !== $meta['file'] ) {
+					continue;
+				}
+
 				// Smushed stats.
 				update_post_meta( $attchment_id, Smush::$smushed_meta_key, $stats );
 				// Resize savings.
@@ -320,6 +348,195 @@ class Common {
 	 */
 	public function exclude_recaptcha_iframe( $skip, $src ) {
 		return false !== strpos( $src, 'recaptcha/api' );
+	}
+
+	/**************************************
+	 *
+	 * Soliloquy slider
+	 *
+	 * @since 3.6.2
+	 */
+
+	/**
+	 * Replace slider image links with CDN links.
+	 *
+	 * @param string $src  Image source.
+	 *
+	 * @return string
+	 */
+	public function soliloquy_image_src( $src ) {
+		$cdn = WP_Smush::get_instance()->core()->mod->cdn;
+
+		if ( ! $cdn->get_status() || empty( $src ) ) {
+			return $src;
+		}
+
+		if ( $cdn->is_supported_path( $src ) ) {
+			return $cdn->generate_cdn_url( $src );
+		}
+
+		return $src;
+	}
+
+	/**************************************
+	 *
+	 * Translate Press
+	 *
+	 * @since 3.6.3
+	 */
+
+	/**
+	 * Disables "Lazy Load" on Translate Press translate editor
+	 *
+	 * @param bool $skip  Should skip? Default: false.
+	 *
+	 * @return bool
+	 */
+	public function trp_translation_editor( $skip ) {
+		if ( ! class_exists( '\TRP_Translate_Press' ) || ! isset( $_GET['trp-edit-translation'] ) ) {
+			return $skip;
+		}
+
+		return true;
+	}
+
+	/**************************************
+	 *
+	 * Jetpack
+	 *
+	 * @since 3.7.1
+	 */
+
+	/**
+	 * Skips the url from the srcset from our CDN when it's already served by Jetpack's CDN.
+	 *
+	 * @since 3.7.1
+	 *
+	 * @param bool   $skip  Should skip? Default: false.
+	 * @param string $url Source.
+	 *
+	 * @return bool
+	 */
+	public function jetpack_cdn_compat( $skip, $url ) {
+		if ( ! class_exists( '\Jetpack' ) ) {
+			return $skip;
+		}
+
+		if ( method_exists( '\Jetpack', 'is_module_active' ) && ! \Jetpack::is_module_active( 'photon' ) ) {
+			return $skip;
+		}
+
+		$parsed_url = wp_parse_url( $url );
+
+		// The image already comes from Jetpack's CDN.
+		if ( preg_match( '#^i[\d]{1}.wp.com$#i', $parsed_url['host'] ) ) {
+			return true;
+		}
+		return $skip;
+	}
+
+
+	/**************************************
+	 *
+	 * WP Maintenance Plugin
+	 *
+	 * @since 3.8.0
+	 */
+
+	/**
+	 * Disable page parsing when "Maintenance" is enabled
+	 *
+	 * @since 3.8.0
+	 */
+	public function wp_maintenance_mode() {
+		if ( ! class_exists( '\MTNC' ) ) {
+			return;
+		}
+
+		global $mt_options;
+
+		if ( ! is_user_logged_in() && ! empty( $mt_options['state'] ) ) {
+			add_filter( 'wp_smush_should_skip_parse', '__return_true' );
+		}
+	}
+
+	/**************************************
+	 *
+	 * Various modules
+	 *
+	 * @since 3.5
+	 */
+
+	/**
+	 * Lazy loading compatibility checks.
+	 *
+	 * @since 3.5.0
+	 *
+	 * @param bool   $skip   Should skip? Default: false.
+	 * @param string $src    Image url.
+	 * @param string $image  Image.
+	 *
+	 * @return bool
+	 */
+	public function lazy_load_compat( $skip, $src, $image ) {
+		// Avoid conflicts if attributes are set (another plugin, for example).
+		if ( false !== strpos( $image, 'data-src' ) ) {
+			return true;
+		}
+
+		// Compatibility with Essential Grid lazy loading.
+		if ( false !== strpos( $image, 'data-lazysrc' ) ) {
+			return true;
+		}
+
+		// Compatibility with JetPack lazy loading.
+		if ( false !== strpos( $image, 'jetpack-lazy-image' ) ) {
+			return true;
+		}
+
+		// Compatibility with Slider Revolution's lazy loading.
+		if ( false !== strpos( $image, '/revslider/' ) && false !== strpos( $image, 'data-lazyload' ) ) {
+			return true;
+		}
+
+		return $skip;
+	}
+
+	/**
+	 * CDN compatibility with Buddyboss platform
+	 * 
+	 * @param string $src   Image source.
+	 * @param string $image Actual image element.
+	 * 
+	 * @return string Original or modified image source.
+	 */
+	public function buddyboss_platform_modify_image_src( $src, $image ) {
+		if ( ! defined( 'BP_PLATFORM_VERSION' ) ) {
+			return $src;
+		}
+
+		/**
+		 * Compatibility with buddyboss theme and it's platform plugin.
+		 * 
+		 * Buddyboss platform plugin uses the placeholder image as it's main src.
+		 * And process_src() method below uses the same placeholder.png to create
+		 * the srcset when "Automatic resizing" options is enabled for CDN.
+		 * ---------
+		 * Replacing the placeholder with actual image source as early as possible.
+		 * Checks:
+		 *   1. The image source contains buddyboss-platform in its string
+		 *   2. The image source contains placeholder.png and is crucial because there are other
+		 *      images as well which doesn't uses placeholder.
+		 */
+		if ( false !== strpos( $src, 'buddyboss-platform' ) && false !== strpos( $src, 'placeholder.png' ) ) {
+			$new_src = Parser::get_attribute( $image, 'data-src' );
+
+			if ( ! empty( $new_src ) ) {
+				$src = $new_src;
+			}
+		}
+
+		return $src;
 	}
 
 }

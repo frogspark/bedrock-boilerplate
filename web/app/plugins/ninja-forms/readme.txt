@@ -1,9 +1,9 @@
 === Ninja Forms Contact Form - The Drag and Drop Form Builder for WordPress ===
 Contributors: wpninjasllc, kstover, jameslaws, kbjohnson90, klhall1987, krmoorhouse, jmcelhaney, wpnzach, ericwindhamsd
-Tags: form, forms, contact form, custom form, form builder, form creator, form manager, form creation, contact forms, custom forms, forms builder, forms creator, forms manager, forms creation, form administration,
-Requires at least: 5.1
-Tested up to: 5.3
-Stable tag: 3.4.22.1
+Tags: forms, contact form, email form, form builder, custom form, pdf form, registration form, payment form, login form, contact me, signature form, upload form, file upload form, conditional form, feedback form, appointment form, quote form, survey form, contact button, signup form, form plugin, contact form plugin, subscription form, email subscription form, newsletter form, donation form, booking form, quote request form, multi page form, conditional logic form, subscription form, application form, employment verification form, star rating form, rating form, event form, mailchimp form, campaign monitor form, constant contact form, mailpoet form, aweber form, cleverreach form, emma form, convertkit form, active campaign form, salesforce form, zoho form, capsule form, insightly form, pipelinedeals form, onepagecrm form
+Requires at least: 5.5
+Tested up to: 5.7
+Stable tag: 3.5.7
 License: GPLv2 or later
 
 The 100% beginner friendly WordPress form builder. Drag & drop form fields to build beautiful, professional contact forms in minutes.
@@ -303,14 +303,265 @@ This section describes how to install the plugin and get it working.
 
 == Upgrade Notice ==
 
-= 3.4.22.1 (4 February 2020) =
+= 3.5.7 (5 July 2021) =
+
+*Bugs:*
+
+* Resolved an error that was causing the plugin to crash on sites using a PHP version below 7.0.
+
+== Changelog ==
+
+= 3.5.7 (5 July 2021) =
+
+*Bugs:*
+
+* Resolved an error that was causing the plugin to crash on sites using a PHP version below 7.0.
+
+= 3.5.6 (29 June 2021) =
+
+*Bugs:*
+
+* Bulk resend email should now properly populate the email subject line instead of using a default value.
+* Repeatable fieldset data should now display properly in the submission block.
+* Corrected an issue that was preventing forms from displaying when repeatable fieldsets contained a date field, a rich text enabled paragraph field, or a field with a custom mask.
+* When set, the submission limit should now be properly enforced on submissions made via forms loaded before the limit was reached.
+* Move to trash should once more be available in the bulk actions on the submissions page.
+
+= 3.5.5 (07 June 2021) =
+
+*Changes:*
+
+* Added support for Google Recaptcha V3.
+* Added a new option to resend email actions from the submissions table.
+* Added the ability to export multiple form submission CSVs at once.
+
+*Bugs:*
+
+* Fixed a bug that caused an extra : to be shown in the date field on older forms.
+* Fixed a bug with field settings that caused some settings to not show when they should have.
+* Multiple Recaptchas on the same page should work properly.
+
+= 3.5.4 (21 April 2021) =
+
+*Changes:*
+
+* The Date Field is now the Date/Time Field. This field now allows for Date, Time, and Date & Time selection.
+
+*Bugs:*
+
+* Fixed a bug that caused ReCaptcha fields to fail if more than one appeared on the page.
+* Fixed a conflict with iThemes that was causing a fatal error.
+
+= 3.5.3 (1 April 2021) =
+
+*Changes:*
+
+* Final deprecation phase of Ninja Forms 2.9x codebase.
+
+= 3.5.2 (24 March 2021) =
+
+*Changes:*
+
+* Removed some legacy settings that were no longer required for new installs.
+
+*Bugs:*
+
+* Resolved an issue that was causing errors when Array values were used in API requests.
+* The Ninja Forms block should now fill the entire width of the block editor.
+* Fixed an error that was causing a depreciated method warning when using the classic editor.
+* Forms should now display again in Internet Explorer 11.
+* Resolved an issue that was causing the Ninja Forms dashboard to crash if there was an issue with wp_cron.
+* Fixed some PHP warnings related to our checkbox list field.
+
+= 3.5.1 (17 February 2021) =
+
+*Bugs:*
+
+* Resolved an issue that was always causing required checkbox list fields to throw a required error on submission.
+* The Ninja Forms block should now properly display the form in the page editor if WordPress has been installed in a subdirectory.
+* Cleaned up a few notices and warnings that were displaying on sites running PHP 8.
+
+= 3.5.0 (15 February 2021) =
+
+*Changes:*
+
+* Repeatable Fieldsets have arrived! For a quick look at how to get those setup, check out our [new documenation](https://ninjaforms.com/docs/field-types/#repeater) for them.
+
+*Bugs:*
+
+* Our block editor code should now only load on pages where it is actually needed, leading to less page load time in the admin dashboard.
+
+= 3.4.34.1 (8 February 2021) =
 
 *Security:*
 
-* Hardened the authorization security on several of our form endpoints.
-* Audited all translation functions to prevent injection attacks.
+* Added a missing permissions check in our services connection manager [reported responsibly](https://ninjaforms.com/security) by Chloe Chamberland at Wordfence.
+* Patched a potential XSS vulnerability in our querystring merge tag.
+* Added a missing filter that should have been excluding some personal information fields from the CSV attachment on Email Actions.
 
-== Changelog ==
+= 3.4.34 (25 January 2021) =
+
+*Bugs:*
+
+* Forms should once again load properly in Internet Explorer 11.
+* Single checkbox fields should now properly display their values in the submission table.
+* Updated our dashboard styling to resolve an issue where some translations were resulting in action buttons being obscured.
+* Restored drag and drop functionality for adding fields in the form builder.
+
+*Security:*
+
+* Patched a couple of vulnerabilities in our services oAuth controller [reported responsibly](https://ninjaforms.com/security) by Chloe Chamberland at Wordfence.
+
+= 3.4.33 (9 December 2020) =
+
+*Bugs:*
+
+* Cleaned up a few conflicts with WordPress version 5.6.
+  * Toggle switches in the form builder should now be working as expected.
+  * Pre-selected options for lists should now persist properly in the form builder.
+  * Element styling of some buttons should properly reflect the active or inactive status of the button.
+
+= 3.4.32 (16 November 2020) =
+
+*Bugs:*
+
+* Patched an issue with our new date field library that was causing it to display improperly on some mobile devices.
+
+= 3.4.31 (12 November 2020) =
+
+*Changes:*
+
+* Our date field library has been updated! For you developer types out there, we’ve switched from pikaday to flatpickr.
+* Updated some of our form builder scripts in preparation for WordPress 5.6.
+
+*Bugs:*
+
+* Fixed a visual issue that sometimes allowed the Ninja Forms Dashboard view to extend beyond the width of the browser window.
+* Resolved an error that sometimes caused an error message to appear when loading the Dashboard for the first time on a new installation.
+* Resolved an error in our termslist field that caused the form builder to crash if you opened a form that was previously mapped to a term that had been deleted.
+* Resolved an error that was sometimes causing PDF exports or emails with PDF attachments to fail.
+
+= 3.4.30 (22 September 2020) =
+
+*Bugs:*
+
+* Resolved an issue that was causing a fatal error on sites running PHP 5.6 or older.
+
+= 3.4.29 (18 September 2020) =
+
+*Bugs:*
+
+* Added missing dependency for our blocks.
+
+= 3.4.28 (18 September 2020) =
+
+*Changes:*
+
+* The Views Table Block has arrived!
+* Updated the Ninja Forms Block to be more in-line with current Gutenberg conventions.
+* Improved the efficiency of submission limit checks.
+* The SendWP service can now be linked to the Ninja Forms dashboard.
+* Apps & Integrations are now grouped by category for easier sorting.
+* Updated color contrast of the form builder to be WCAG compliant.
+* Custom Action now requires developer mode to be enabled.
+* Updated the File Upload form template.
+
+*Bugs:*
+
+* Corrected improperly named filter for save action settings.
+* Cleaned up some improperly escaped code on our get help page.
+* Updated graphics associated with our add-ons to make them display properly.
+* Corrected an issue that was causing the password field on our settings page to not properly save values.
+* Increased the priority of our form builder class to ensure it properly loads over other elements on the page.
+* Field duplication no longer improperly updates the target of calculations.
+* Corrected the order of our submenu items.
+
+*Security:*
+
+* Added escaping for HTML content of fields in the submissions table.
+
+= 3.4.27.1 (17 September 2020) =
+
+*Security:*
+
+* Patched a CSRF vulnerability in our services integration [reported responsibly](https://ninjaforms.com/security) by Slavco Mihajloski.
+* Patched a validation bypass vulnerability in our email field.
+
+= 3.4.27 (9 September 2020) =
+
+*Bugs:*
+
+* Resolved an issue that sometimes caused the merge tag menu to not open properly in the form builder.
+
+= 3.4.26 (25 August 2020) =
+
+*Bugs:*
+
+* Sites with WP_DEBUG enabled should no longer display a deprecated parent error on PHP version 7.4.
+* Resolved an issue that was preventing our Screen Options settings from being saved on the submissions page.
+
+= 3.4.25 (12 August 2020) =
+
+*Bugs:*
+
+* Resolved an issue that caused settings changed with a toggle switch to not be saved on WordPress 5.5.
+
+= 3.4.24.3 (21 May 2020) =
+
+*Security:*
+
+* Patched an HTML injection vulnerability in our deprecated 2.9x codebase [reported responsibly](https://ninjaforms.com/security) by Dave Job.
+
+*Bugs:*
+
+* Corrected an error in our required field validation that was allowing targeted spam through the submission process.
+
+= 3.4.24.2 (28 April 2020) =
+
+*Security:*
+
+* Fixed Cross-Site Request Forgery(CSRF) to stored Cross-Site Scripting(XSS) [reported responsibly](https://ninjaforms.com/security) by Ramuel Gall (Wordfence Threat Intelligence Team).
+
+= 3.4.24.1 (5 March 2020) =
+
+*Security:*
+
+* Patched an HTML injection vulnerability in our merge tag system. Many thanks to Tom Standley at ContainCo for practicing responsible disclosure.
+
+= 3.4.24 (2 March 2020) =
+
+*Bugs:*
+
+* User permission filters should now work as expected.
+* Select image fields should now work properly when dev mode is disabled.
+* Resolved an error that was causing php warnings on some API calls.
+* Email settings should now properly read email addresses surrounded by <> characters.
+* Resolved an error that was causing deprecated function warnings in php error logs.
+* Forms with calculations should now display properly on sites using a "formal" language setting.
+* Export should now properly appear as an option in the bulk actions on the submissions page.
+* Resolved an error that was preventing the add-on manager from installing plugins.
+
+*Changes:*
+
+* Add-on updates will now enforce php requirements if the current version on the installation is below the minimum for the add-on.
+
+= 3.4.23 (12 February 2020) =
+
+*Security:*
+
+* Patched a delayed XSS vulnerability in our email action.
+* Hardened the authorization security on our settings page.
+* Patched a stored XSS vulnerability on our settings page.
+
+*Bugs:*
+
+* Ninja Forms should now properly honor user profile language settings if they are not the site default.
+* Opening the form builder should no longer result in a php warning about an invalid argument.
+* Cleaned up our publish code to avoid a few other php warnings.
+
+*Changes:*
+
+* Updated our event registration template to be more accessibility compliant.
 
 = 3.4.22.1 (4 February 2020) =
 

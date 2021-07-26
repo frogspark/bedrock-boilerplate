@@ -2,7 +2,7 @@
 Contributors: metaphorcreations
 Tags: posts, post, duplicate, duplication
 Requires at least: 4.0
-Tested up to: 4.9.4
+Tested up to: 5.8
 Stable tag: /trunk/
 License: GPL2
 
@@ -40,6 +40,17 @@ Check out the 'Installation' tab.
 2. View of the settings page
 
 == Changelog ==
+
+= 2.23 =
+* Added setting to limit post duplication to current user
+* Added setting to setup duplicated post author to current user
+* Set the default setting of duplicated post author to current user
+
+= 2.22 =
+* Fixed Gutenburg escaping in returns for ACF blocks
+
+= 2.21 =
+* Javascript update for WP 5.5
 
 = 2.20 =
 * Added "do_action( 'mtphr_post_duplicator_created', $original_id, $duplicate_id, $settings )" action for custom actions on duplicated post
@@ -124,4 +135,4 @@ Must upgrade in order for the plugin to work. The file paths where initially wro
 
 == Upgrade Notice ==
 
-New "mtphr_post_duplicator_created" action, function updates and additions, other updates
+Set the default setting of duplicated post author to current user and added additional settings

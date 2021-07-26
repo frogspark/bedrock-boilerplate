@@ -100,8 +100,11 @@ class NF_AJAX_Controllers_Submission extends NF_Abstracts_Controller
          * back to the form.
          */
         if ( $is_maintenance ) {
-            $this->_errors[ 'form' ][] = apply_filters( 'nf_maintenance_message', esc_html__( 'This form is currently undergoing maintenance. Please ', 'ninja-forms' )
-                . '<a href="' . $_SERVER[ 'HTTP_REFERER' ] . '">' . esc_html__( 'click here ', 'ninja-forms' ) . '</a>' . esc_html__( 'to reload the form and try again.', 'ninja-forms' )  ) ;
+            $message = sprintf(
+                esc_html__( 'This form is currently undergoing maintenance. Please %sclick here%s to reload the form and try again.', 'ninja-forms' )
+                ,'<a href="' . $_SERVER[ 'HTTP_REFERER' ] . '">', '</a>'
+            );
+            $this->_errors[ 'form' ][] = apply_filters( 'nf_maintenance_message', $message  ) ;
             $this->_respond();
         }
 
@@ -202,6 +205,12 @@ class NF_AJAX_Controllers_Submission extends NF_Abstracts_Controller
         foreach( $form_fields as $key => $field ){
 
             if( is_object( $field ) ) {
+
+                //Process Merge tags on Repeater fields values
+                if( $field->get_setting('type' )=== "repeater" ){
+                    $this->process_repeater_fields_merge_tags( $field );
+                }
+
                 $field = array(
                     'id' => $field->get_id(),
                     'settings' => $field->get_settings()
@@ -309,8 +318,14 @@ class NF_AJAX_Controllers_Submission extends NF_Abstracts_Controller
         |--------------------------------------------------------------------------
         */
         if ( isset( $this->_data[ 'settings' ][ 'sub_limit_number' ] ) && ! empty( $this->_data[ 'settings' ][ 'sub_limit_number' ] ) ) {
-            $subs = Ninja_Forms()->form( $this->_form_id )->get_subs();
-            if ( count( $subs ) >= intval( $this->_data[ 'settings' ][ 'sub_limit_number' ] ) ) {
+            global $wpdb;
+            $result = $wpdb->get_row( "SELECT COUNT(DISTINCT(p.ID)) AS count FROM `$wpdb->posts` AS p
+            LEFT JOIN `$wpdb->postmeta` AS m
+            ON p.ID = m.post_id
+            WHERE m.meta_key = '_form_id'
+            AND m.meta_value = $this->_form_id
+            AND p.post_status = 'publish'");
+            if ( intval( $result->count ) >= intval( $this->_data[ 'settings' ][ 'sub_limit_number' ] ) ) {
                 $this->_errors[ 'form' ][] = $this->_data[ 'settings' ][ 'sub_limit_msg' ];
                 $this->_respond();
             }
@@ -603,5 +618,22 @@ class NF_AJAX_Controllers_Submission extends NF_Abstracts_Controller
         header( 'Content-Type: application/json' );
         // Call the parent method.
         parent::_respond();
+    }
+
+     /**
+     * Process fields merge tags for fields inside a repeater fieldset
+     * 
+     * @param object $field The Repeater Fieldset
+     * 
+     */
+    protected function process_repeater_fields_merge_tags( $field ){
+        //Compare the Repeater field passed calling the function with the array of fields values from the submission object
+        foreach( $this->_form_data['fields'][$field->get_id()]['value'] as $id => $data ){
+            //Check if field is a Repeater Field
+            if( Ninja_Forms()->fieldsetRepeater->isRepeaterFieldByFieldReference($id) && !empty($data['value']) && is_string($data['value']) ) {
+                //Merge tags in the Repeater Field Sub Fields values
+                $this->_form_data['fields'][$field->get_id()]['value'][$id]['value'] = apply_filters( 'ninja_forms_merge_tags', $data['value'] );
+            } 
+        }
     }
 }

@@ -1,3 +1,5 @@
+import '../scss/app.scss';
+
 /**
  * Admin modules
  */
@@ -34,8 +36,10 @@ require( './modules/bulk-smush' );
 require( './modules/onboarding' );
 require( './modules/directory-smush' );
 require( './smush/cdn' );
+require( './smush/webp' );
 require( './smush/lazy-load' );
 require( './modules/bulk-restore' );
+require( './smush/settings' );
 
 /**
  * Notice scripts.

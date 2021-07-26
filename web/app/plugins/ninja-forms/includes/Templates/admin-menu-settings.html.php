@@ -7,7 +7,7 @@
             <?php if( $tab == $active_tab ): ?>
                 <span class="nav-tab nav-tab-active"><?php echo $name ?></span>
             <?php else: ?>
-                <a href="<?php echo add_query_arg( 'tab', $tab );?>" target="" class="nav-tab "><?php echo $name ?></a>
+                <a href="<?php echo esc_url( add_query_arg( 'tab', $tab ) ); ?>" target="" class="nav-tab "><?php echo $name ?></a>
             <?php endif; ?>
         <?php endforeach; ?>
     </h2>
@@ -54,10 +54,10 @@
                                             echo $setting[ 'value' ];
                                             break;
                                         case 'textbox' :
-                                            echo "<input type='text' class='code widefat' name='{$setting['id']}' id='{$setting['id']}' value='{$setting['value']}'>";
+                                            echo "<input type='text' class='code widefat' name='{$setting['id']}' id='{$setting['id']}' value='" . esc_attr($setting['value']) . "'>";
                                             break;
                                         case 'password' :
-                                            echo "<input type='password' class='code widefat' name='{$setting['id']}' id='{$setting['id']}' value='{$setting['value']}'>";
+                                            echo "<input type='password' class='code widefat' name='{$setting['id']}' id='{$setting['id']}' value='" . esc_attr($setting['value']) . "'>";
                                             break;		
                                         case 'checkbox' :
                                             $checked = ( $setting[ 'value' ] ) ? 'checked' : '';
@@ -93,6 +93,7 @@
                 </div>
             <?php endforeach; ?>
 
+            <input type="hidden" name="update_ninja_forms_settings_nonce" value="<?php echo wp_create_nonce( "ninja_forms_settings_nonce" ); ?>">
             <input type="hidden" name="update_ninja_forms_settings">
             <input type="submit" class="button button-primary" value="<?php echo $save_button_text; ?>">
 

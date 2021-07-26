@@ -24,7 +24,7 @@ final class NF_Admin_Menus_Forms extends NF_Abstracts_Menu
             add_action( 'current_screen', array( 'NF_Admin_AllFormsTable', 'process_bulk_action' ) );
         }
 
-        add_action( 'admin_body_class', array( $this, 'body_class' ) );
+        add_action( 'admin_body_class', array( $this, 'body_class' ), 999999999 );
         add_action( 'admin_init', array( $this, 'nf_upgrade_redirect' ) );
     }
 
@@ -133,6 +133,7 @@ final class NF_Admin_Menus_Forms extends NF_Abstracts_Menu
             Ninja_Forms::template( 'fields-textarea.html' );
             Ninja_Forms::template( 'fields-textbox.html' );
             Ninja_Forms::template( 'fields-zip.html' );
+            Ninja_Forms::template( 'fields-repeater.html' );
             
             // Deprecated Fields
             Ninja_Forms::template( 'fields-total.html' );
@@ -192,7 +193,7 @@ final class NF_Admin_Menus_Forms extends NF_Abstracts_Menu
 
             $required_updates = get_option( 'ninja_forms_needs_updates', 0 );
 
-            wp_enqueue_script( 'backbone-radio', Ninja_Forms::$url . 'assets/js/lib/backbone.radio.min.js', array( 'jquery', 'backbone' ) );
+            wp_enqueue_script( 'backbone-radio', Ninja_Forms::$url . 'assets/js/lib/backbone.radio.min.js', array( 'jquery', 'jquery-migrate', 'backbone' ) );
             wp_enqueue_script( 'backbone-marionette-3', Ninja_Forms::$url . 'assets/js/lib/backbone.marionette3.min.js', array( 'jquery', 'backbone' ) );
             wp_enqueue_script( 'nf-jbox', Ninja_Forms::$url . 'assets/js/lib/jBox.min.js', array( 'jquery' ) );
             wp_enqueue_script( 'nf-ninjamodal', Ninja_Forms::$url . 'assets/js/lib/ninjaModal.js', array( 'jquery' ), $this->ver );
@@ -222,6 +223,8 @@ final class NF_Admin_Menus_Forms extends NF_Abstracts_Menu
                 'requiredUpdates'    => $required_updates,
                 'currentUserEmail'  => $current_user->user_email,
                 'builderURL'        => admin_url( 'admin.php?page=ninja-forms&form_id=' ),
+                'sendwpInstallNonce'       => wp_create_nonce( 'ninja_forms_sendwp_remote_install' ),
+                'disconnectNonce'         => wp_create_nonce( 'nf-oauth-disconnect' ),
             ) );
 
             wp_enqueue_style( 'nf-builder', Ninja_Forms::$url . 'assets/css/builder.css', array(), $this->ver );
@@ -290,13 +293,12 @@ final class NF_Admin_Menus_Forms extends NF_Abstracts_Menu
         wp_enqueue_style( 'summernote', Ninja_Forms::$url . 'assets/css/summernote.css' );
         wp_enqueue_style( 'codemirror', Ninja_Forms::$url . 'assets/css/codemirror.css' );
         wp_enqueue_style( 'codemirror-monokai', Ninja_Forms::$url . 'assets/css/monokai-theme.css' );
-        wp_enqueue_style( 'pikaday-responsive', Ninja_Forms::$url . 'assets/css/pikaday-package.css' );
 
         /**
          * JS Libraries
          */
         wp_enqueue_script( 'wp-util' );
-        wp_enqueue_script( 'jquery-autoNumeric', Ninja_Forms::$url . 'assets/js/lib/jquery.autoNumeric.min.js', array( 'jquery', 'backbone' ) );
+        wp_enqueue_script( 'jquery-autoNumeric', Ninja_Forms::$url . 'assets/js/lib/jquery.autoNumeric.min.js', array( 'jquery', 'jquery-migrate', 'backbone' ) );
         wp_enqueue_script( 'jquery-maskedinput', Ninja_Forms::$url . 'assets/js/lib/jquery.maskedinput.min.js', array( 'jquery', 'backbone' ) );
         wp_enqueue_script( 'backbone-marionette', Ninja_Forms::$url . 'assets/js/lib/backbone.marionette.min.js', array( 'jquery', 'backbone' ) );
         wp_enqueue_script( 'backbone-radio', Ninja_Forms::$url . 'assets/js/lib/backbone.radio.min.js', array( 'jquery', 'backbone' ) );
@@ -311,8 +313,6 @@ final class NF_Admin_Menus_Forms extends NF_Abstracts_Menu
         wp_enqueue_script( 'jquery-ui-touch-punch', Ninja_Forms::$url . 'assets/js/lib/jquery.ui.touch-punch.min.js', array( 'jquery' ) );
         wp_enqueue_script( 'jquery-classy-wiggle', Ninja_Forms::$url . 'assets/js/lib/jquery.classywiggle.min.js', array( 'jquery' ) );
         wp_enqueue_script( 'moment-with-locale', Ninja_Forms::$url . 'assets/js/lib/moment-with-locales.min.js', array( 'jquery', 'nf-builder' ) );
-        wp_enqueue_script( 'pikaday', Ninja_Forms::$url . 'assets/js/lib/pikaday.min.js', array( 'moment-with-locale' ) );
-        wp_enqueue_script( 'pikaday-responsive', Ninja_Forms::$url . 'assets/js/lib/pikaday-responsive.min.js', array( 'pikaday', 'modernizr' ) );
 
         wp_enqueue_script( 'bootstrap', Ninja_Forms::$url . 'assets/js/lib/bootstrap.min.js', array( 'jquery' ) );
         wp_enqueue_script( 'codemirror', Ninja_Forms::$url . 'assets/js/lib/codemirror.min.js', array( 'jquery' ) );
@@ -359,6 +359,9 @@ final class NF_Admin_Menus_Forms extends NF_Abstracts_Menu
             'home_url_host'     => $home_url[ 'host' ],
             'publicLinkStructure' => $public_link_structure,
             'devMode'           => (bool) $dev_mode,
+        ));
+        wp_localize_script( 'nf-builder', 'nfRepeater', array(
+            'add_repeater_child_field_text' => __( 'Add ', 'ninja-forms' )
         ));
 
         do_action( 'nf_admin_enqueue_scripts' );
@@ -538,6 +541,10 @@ final class NF_Admin_Menus_Forms extends NF_Abstracts_Menu
                 }
             }
 
+            if ( ! apply_filters( 'ninja_forms_field_show_in_builder', $field->show_in_builder(), $field ) ) {
+	            continue;
+            }
+
             $name = $field->get_name();
             $settings = $field->get_settings();
             $groups = Ninja_Forms::config( 'SettingsGroups' );
@@ -630,6 +637,7 @@ final class NF_Admin_Menus_Forms extends NF_Abstracts_Menu
 
             if( ! isset( $action[ 'name' ] ) || ! $action[ 'name' ] ) continue;
 
+            $group = ( isset( $action['group'] ) ) ? $action['group'] : '';
             $name = $action[ 'name' ];
             $nicename = ( isset( $action[ 'nicename' ] ) ) ? $action[ 'nicename' ] : '';
             $image = ( isset( $action[ 'image' ] ) ) ? $action[ 'image' ] : '';
@@ -647,6 +655,7 @@ final class NF_Admin_Menus_Forms extends NF_Abstracts_Menu
 
             $action_type_settings[ $name ] = array(
                 'id' => $name,
+                'group' => $group,
                 'section' => 'available',
                 'nicename' => $nicename,
                 'image' => $image,
@@ -655,6 +664,14 @@ final class NF_Admin_Menus_Forms extends NF_Abstracts_Menu
                 'settingGroups' => array(),
                 'settingDefaults' => array()
             );
+        }
+
+        /**
+         * Remove some action types if Builder Dev Mode is not enabled.
+         */
+        if( 1 != Ninja_Forms()->get_setting('builder_dev_mode') ) {
+            /** Remove the WP Hook (custom) action. */
+            unset( $action_type_settings[ 'custom' ] );
         }
 
         $action_type_settings = apply_filters( 'ninja_forms_action_type_settings', $action_type_settings );

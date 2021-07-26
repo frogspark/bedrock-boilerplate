@@ -13,7 +13,7 @@
 namespace Smush\Core;
 
 use finfo;
-use Smush\WP_Smush;
+use WP_Smush;
 
 if ( ! defined( 'WPINC' ) ) {
 	die;
@@ -34,6 +34,11 @@ class Helper {
 	 * @return bool|string
 	 */
 	public static function get_mime_type( $path ) {
+		// These mime functions only work on local files/streams.
+		if ( ! stream_is_local( $path ) ) {
+			return false;
+		}
+
 		// Get the File mime.
 		if ( class_exists( 'finfo' ) ) {
 			$finfo = new finfo( FILEINFO_MIME_TYPE );
@@ -87,10 +92,15 @@ class Helper {
 			return false;
 		}
 
+		do_action( 'smush_s3_integration_fetch_file' );
+
 		$file_path = get_attached_file( $attachment_id );
 		if ( ! empty( $file_path ) && strpos( $file_path, 's3' ) !== false ) {
 			$file_path = get_attached_file( $attachment_id, true );
 		}
+
+		// Turn the filter off again. We'll call this method when we want the file to be downloaded.
+		add_filter( 'as3cf_get_attached_file_copy_back_to_local', '__return_false' );
 
 		return $file_path;
 	}
@@ -140,15 +150,10 @@ class Helper {
 	 *
 	 * @return bool
 	 */
-	public static function file_exists( $id, $file_path ) {
+	public static function file_exists( $id, $file_path = '' ) {
 		// If not attachment id is given return false.
 		if ( empty( $id ) ) {
 			return false;
-		}
-
-		// Get file path, if not provided.
-		if ( empty( $file_path ) ) {
-			$file_path = self::get_attached_file( $id );
 		}
 
 		$s3 = WP_Smush::get_instance()->core()->s3;
@@ -157,10 +162,48 @@ class Helper {
 		if ( is_object( $s3 ) && method_exists( $s3, 'is_image_on_s3' ) && $s3->is_image_on_s3( $id ) ) {
 			$file_exists = true;
 		} else {
+			// Get file path, if not provided.
+			if ( empty( $file_path ) ) {
+				$file_path = self::get_attached_file( $id );
+			}
 			$file_exists = file_exists( $file_path );
 		}
 
 		return $file_exists;
+	}
+
+	/**
+	 * Removes the main file from an attachement when S3 is enabled and the file is on S3.
+	 *
+	 * The method @see self::get_attached_file() downloads the main image
+	 * from S3 into the server. That method is called for certain process.
+	 * This method should clean up the local file after those processes are done.
+	 *
+	 * @since 3.8.3
+	 *
+	 * @param int $attachment_id Image ID.
+	 */
+	public static function remove_main_file_from_server_when_in_s3( $attachment_id ) {
+		// Skip if the image wasn't downloaded.
+		if ( 0 === did_action( 'smush_s3_integration_fetch_file' ) ) {
+			return;
+		}
+
+		$s3 = WP_Smush::get_instance()->core()->s3;
+
+		// If S3 is enabled.
+		if ( is_object( $s3 ) && method_exists( $s3, 'is_image_on_s3' ) && $s3->is_image_on_s3( $attachment_id ) ) {
+			global $as3cf;
+
+			// Remove the local file only when S3 is removing them.
+			if ( '1' !== $as3cf->get_setting( 'remove-local-file' ) ) {
+				return;
+			}
+			$file_path = get_attached_file( $attachment_id );
+			if ( file_exists( $file_path ) ) {
+				unlink( $file_path );
+			}
+		}
 	}
 
 	/**
@@ -195,11 +238,8 @@ class Helper {
 	 * @return string
 	 */
 	public static function get_user_name() {
-		// Get username.
 		$current_user = wp_get_current_user();
-		$name         = ! empty( $current_user->first_name ) ? $current_user->first_name : $current_user->display_name;
-
-		return $name;
+		return ! empty( $current_user->first_name ) ? $current_user->first_name : $current_user->display_name;
 	}
 
 	/**
@@ -327,4 +367,38 @@ class Helper {
 		}
 	}
 
+	/**
+	 * Original File path
+	 *
+	 * @param string $original_file  Original file.
+	 *
+	 * @return string File Path
+	 */
+	public static function original_file( $original_file = '' ) {
+		$uploads     = wp_get_upload_dir();
+		$upload_path = $uploads['basedir'];
+
+		return path_join( $upload_path, $original_file );
+	}
+
+	/**
+	 * Gets the WPMU DEV API key.
+	 *
+	 * @since 3.8.6
+	 *
+	 * @return string|false
+	 */
+	public static function get_wpmudev_apikey() {
+		// If API key defined manually, get that.
+		if ( defined( 'WPMUDEV_APIKEY' ) && WPMUDEV_APIKEY ) {
+			return WPMUDEV_APIKEY;
+		}
+
+		// If dashboard plugin is active, get API key from db.
+		if ( class_exists( 'WPMUDEV_Dashboard' ) ) {
+			return get_site_option( 'wpmudev_apikey' );
+		}
+
+		return false;
+	}
 }

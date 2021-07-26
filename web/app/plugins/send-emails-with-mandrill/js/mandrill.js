@@ -18,8 +18,8 @@ JSON.stringify = JSON.stringify || function (obj) {
     }
 };
 
-jQuery(document).bind( 'ready', function() {
-    jQuery('#filter,#display').bind('change keyup', function() {
+jQuery( function() {
+    jQuery('#filter,#display').on('change keyup', function() {
         
         if ( jQuery("#filter option:selected").val() == 'none' ) {
             var display = 'block';
@@ -30,7 +30,7 @@ jQuery(document).bind( 'ready', function() {
         jQuery('#all_time').css('display',display);
         showStats();
     });
-    jQuery('.columns-prefs, #collapse-button').bind('click', function () {
+    jQuery('.columns-prefs, #collapse-button').on('click', function () {
         redrawDashboardWidget();
     });
     
