@@ -1023,19 +1023,15 @@ header {
         height: 100%;
 
         span.link-text {
-          padding: 1.5rem .5rem 0 .5rem;
-          margin: .5rem;
+          padding: 0;
+          padding-top: 1.5rem;
+          margin: 1rem;
           margin-top: 0;
           margin-bottom: 1.5rem;
         }
 
         &.parent-item {
           color: $secondary !important;
-
-          span.link-text {
-            margin-bottom: .75rem;
-            padding-bottom: .75rem;
-          }
         }
       }
 
@@ -1120,6 +1116,7 @@ ul.nav {
           height: 2px;
           position: absolute;
           transition: $transition-base;
+          right: 0;
           width: 0;
 
           @include lg {
@@ -1132,6 +1129,7 @@ ul.nav {
         span.link-text {
           &:before {
             left: 0;
+            right: auto;
             width: 100%;
           }
         }

@@ -298,7 +298,7 @@ function print_multi_level_menu($menu, $parent_item_class = 'parent-item'){
   $parent = null;
   echo '<ul class="nav">';
   foreach ($menu as $current){
-    $anchor_class = 'nav-link d-flex align-items-center font-weight-medium';
+    $anchor_class = 'nav-link d-flex align-items-center';
     if ($current->menu_item_parent == 0){
       if ($parent != null) {
         echo '</li>';
