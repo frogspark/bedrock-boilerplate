@@ -78,7 +78,7 @@ function print_menu($menu, $parent_item_class = 'parent-item'){
   $parent = null;
   echo '<ul class="nav">';
   foreach ($menu as $current):
-    $anchor_class = 'nav-link';
+    $anchor_class = 'nav-link p-0';
     if ($current->menu_item_parent == 0):
       if ($parent != null):
         echo '</li>';
@@ -93,12 +93,12 @@ function print_menu($menu, $parent_item_class = 'parent-item'){
     if ($current->menu_item_parent == $parent->ID):
       if (!$submenu):
         $submenu = true;
-        echo '<div class="submenu">';
+        echo '<div class="pb-4 pt-8 px-8 submenu">';
         echo '<ul class="flex-column nav">';
       endif;
     else:
       if ($next && $next->menu_item_parent != 0):
-        $anchor_class = 'nav-link ';
+        $anchor_class = 'nav-link p-0 ';
         $anchor_class .= $parent_item_class;
       endif;
     endif;
@@ -118,6 +118,63 @@ function print_menu($menu, $parent_item_class = 'parent-item'){
     endif;
   endforeach;
   echo '</ul>';
+}
+
+/*
+* Print mobile menu.
+*/
+
+function print_mobile_menu($menu, $parent_item_class = 'parent-item'){
+  reset($menu);
+  $submenu = false;
+  $parent = null;
+  echo '<div class="pt-30 pb-2"><div class="container"><div class="g-0 mx-n4 row"><div class="col-12">';
+  echo '<ul class="nav">';
+  foreach ($menu as $current):
+    $anchor_class = 'nav-link p-0';
+    if ($current->menu_item_parent == 0):
+      if ($parent != null):
+        echo '</li>';
+      endif;
+      $parent = $current;
+      if ($submenu == true):
+        $submenu = false;
+        echo '</ul></div>';
+      endif;
+    endif;
+    $next = next($menu);
+    if ($current->menu_item_parent == $parent->ID):
+      if (!$submenu):
+        $submenu = true;
+        echo '<div class="submenu">';
+        echo '<ul class="flex-column nav">';
+      endif;
+    else:
+      if ($next && $next->menu_item_parent != 0):
+        $anchor_class = 'nav-link p-0 ';
+        $anchor_class .= $parent_item_class;
+      endif;
+    endif;
+    echo '<li class="nav-item">';
+    echo '<a class="'.$anchor_class.'" href="'.$current->url.'">';
+    echo $current->title;
+    echo '</a>';
+    if ($current->menu_item_parent == $parent->ID):
+      echo '</li>';
+    endif;
+    if($next && $next->menu_item_parent != 0 && $current->menu_item_parent != $parent->ID){
+      echo '<span class="submenu-toggle"><i class="far fa-chevron-down text-primary"></i></span>';
+    }
+    if (!$next):
+      if ($current->menu_item_parent != 0):
+        echo '</ul></div>';
+      else:
+        echo '</li>';
+      endif;
+    endif;
+  endforeach;
+  echo '</ul>';
+  echo '</div></div></div></div>';
 }
 
 /*

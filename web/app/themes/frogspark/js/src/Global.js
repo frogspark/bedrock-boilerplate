@@ -11,8 +11,44 @@ $(document).ready(function(){
   var open = false;
   $('#burger').on('click', function() { open = !open; openMenu(open); });
 
+  // Submenu toggle.
+  $('#navigation-mobile .submenu-toggle').on('click', function(){ 
+    var item = $(this);
+    item.next('.submenu').slideToggle();
+    item.next('.submenu').toggleClass('open');
+    item.toggleClass('open');
+  });
+
   // Active class.
   // $('#header .nav > li > a[href]').each(function() { if (this.href == window.location.href) { $(this).addClass('active'); } });
+
+  // Base carousel.
+  $('.carousel-base').slick({
+    infinite: false,
+    mobileFirst: true,
+    nextArrow: '<button class="slick-arrow slick-next"><i class="far fa-chevron-right"></i></button>',
+    prevArrow: '<button class="slick-arrow slick-prev"><i class="far fa-chevron-left"></i></button>',
+    responsive: [
+      {
+        breakpoint: 768,
+        settings: {
+          slidesToShow: 2,
+        }
+      },
+      {
+        breakpoint: 992,
+        settings: {
+          slidesToShow: 3,
+        }
+      },
+      {
+        breakpoint: 1199,
+        settings: {
+          slidesToShow: 4,
+        }
+      },
+    ],
+  });
 
   // AOS.
   AOS.init();

@@ -3,7 +3,8 @@ const gulp = require('gulp');
 const sass = require('gulp-sass');
 const concat = require('gulp-concat');
 const sourcemaps = require('gulp-sourcemaps');
-const uglify = require('gulp-uglify');
+const uglify = require('gulp-uglify-es').default;
+const autoprefixer = require('gulp-autoprefixer');
 const notify = require('gulp-notify');
 const rename = require('gulp-rename');
 const cleanCSS = require('gulp-clean-css');
@@ -59,19 +60,20 @@ function styles() {
     }).write(err);
     console.log(err.toString());
   };
-
   server.notify('Compiling SCSS');
 
   return src(`${themeURL}scss/src/styles.scss`)
-    .pipe(concat('bundle.min.scss'))
-    .pipe(sourcemaps.init())
-    .pipe(plumber({ errorHandler: onError }))
-    .pipe(sass())
-    .pipe(sourcemaps.write())
-    .pipe(cleanCSS())
-    .pipe(rename('bundle.min.css'))
-    .pipe(dest(`${themeURL}scss/dist`))
-    .pipe(server.stream());
+      .pipe(concat('bundle.min.scss'))
+      .pipe(sourcemaps.init())
+      .pipe(plumber({ errorHandler: onError }))
+      .pipe(sourcemaps.init())
+      .pipe(sass())
+      .pipe(sourcemaps.write())
+      .pipe(cleanCSS())
+      .pipe(autoprefixer())
+      .pipe(rename('bundle.min.css'))
+      .pipe(dest(`${themeURL}scss/dist`))
+      .pipe(server.stream());
 }
 
 function fonts() {

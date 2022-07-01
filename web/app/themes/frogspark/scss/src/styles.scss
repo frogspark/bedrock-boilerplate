@@ -419,22 +419,25 @@ a:hover .bg-wrapper {
     transition: $transition;
 
     &.active:before {
-      bottom: 0;
-      content: '';
       opacity: 1;
+      width: 100%;
+    }
+
+    &.fw-bold:before {
+      bottom: -2px;
+      height: 2px;
     }
 
     &:before {
       background-color: $color;
-      bottom: -4px;
+      bottom: 0;
       content: '';
       height: 1px;
-      left: 0;
-      opacity: 0;
       pointer-events: none;
       position: absolute;
+      right: 0;
       transition: $transition;
-      width: 100%;
+      width: 0%;
 
       @include lg {
         content: '';
@@ -446,9 +449,14 @@ a:hover .bg-wrapper {
   .btn-underline-#{$label}:hover {
     color: $color;
 
-    &:before {
-      bottom: 0;
-      opacity: 1;
+    @include lg {
+      position: relative;
+
+      &:before {
+        left: 0;
+        right: 0;
+        width: 100%;
+      }
     }
   }
 }
@@ -466,6 +474,133 @@ a:hover .bg-wrapper {
   
     @include lg {
       height: 64px;
+    }
+  }
+
+  #navigation {
+    position: relative;
+
+    > .nav {
+      position: relative;
+
+      > li {
+        position: relative;
+
+        .parent-item {
+          position: relative;
+
+          &:after {
+            background-color: transparent;
+            content: '';
+            height: 37px;
+            left: 0;
+            pointer-events: none;
+            position: absolute;
+            top: 100%;
+            width: 100%;
+          }
+        }
+
+        > .submenu {
+          background-color: $primary;
+          box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, .1);
+          left: -32px;
+          min-width: 256px;
+          opacity: 0;
+          pointer-events: none;
+          position: absolute;
+          top: calc(100% + 37px);
+          transform: translateY(32px);
+          transition: $transition;
+  
+          ul {
+            position: relative;
+  
+            li {
+              margin-left: 0 !important;
+              margin-bottom: 16px;
+  
+              a {
+                display: inline-block;
+                white-space: nowrap;
+  
+                &:hover {
+                  color: $secondary;
+  
+                  &:before {
+                    left: 0;
+                    right: 0;
+                    width: 100%;
+                  }
+                }
+              }
+            }
+          }
+
+          .submenu {
+            display: none !important;
+          }
+        }
+
+        &:hover {
+          position: relative;
+  
+          > a {
+            color: $tertiary;
+  
+            &:before {
+              left: 0;
+              right: 0;
+              width: 100%;
+            }
+          }
+
+          > .parent-item:after {
+            pointer-events: all;
+          }
+
+          > .submenu {
+            opacity: 1;
+            pointer-events: all;
+            transform: translateY(0);
+          }
+        }
+      }
+
+      .nav-item {
+        position: relative;
+  
+        a {
+          color: $primary;
+          position: relative;
+  
+          &:before {
+            background-color: $primary;
+            bottom: -2px;
+            content: '';
+            height: 2px;
+            pointer-events: none;
+            position: absolute;
+            right: 0;
+            transition: $transition;
+            width: 0%;
+          }
+
+          &.active {
+            color: $tertiary;
+  
+            &:before {
+              left: 0;
+              right: 0;
+              width: 100%;
+            }
+          }
+        }
+
+        .submenu-toggle {
+          display: none;
+        }
+      }
     }
   }
 
@@ -516,45 +651,110 @@ a:hover .bg-wrapper {
     }
   }
 
-  #navigation-mobile ul {
-    align-items: center;
-    background-color: $primary;
-    flex-direction: column;
-    height: 0;
-    justify-content: center;
+  #navigation-mobile > div {
+    background-color: $secondary;
+    height: 100vh;
     left: 0;
+    opacity: 0;
     pointer-events: none;
     position: fixed;
     top: 0;
     transition: $transition;
     width: 100%;
     z-index: 9;
-  
-    &.open {
-      height: 100vh;
-      pointer-events: all;
-  
-      li {
-        opacity: 1;
-        transition: all .75s ease .35s;
-        transform: translateY(0) translateZ(0) !important;
 
+    ul {
+      align-items: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+
+      li {
+        margin-bottom: 8px;
+        opacity: 0;
+        position: relative;
+        width: 100%;
+  
         @for $i from 1 through 12 {
           &:nth-child(#{$i}) {
-            transition-delay: #{256ms + ($i * 32ms)};
-            visibility: visible;
+            transform: translateY(#{64px + ($i * 8px)}) translateZ(0);
+          }
+        }
+
+        a {
+          color: $primary;
+          display: inline-block;
+          position: relative;
+
+          &.active:before {
+            background-color: $primary;
+            bottom: 0;
+            content: '';
+            height: 1px;
+            pointer-events: none;
+            position: absolute;
+            right: 0;
+            transition: $transition;
+            width: 100%;
+          }
+        }
+  
+        .parent-item {
+          max-width: calc(100% - 32px);
+          position: relative;
+        }
+  
+        .parent-item + .submenu-toggle {
+          position: absolute;
+          right: 0;
+          top: 0;
+          transition: $transition;
+  
+          &.open {
+            transform: rotate(180deg);
+          }
+        }
+
+        .parent-item + .submenu-toggle + .submenu {
+          display: none;
+          opacity: .5;
+          padding-top: 8px;
+  
+          > * {
+            opacity: 0;
+            transition: $transition;
+          }
+  
+          &.open {
+            position: relative;
+  
+            > * {
+              opacity: 1;
+              transition-delay: .5s;
+            }
           }
         }
       }
     }
-  
-    li {
-      opacity: 0;
-      position: relative;
 
-      @for $i from 1 through 12 {
-        &:nth-child(#{$i}) {
-          transform: translateY(#{64px + ($i * 8px)}) translateZ(0);
+    &.open {
+      opacity: 1;
+      pointer-events: all;
+
+      ul {
+        position: relative;
+
+        li {
+          opacity: 1;
+          transition: all .75s ease .35s;
+          transform: translateY(0) translateZ(0) !important;
+  
+          @for $i from 1 through 12 {
+            &:nth-child(#{$i}) {
+              transition-delay: #{256ms + ($i * 32ms)};
+              visibility: visible;
+            }
+          }
         }
       }
     }
@@ -577,8 +777,7 @@ a:hover .bg-wrapper {
     border-radius: 0;
     color: $primary !important;
     font-size: 1rem;
-    font-weight: bold;
-    padding: 12px 28px 10px;
+    padding: 12px 28px;
     text-transform: uppercase;
 
     &:hover {
@@ -622,22 +821,22 @@ a:hover .bg-wrapper {
 }
 
 @media screen and (max-width: 991px) {
-  h1, .h1 {
+  h1, .h1, .fs-1 {
     font-size: 1.75rem;
   }
-  h2, .h2 {
+  h2, .h2, .fs-2 {
     font-size: 1.5rem;
   }
-  h3, .h3 {
+  h3, .h3, .fs-3 {
     font-size: 1.3rem;
   }
-  h4, .h4 {
+  h4, .h4, .fs-4 {
     font-size: 1.2rem;
   }
-  h5, .h5 {
+  h5, .h5, .fs-5 {
     font-size: 1.1rem;
   }
-  h6, .h6 {
+  h6, .h6, .fs-6 {
     font-size: 1rem;
   }
 }

@@ -4,7 +4,7 @@
   "fields": [
       {
           "key": "field_5c7d3b2c9ea56",
-          "label": "General information",
+          "label": "General",
           "name": "",
           "type": "tab",
           "instructions": "",
@@ -15,7 +15,7 @@
               "class": "",
               "id": ""
           },
-          "placement": "top",
+          "placement": "left",
           "endpoint": 0
       },
       {
